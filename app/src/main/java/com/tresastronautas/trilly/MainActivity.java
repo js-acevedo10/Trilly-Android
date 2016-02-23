@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         if(ParseUser.getCurrentUser() != null) {
             setContentView(R.layout.activity_main);
             mProfileImage = (ImageView) findViewById(R.id.profileTest);
+            getDetailsFromParse();
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, 1);
@@ -64,15 +65,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        setContentView(R.layout.activity_main);
         mProfileImage = (ImageView) findViewById(R.id.profileTest);
-        Log.d("RESULTADO", resultCode + "");
-        if(resultCode == 0) {
-            finish();
-        } else if(resultCode == 1) {
+//        if(resultCode == 0) {
+//            finish();
+//        } else if(resultCode == 2) {
             getDetailsFromFacebook();
-        } else if(resultCode == 2) {
+//        } else if(resultCode == 1) {
 //            getDetailsFromParse();
-        }
+//        }
     }
 
     public void getDetailsFromFacebook() {
@@ -107,10 +108,28 @@ public class MainActivity extends AppCompatActivity {
         profilePhotoAsync.execute();
     }
 
+    public void getDetailsFromParse() {
+        fbProfile = Profile.getCurrentProfile();
+        currentUser = ParseUser.getCurrentUser();
+        try {
+            ParseFile parseFile = currentUser.getParseFile("pictureFile");
+            byte[] data = parseFile.getData();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            mProfileImage.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        name = currentUser.getString("name");
+        email = currentUser.getEmail()!=null?currentUser.getEmail():"no@email.com";
+        id = currentUser.getString("facebookID");
+    }
+
     public void saveNewUser() {
 
         currentUser = ParseUser.getCurrentUser();
-        currentUser.setUsername(name);
+        currentUser.put("facebookID", id);
+        currentUser.put("nombre", name);
+        currentUser.put("picture", fbProfile.getProfilePictureUri(1000, 1000).toString());
         if(email != null) {
             currentUser.setEmail(email);
         }
@@ -118,26 +137,16 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         Bitmap bitmap = ((BitmapDrawable) mProfileImage.getDrawable()).getBitmap();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        String thumbName = currentUser.getUsername().replaceAll("\\s+", "")+ "_thumb.jpg";
+        String thumbName = currentUser.getString("nombre").replaceAll("\\s+", "")+ "_thumb.jpg";
         ParseFile parseFile = new ParseFile(thumbName, stream.toByteArray());
 
         try {
             parseFile.save();
-            currentUser.put("profileThumb", parseFile);
+            currentUser.put("pictureFile", parseFile);
             currentUser.save();
         } catch (ParseException e) {
-            Log.e("ERRORRR", e.getMessage());
+            e.printStackTrace();
         }
-        /**parseFile.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-        if (e != null) {
-        e.printStackTrace();
-        }
-        currentUser.put("profileThumb", parseFile);
-        currentUser.saveInBackground();
-        }
-        });**/
     }
 
     public class ProfilePhotoAsync extends AsyncTask<String, String, String> {
@@ -151,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            bitmap = downloadImageBitmap(profile.getProfilePictureUri(200, 200).toString());
+            bitmap = downloadImageBitmap(profile.getProfilePictureUri(500, 500).toString());
             return null;
         }
 
