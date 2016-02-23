@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Trilly</string>
+    <string name="APPLICATION_ID">5k7poaTQLaV7KvDyKvNTdQ2hDlvENDrPIj0RxsG0</string>
+    <string name="CLIENT_KEY">biMQN5CkZErO1KxUl6Bv41T8q88Rrf8rv45nXmKd</string>
+    <string name="SERVER_URI">http://trilly-parse.herokuapp.com/parse</string>
+    <string name="FB_APP_ID">532505416917576</string>
+    <string-array name="my_facebook_permissions">
+        <item>public_profile</item>
+        <item>user_friends</item>
+        <item>email</item>
+    </string-array>
+</resources>
