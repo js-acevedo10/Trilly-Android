@@ -9,4 +9,7 @@
         <item>user_friends</item>
         <item>email</item>
     </string-array>
+
+    <!-- VISTA MAIN-->
+    <string name="saludo_main">Hola</string>
 </resources>

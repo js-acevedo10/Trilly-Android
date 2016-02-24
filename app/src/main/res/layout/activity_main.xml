@@ -1,86 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tresastronautas.trilly.MainActivity"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    tools:context="com.tresastronautas.trilly.MainActivity">
 
     <!-- Imagen del Bosque de Arboles-->
     <ImageView
         android:id="@+id/bosque_de_arboles_main"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bosquearbolpequenio"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/bosquearbolpequenio"
+        app:layout_heightPercent="60%"
+        app:layout_widthPercent="100%" />
+
+    <TextView
+        android:id="@+id/label_nombre_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimary" />
 
     <!-- Botón de Empezar Viaje-->
     <ImageButton
         android:id="@+id/boton_empezar_viaje_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/empezar_viaje"
+        android:layout_below="@+id/bosque_de_arboles_main"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
         android:background="@android:color/transparent"
-        android:layout_below="@+id/bosque_de_arboles_main"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/empezar_viaje" />
 
     <!-- Layout de las estadísticas-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/boton_empezar_viaje_main"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingTop="8dp"
+        android:textAlignment="center">
 
         <ImageButton
             android:id="@+id/boton_gas_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/gas"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:background="@android:color/transparent"
             android:paddingRight="8dp"
-            android:background="@android:color/transparent"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/gas" />
 
         <ImageButton
             android:id="@+id/boton_arboles_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arboles_salvados"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:layout_toRightOf="@+id/boton_gas_main"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
             android:paddingRight="8dp"
-            android:background="@android:color/transparent"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/arboles_salvados" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxHeight="150dp"
-            android:src="@drawable/continuar"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:layout_toRightOf="@+id/boton_arboles_main"
-            android:paddingRight="8dp"
-            android:background="@android:color/transparent"/>
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/continuar" />
 
     </RelativeLayout>
 
 
 
     <ImageView
+        android:id="@+id/profileTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/profileTest"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:visibility="gone"/>
 
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

@@ -1,10 +1,9 @@
 package com.tresastronautas.trilly;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -50,9 +49,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (parseUser == null) {
                             Toast.makeText(LoginActivity.this, "Error al iniciar Sesion", Toast.LENGTH_LONG).show();
                         } else if (parseUser.isNew()) {
+                            Toast.makeText(LoginActivity.this, "Es nuevo", Toast.LENGTH_LONG).show();
                             setResult(2);
                             finish();
                         } else {
+                            Toast.makeText(LoginActivity.this, "Es viejo", Toast.LENGTH_LONG).show();
                             setResult(1);
                             finish();
                         }

@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('ParseFacebookUtilsV4-1.10.4.jar'))
