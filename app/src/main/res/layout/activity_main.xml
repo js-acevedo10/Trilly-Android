@@ -15,31 +15,43 @@
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/bosquearbolpequenio"
-        app:layout_heightPercent="60%"
+        android:src="@drawable/main_imagen_bosque_arbol_pequenio"
+        app:layout_heightPercent="57%"
         app:layout_widthPercent="100%" />
 
     <TextView
         android:id="@+id/label_nombre_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/fab_main"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Large Text"
+        android:layout_marginBottom="15dp"
+        android:text="@string/main_saludo"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <com.natasa.progressviews.LineProgressBar
+        android:id="@+id/horizontal_progress_main"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/bosque_de_arboles_main"
+        app:bar_color="#FFF"
+        app:bar_width="20dp"
+        app:progress="55"
+        app:progress_color="@color/trillyBlue"
+        app:progress_width="20dp" />
 
     <!-- Botón de Empezar Viaje-->
-    <ImageButton
+    <com.tresastronautas.trilly.ExtendedImageButton
         android:id="@+id/boton_empezar_viaje_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bosque_de_arboles_main"
+        android:layout_below="@+id/horizontal_progress_main"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
-        android:src="@drawable/empezar_viaje" />
+        android:src="@drawable/main_boton_empezar_viaje" />
 
     <!-- Layout de las estadísticas-->
     <RelativeLayout
@@ -47,10 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/boton_empezar_viaje_main"
         android:paddingLeft="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="15dp"
         android:textAlignment="center">
 
-        <ImageButton
+        <com.tresastronautas.trilly.ExtendedImageButton
             android:id="@+id/boton_gas_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,9 +70,9 @@
             android:background="@android:color/transparent"
             android:paddingRight="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/gas" />
+            android:src="@drawable/main_imagen_gas" />
 
-        <ImageButton
+        <com.tresastronautas.trilly.ExtendedImageButton
             android:id="@+id/boton_arboles_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,20 +81,32 @@
             android:background="@android:color/transparent"
             android:paddingRight="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/arboles_salvados" />
+            android:src="@drawable/main_imagen_arboles_salvados" />
 
-        <ImageButton
+        <com.tresastronautas.trilly.ExtendedImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/boton_arboles_main"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
+            android:paddingBottom="3dp"
             android:scaleType="fitXY"
-            android:src="@drawable/continuar" />
-
+            android:src="@drawable/main_boton_continuar" />
     </RelativeLayout>
 
+    <include
+        layout="@layout/layout_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:onClick="actionNavBar"
+        android:src="@android:drawable/ic_dialog_email"
+        app:borderWidth="0dp" />
 
     <ImageView
         android:id="@+id/profileTest"

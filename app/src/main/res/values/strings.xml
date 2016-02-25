@@ -10,6 +10,17 @@
         <item>email</item>
     </string-array>
 
+    <!-- VISTA LOGIN-->
+    <string name="login_hashtag">#yoHagoLaDiferencia</string>
+    <string name="login_terminos">Al continuar aceptarás nuestros Términos de Servicio y Políticas de Privacidad</string>
+
     <!-- VISTA MAIN-->
-    <string name="saludo_main">Hola</string>
+    <string name="main_saludo">Holaei</string>
+
+    <!-- VISTA MENU-->
+    <string name="menu_grupos">Mis grupos</string>
+    <string name="menu_estadisticas">Mis estadísticas</string>
+    <string name="menu_viajes">Mis viajes</string>
+    <string name="menu_ajustes">Ajustes</string>
+    <string name="menu_ver_perfil">Ver Perfil</string>
 </resources>

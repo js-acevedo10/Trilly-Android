@@ -6,9 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -17,6 +20,8 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
+import com.konifar.fab_transformation.FabTransformation;
+import com.natasa.progressviews.LineProgressBar;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -38,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
     public ImageView mProfileImage;
     public ParseUser currentUser;
     public TextView nomBienvenida;
+    public LineProgressBar progressBar;
     public boolean fbGet;
+    public FloatingActionButton mFab;
+    public LinearLayout mNavBar;
+    public Boolean navExtended = false;
+    public ImageView mOutlands;
 
     public static Bitmap downloadImageBitmap(String url) {
         Bitmap bm = null;
@@ -105,11 +115,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!navExtended) {
+            super.onBackPressed();
+            finish();
+        } else {
+            actionNavBar(getCurrentFocus());
+        }
+    }
+
     public void prepareLayout() {
         setContentView(R.layout.activity_main);
         mProfileImage = (ImageView) findViewById(R.id.profileTest);
         nomBienvenida = (TextView) findViewById(R.id.label_nombre_main);
+        progressBar = (LineProgressBar) findViewById(R.id.horizontal_progress_main);
+        mFab = (FloatingActionButton) findViewById(R.id.fab_main);
+        mOutlands = (ImageView) findViewById(R.id.menu_outland);
+        mOutlands.setVisibility(View.GONE);
+        mNavBar = (LinearLayout) findViewById(R.id.nav_bar_main);
+        mNavBar.setBackgroundResource(R.drawable.menu_imagen_bg);
+        mNavBar.setVisibility(View.INVISIBLE);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOutlands.setVisibility(View.VISIBLE);
+                FabTransformation.with(mFab)
+                        .duration(30)
+                        .transformTo(mNavBar);
+                navExtended = true;
+            }
+        });
     }
+
+    public void actionNavBar(View view) {
+        if (navExtended) {
+            mOutlands.setVisibility(View.GONE);
+            FabTransformation.with(mFab)
+                    .duration(30)
+                    .transformFrom(mNavBar);
+        }
+    }
+
+    //-------------------------------------PARSE METHODS--------------------------------------------
 
     public void getDetailsFromFacebook() {
         fbGet = true;
@@ -140,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 lastName = " ";
                             }
-                            nomBienvenida.setText(R.string.saludo_main + " " + firstName + "!");
+                            nomBienvenida.setText(R.string.main_saludo + " " + firstName + "!");
                         } catch(JSONException b) {
                             b.printStackTrace();
                         }
