@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +20,8 @@ import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.konifar.fab_transformation.FabTransformation;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.natasa.progressviews.LineProgressBar;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -40,15 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
     public String email, firstName, lastName, id, picture;
     public Profile fbProfile;
-    public ImageView mProfileImage;
     public ParseUser currentUser;
-    public TextView nomBienvenida;
+    public CircleImageView menu_imagen_perfil;
+    public TextView main_texto_saludo, menu_texto_nombre;
     public LineProgressBar progressBar;
     public boolean fbGet;
     public FloatingActionButton mFab;
-    public LinearLayout mNavBar;
+    public LinearLayout mNavBar, fNavBar;
     public Boolean navExtended = false;
-    public ImageView mOutlands;
+    public ExtendedButton bgrupo, bviajes, bestadisticas, bajustes;
 
     public static Bitmap downloadImageBitmap(String url) {
         Bitmap bm = null;
@@ -75,14 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        if(ParseUser.getCurrentUser() != null) {
-            prepareLayout();
-            getDetailsFromParse();
-        } else {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, 1);
-            currentUser = ParseUser.getCurrentUser();
-        }
+        checkUser();
     }
 
     @Override
@@ -127,21 +122,41 @@ public class MainActivity extends AppCompatActivity {
 
     public void prepareLayout() {
         setContentView(R.layout.activity_main);
-        mProfileImage = (ImageView) findViewById(R.id.profileTest);
-        nomBienvenida = (TextView) findViewById(R.id.label_nombre_main);
+        menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
+        main_texto_saludo = (TextView) findViewById(R.id.label_nombre_main);
+        menu_texto_nombre = (TextView) findViewById(R.id.menu_texto_nombre);
         progressBar = (LineProgressBar) findViewById(R.id.horizontal_progress_main);
+        fNavBar = (LinearLayout) findViewById(R.id.nav_bar_main);
+        bajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
+        bestadisticas = (ExtendedButton) findViewById(R.id.menu_boton_estadisticas);
+        bgrupo = (ExtendedButton) findViewById(R.id._menu_boton_grupo);
+        bviajes = (ExtendedButton) findViewById(R.id.menu_boton_viajes);
         mFab = (FloatingActionButton) findViewById(R.id.fab_main);
-        mOutlands = (ImageView) findViewById(R.id.menu_outland);
-        mOutlands.setVisibility(View.GONE);
+        mFab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_menu).colorRes(android.R.color.white));
         mNavBar = (LinearLayout) findViewById(R.id.nav_bar_main);
         mNavBar.setBackgroundResource(R.drawable.menu_imagen_bg);
         mNavBar.setVisibility(View.INVISIBLE);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOutlands.setVisibility(View.VISIBLE);
+                int p = fNavBar.getWidth();
+                bajustes.setWidth(p);
+                bestadisticas.setWidth(p);
+                bgrupo.setWidth(p);
+                bviajes.setWidth(p);
                 FabTransformation.with(mFab)
                         .duration(30)
+//                        .setListener(new FabTransformation.OnTransformListener() {
+//                            @Override
+//                            public void onStartTransform() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onEndTransform() {
+//                                Blurry.with(getApplicationContext()).radius(25).sampling(2).onto((ViewGroup) findViewById(R.id.main_full_layout));
+//                            }
+//                        })
                         .transformTo(mNavBar);
                 navExtended = true;
             }
@@ -150,14 +165,58 @@ public class MainActivity extends AppCompatActivity {
 
     public void actionNavBar(View view) {
         if (navExtended) {
-            mOutlands.setVisibility(View.GONE);
             FabTransformation.with(mFab)
                     .duration(30)
+//                    .setListener(new FabTransformation.OnTransformListener() {
+//                        @Override
+//                        public void onStartTransform() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onEndTransform() {
+//                            Blurry.delete((ViewGroup) findViewById(R.id.main_full_layout));
+//                        }
+//                    })
                     .transformFrom(mNavBar);
+            navExtended = false;
         }
     }
 
+    public void checkUser() {
+        if (ParseUser.getCurrentUser() != null) {
+            prepareLayout();
+            getDetailsFromParse();
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, 1);
+            currentUser = ParseUser.getCurrentUser();
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    //-------------------------------------BUTTON METHODS-------------------------------------------
+    //----------------------------------------------------------------------------------------------
+
+    public void empezarViaje(View view) {
+        if (navExtended) {
+            actionNavBar(getCurrentFocus());
+        }
+    }
+
+    public void verEstadisticas(View view) {
+        if (navExtended) {
+            actionNavBar(getCurrentFocus());
+        } else {
+            ParseUser.logOut();
+            currentUser = null;
+            checkUser();
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
     //-------------------------------------PARSE METHODS--------------------------------------------
+    //----------------------------------------------------------------------------------------------
 
     public void getDetailsFromFacebook() {
         fbGet = true;
@@ -188,7 +247,8 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 lastName = " ";
                             }
-                            nomBienvenida.setText(R.string.main_saludo + " " + firstName + "!");
+                            main_texto_saludo.setText(R.string.main_saludo + " " + firstName + "!");
+                            menu_texto_nombre.setText(firstName);
                         } catch(JSONException b) {
                             b.printStackTrace();
                         }
@@ -205,7 +265,8 @@ public class MainActivity extends AppCompatActivity {
         currentUser = ParseUser.getCurrentUser();
         firstName = currentUser.getString("nombre");
         lastName = currentUser.getString("apellido");
-        nomBienvenida.setText("Hola " + firstName + "!");
+        main_texto_saludo.setText("Hola " + firstName + "!");
+        menu_texto_nombre.setText(firstName);
         email = currentUser.getEmail()!=null?currentUser.getEmail():"no@email.com";
         id = currentUser.getString("facebookID");
         picture = currentUser.getString("picture");
@@ -237,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         Profile profile;
 
         ProfilePhotoAsync(Profile profile) {
-            this.profile = profile;
+            this.profile = profile == null ? Profile.getCurrentProfile() : profile;
         }
 
         @Override
@@ -250,8 +311,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            mProfileImage = (ImageView) findViewById(R.id.profileTest);
-            mProfileImage.setImageBitmap(bitmap);
+            menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
+            menu_imagen_perfil.setImageBitmap(bitmap);
             if (fbGet) saveNewUser(pic);
             fbGet = false;
         }

@@ -7,7 +7,6 @@
     <string-array name="my_facebook_permissions">
         <item>public_profile</item>
         <item>user_friends</item>
-        <item>email</item>
     </string-array>
 
     <!-- VISTA LOGIN-->
@@ -15,7 +14,7 @@
     <string name="login_terminos">Al continuar aceptarás nuestros Términos de Servicio y Políticas de Privacidad</string>
 
     <!-- VISTA MAIN-->
-    <string name="main_saludo">Holaei</string>
+    <string name="main_saludo">Hola</string>
 
     <!-- VISTA MENU-->
     <string name="menu_grupos">Mis grupos</string>
@@ -23,4 +22,7 @@
     <string name="menu_viajes">Mis viajes</string>
     <string name="menu_ajustes">Ajustes</string>
     <string name="menu_ver_perfil">Ver Perfil</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

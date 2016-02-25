@@ -5,148 +5,131 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/nav_bar_main"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:elevation="60dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/nav_bar_main"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:elevation="60dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <ImageButton
-                    android:id="@+id/menu_imagen_fondo_perfil"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginTop="40dp"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/menu_imagen_fondo_perfil" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/menu_circle_profile"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_alignStart="@+id/menu_imagen_fondo_perfil"
-                    android:layout_alignTop="@+id/menu_imagen_fondo_perfil"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/main_imagen_gas"
-                    app:border_color="@android:color/white"
-                    app:border_width="1dp" />
-
-                <TextView
-                    android:id="@+id/menu_texto_nombre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/menu_circle_profile"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_toRightOf="@+id/menu_circle_profile"
-                    android:text="Laura"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-
-                <Button
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_alignLeft="@+id/menu_texto_nombre"
-                    android:layout_below="@+id/menu_texto_nombre"
-                    android:layout_marginLeft="-15dp"
-                    android:background="@android:color/transparent"
-                    android:text="@string/menu_ver_perfil"
-                    android:textAllCaps="false"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/tertiary_text_light" />
-
-                <Button
-                    android:id="@+id/:menu_boton_grupo"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/menu_imagen_fondo_perfil"
-                    android:layout_alignStart="@+id/menu_imagen_fondo_perfil"
-                    android:layout_below="@+id/menu_imagen_fondo_perfil"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/menu_icono_grupo"
-                    android:drawablePadding="15dp"
-                    android:paddingLeft="20dp"
-                    android:text="@string/menu_grupos"
-                    android:textAllCaps="false"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/menu_boton_viajes"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/:menu_boton_grupo"
-                    android:layout_alignStart="@+id/:menu_boton_grupo"
-                    android:layout_below="@+id/:menu_boton_grupo"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/menu_icono_estadisticas"
-                    android:drawablePadding="15dp"
-                    android:paddingLeft="20dp"
-                    android:text="@string/menu_estadisticas"
-                    android:textAllCaps="false"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/menu_boton_estadisticas"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/menu_boton_viajes"
-                    android:layout_alignStart="@+id/menu_boton_viajes"
-                    android:layout_below="@+id/menu_boton_viajes"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/menu_icono_bici"
-                    android:drawablePadding="15dp"
-                    android:paddingLeft="20dp"
-                    android:text="@string/menu_viajes"
-                    android:textAllCaps="false"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/menu_boton_ajustes"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/menu_boton_estadisticas"
-                    android:layout_alignStart="@+id/menu_boton_estadisticas"
-                    android:layout_below="@+id/menu_boton_estadisticas"
-                    android:background="@android:color/transparent"
-                    android:drawableLeft="@drawable/menu_icono_ajustes"
-                    android:drawablePadding="15dp"
-                    android:paddingLeft="20dp"
-                    android:text="@string/menu_ajustes"
-                    android:textAllCaps="false"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/menu_outland"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/nav_bar_main"
-            android:onClick="actionNavBar" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
-    </RelativeLayout>
+            <com.tresastronautas.trilly.ExtendedImageButton
+                android:id="@+id/menu_imagen_fondo_perfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="40dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu_imagen_fondo_perfil" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/menu_circle_profile"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignStart="@+id/menu_imagen_fondo_perfil"
+                android:layout_alignTop="@+id/menu_imagen_fondo_perfil"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/main_imagen_gas"
+                app:border_color="@android:color/white"
+                app:border_width="1dp" />
+
+            <TextView
+                android:id="@+id/menu_texto_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/menu_circle_profile"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/menu_circle_profile"
+                android:text="@string/main_saludo"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignLeft="@+id/menu_texto_nombre"
+                android:layout_below="@+id/menu_texto_nombre"
+                android:layout_marginLeft="-15dp"
+                android:background="@android:color/transparent"
+                android:text="@string/menu_ver_perfil"
+                android:textAllCaps="false"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/tertiary_text_light" />
+
+            <com.tresastronautas.trilly.ExtendedButton
+                android:id="@+id/:menu_boton_grupo"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/menu_imagen_fondo_perfil"
+                android:layout_alignStart="@+id/menu_imagen_fondo_perfil"
+                android:layout_below="@+id/menu_imagen_fondo_perfil"
+                android:drawableLeft="@drawable/menu_icono_grupo"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/menu_grupos"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+            <com.tresastronautas.trilly.ExtendedButton
+                android:id="@+id/menu_boton_viajes"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/:menu_boton_grupo"
+                android:layout_alignStart="@+id/:menu_boton_grupo"
+                android:layout_below="@+id/:menu_boton_grupo"
+                android:drawableLeft="@drawable/menu_icono_estadisticas"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/menu_estadisticas"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+            <com.tresastronautas.trilly.ExtendedButton
+                android:id="@+id/menu_boton_estadisticas"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/menu_boton_viajes"
+                android:layout_alignStart="@+id/menu_boton_viajes"
+                android:layout_below="@+id/menu_boton_viajes"
+                android:drawableLeft="@drawable/menu_icono_bici"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/menu_viajes"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+            <com.tresastronautas.trilly.ExtendedButton
+                android:id="@+id/menu_boton_ajustes"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/menu_boton_estadisticas"
+                android:layout_alignStart="@+id/menu_boton_estadisticas"
+                android:layout_below="@+id/menu_boton_estadisticas"
+                android:drawableLeft="@drawable/menu_icono_ajustes"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical|left"
+                android:text="@string/menu_ajustes"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </io.codetail.widget.RevealFrameLayout>

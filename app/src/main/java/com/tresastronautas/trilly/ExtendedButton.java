@@ -1,26 +1,28 @@
 package com.tresastronautas.trilly;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ImageButton;
+import android.widget.Button;
 
-public class ExtendedImageButton extends ImageButton {
+public class ExtendedButton extends Button {
 
-    public Point p;
+    private Point p;
+    private Drawable d;
 
-    public ExtendedImageButton(Context context) {
+    public ExtendedButton(Context context) {
         super(context);
     }
 
-    public ExtendedImageButton(Context context, AttributeSet attrs) {
+    public ExtendedButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExtendedImageButton(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public ExtendedButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     @Override
@@ -34,8 +36,9 @@ public class ExtendedImageButton extends ImageButton {
             case MotionEvent.ACTION_DOWN: {
 
                 // overlay is black with transparency of 0x77 (119)
-                getDrawable().setColorFilter(0x77000000,
-                        PorterDuff.Mode.SRC_ATOP);
+
+                d = getBackground();
+                setBackgroundColor(Color.argb((int) (0.5 * 255.0f), 0, 0, 0));
                 invalidate();
 
                 p = new Point((int) event.getX(), (int) event.getY());
@@ -52,11 +55,12 @@ public class ExtendedImageButton extends ImageButton {
                     performClick();
                 }
                 // clear the overlay
-                getDrawable().clearColorFilter();
+                setBackground(d);
                 invalidate();
                 break;
             }
         }
         return true;
     }
+
 }
