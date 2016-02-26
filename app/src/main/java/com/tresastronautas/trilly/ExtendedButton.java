@@ -45,7 +45,7 @@ public class ExtendedButton extends Button {
                 break;
             }
 
-            // Once the user releases, record new point then compare the
+            // Once the Path releases, record new point then compare the
             // difference, if within a certain range perform onCLick
             // and or otherwise clear the color filter
             case MotionEvent.ACTION_UP: {

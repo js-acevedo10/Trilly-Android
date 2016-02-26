@@ -6,9 +6,10 @@
     android:background="@android:color/transparent">
 
     <LinearLayout
-        android:id="@+id/nav_bar_main"
+        android:id="@+id/menu_navBar"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@drawable/menu_imagen_bg"
         android:elevation="60dp"
         android:gravity="center"
         android:orientation="vertical">
@@ -39,7 +40,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/main_imagen_gas"
+                android:src="@drawable/imagen_perfil_stock"
                 app:border_color="@android:color/white"
                 app:border_width="1dp" />
 
@@ -56,13 +57,11 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
-            <Button
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignLeft="@+id/menu_texto_nombre"
                 android:layout_below="@+id/menu_texto_nombre"
-                android:layout_marginLeft="-15dp"
                 android:background="@android:color/transparent"
                 android:text="@string/menu_ver_perfil"
                 android:textAllCaps="false"

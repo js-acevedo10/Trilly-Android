@@ -14,7 +14,11 @@
     <string name="login_terminos">Al continuar aceptarás nuestros Términos de Servicio y Políticas de Privacidad</string>
 
     <!-- VISTA MAIN-->
-    <string name="main_saludo">Hola</string>
+    <string name="main_saludo">Hola %s !</string>
+    <string name="main_gas_dinamico">%d Galones de</string>
+    <string name="main_gas_estatico">gasolina ahorrados</string>
+    <string name="main_arboles_dinamico">%d Árboles</string>
+    <string name="main_arboles_estatico">plantados</string>
 
     <!-- VISTA MENU-->
     <string name="menu_grupos">Mis grupos</string>
@@ -22,8 +26,4 @@
     <string name="menu_viajes">Mis viajes</string>
     <string name="menu_ajustes">Ajustes</string>
     <string name="menu_ver_perfil">Ver Perfil</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_perfil">PerfilActivity</string>
 </resources>

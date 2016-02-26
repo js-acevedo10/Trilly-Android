@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,14 +19,12 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.konifar.fab_transformation.FabTransformation;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.natasa.progressviews.LineProgressBar;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
@@ -44,22 +41,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String email, firstName, lastName, id, picture;
+    public String firstName, lastName, id, picture;
     public Profile fbProfile;
     public ParseUser currentUser;
     public CircleImageView menu_imagen_perfil;
-    public TextView main_texto_saludo, menu_texto_nombre;
+    public TextView main_texto_saludo, menu_texto_nombre, main_texto_gas, main_texto_arboles;
     public LineProgressBar main_progressBar;
     public FloatingActionButton mFab;
     public LinearLayout menu_layout_navBar, menu_background_navBar;
     public ExtendedButton menu_boton_grupo, menu_boton_viajes, menu_boton_estadisticas, menu_boton_ajustes;
     public Boolean navigationExtended = false;
     public boolean fbGet;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     public static Bitmap downloadImageBitmap(String url) {
         Bitmap bm = null;
@@ -81,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/lato-regular-webfont.ttf")
                         .setFontAttrId(R.attr.fontPath)
@@ -133,17 +124,21 @@ public class MainActivity extends AppCompatActivity {
     public void prepareLayout() {
         setContentView(R.layout.activity_main);
         menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
-        main_texto_saludo = (TextView) findViewById(R.id.main_label_nombre);
+        main_texto_saludo = (TextView) findViewById(R.id.perfil_label_nombre);
         menu_texto_nombre = (TextView) findViewById(R.id.menu_texto_nombre);
+        main_texto_arboles = (TextView) findViewById(R.id.main_label_dynamic_arboles);
+        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, 0));
+        main_texto_gas = (TextView) findViewById(R.id.main_label_dynamic_gasolina);
+        main_texto_gas.setText(getString(R.string.main_gas_dinamico, 0));
         main_progressBar = (LineProgressBar) findViewById(R.id.main_progress_horizontal);
-        menu_background_navBar = (LinearLayout) findViewById(R.id.nav_bar_main);
+        menu_background_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
         menu_boton_ajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
         menu_boton_estadisticas = (ExtendedButton) findViewById(R.id.menu_boton_estadisticas);
         menu_boton_grupo = (ExtendedButton) findViewById(R.id._menu_boton_grupo);
         menu_boton_viajes = (ExtendedButton) findViewById(R.id.menu_boton_viajes);
         mFab = (FloatingActionButton) findViewById(R.id.main_fab);
         mFab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_menu).colorRes(android.R.color.white));
-        menu_layout_navBar = (LinearLayout) findViewById(R.id.nav_bar_main);
+        menu_layout_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
         menu_layout_navBar.setBackgroundResource(R.drawable.menu_imagen_bg);
         menu_layout_navBar.setVisibility(View.INVISIBLE);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -166,17 +161,6 @@ public class MainActivity extends AppCompatActivity {
         if (navigationExtended) {
             FabTransformation.with(mFab)
                     .duration(30)
-//                    .setListener(new FabTransformation.OnTransformListener() {
-//                        @Override
-//                        public void onStartTransform() {
-//
-//                        }
-//
-//                        @Override
-//                        public void onEndTransform() {
-//                            Blurry.delete((ViewGroup) findViewById(R.id.main_full_layout));
-//                        }
-//                    })
                     .transformFrom(menu_layout_navBar);
             navigationExtended = false;
         }
@@ -198,7 +182,14 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
 
     public void startPerfilActivity(View view) {
+        if (navigationExtended) {
+            FabTransformation.with(mFab)
+                    .duration(30)
+                    .transformFrom(menu_layout_navBar);
+            navigationExtended = false;
+        }
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
 
@@ -236,12 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse graphResponse) {
-                        try {
                             Log.d("JSON", graphResponse.getRawResponse());
-                            email = graphResponse.getJSONObject().getString("email");
-                        } catch (JSONException a) {
-                            a.printStackTrace();
-                        }
                         try {
                             id = graphResponse.getJSONObject().getString("id");
                             String n = graphResponse.getJSONObject().getString("name");
@@ -251,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 lastName = " ";
                             }
-                            main_texto_saludo.setText(R.string.main_saludo + " " + firstName + "!");
+                            main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
                             menu_texto_nombre.setText(firstName);
                         } catch (JSONException b) {
                             b.printStackTrace();
@@ -269,9 +255,8 @@ public class MainActivity extends AppCompatActivity {
         currentUser = ParseUser.getCurrentUser();
         firstName = currentUser.getString("nombre");
         lastName = currentUser.getString("apellido");
-        main_texto_saludo.setText("Hola " + firstName + "!");
+        main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre.setText(firstName);
-        email = currentUser.getEmail() != null ? currentUser.getEmail() : "no@email.com";
         id = currentUser.getString("facebookID");
         picture = currentUser.getString("picture");
         ProfilePhotoAsync profilePhotoAsync = new ProfilePhotoAsync(fbProfile);
@@ -281,58 +266,27 @@ public class MainActivity extends AppCompatActivity {
     public void saveNewUser(String pic) {
         this.picture = pic;
         currentUser = ParseUser.getCurrentUser();
-        currentUser.put("facebookID", id);
-        currentUser.put("nombre", firstName);
-        currentUser.put("apellido", lastName);
-        currentUser.put("picture", picture);
-        if (email != null) {
-            currentUser.setEmail(email);
-        }
+        currentUser.put(ParseConstants.User.FBID.val(), id);
+        currentUser.put(ParseConstants.User.FIRST.val(), firstName);
+        currentUser.put(ParseConstants.User.LAST.val(), lastName);
+        currentUser.put(ParseConstants.User.PIC.val(), picture);
+        currentUser.put(ParseConstants.User.KG.val(), 0);
+        ParseObject statistics = new ParseObject(ParseConstants.Estadistica.NAME.val());
+        statistics.put(ParseConstants.Estadistica.USER.val(), currentUser);
+        statistics.put(ParseConstants.Estadistica.KM.val(), 0);
+        statistics.put(ParseConstants.Estadistica.TIME.val(), 0);
+        statistics.put(ParseConstants.Estadistica.CAL.val(), 0);
+        statistics.put(ParseConstants.Estadistica.CO2.val(), 0);
+        statistics.put(ParseConstants.Estadistica.CURRENT_TREE.val(), 0);
+        statistics.put(ParseConstants.Estadistica.SAVED_TREES.val(), 0);
+        statistics.put(ParseConstants.Estadistica.GAS.val(), 0);
+        statistics.put(ParseConstants.Estadistica.MONEY.val(), 0);
+        currentUser.put(ParseConstants.User.STATS.val(), statistics);
         try {
             currentUser.save();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.tresastronautas.trilly/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.tresastronautas.trilly/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 
     public class ProfilePhotoAsync extends AsyncTask<String, String, String> {

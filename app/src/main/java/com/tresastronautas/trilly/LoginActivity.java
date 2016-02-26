@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -17,11 +20,23 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     public List<String> fbPermissions;
+    public ImageView login_imagen_nube_1, login_imagen_nube_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        login_imagen_nube_1 = (ImageView) findViewById(R.id.login_imagen_nube_1);
+        login_imagen_nube_2 = (ImageView) findViewById(R.id.login_imagen_nube_2);
+        Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nubes_traslacion);
+        Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nubes_traslacion);
+        animation1.setRepeatCount(Animation.INFINITE);
+        animation2.setRepeatCount(Animation.INFINITE);
+        animation2.setStartOffset(900);
+        animation1.setDuration(8000);
+        animation2.setDuration(4000);
+        login_imagen_nube_1.startAnimation(animation1);
+        login_imagen_nube_2.startAnimation(animation2);
     }
 
     @Override
@@ -49,11 +64,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (parseUser == null) {
                             Toast.makeText(LoginActivity.this, "Error al iniciar Sesion", Toast.LENGTH_LONG).show();
                         } else if (parseUser.isNew()) {
-                            Toast.makeText(LoginActivity.this, "Es nuevo", Toast.LENGTH_LONG).show();
                             setResult(2);
                             finish();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Es viejo", Toast.LENGTH_LONG).show();
                             setResult(1);
                             finish();
                         }

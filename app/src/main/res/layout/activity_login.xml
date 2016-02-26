@@ -12,6 +12,24 @@
         android:scaleType="centerCrop"
         android:src="@drawable/login_imagen_bg" />
 
+    <ImageView
+        android:id="@+id/login_imagen_nube_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/login_imagen_nube"
+        app:layout_marginTopPercent="2%" />
+
+    <ImageView
+        android:id="@+id/login_imagen_nube_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/login_imagen_nube"
+        app:layout_marginTopPercent="30%" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

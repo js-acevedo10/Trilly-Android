@@ -59,6 +59,4 @@ dependencies {
     compile 'konifar:fab-transformation:1.0.0'
     compile 'de.hdodenhof:circleimageview:1.3.0'
     compile 'com.malinskiy:materialicons:1.0.2'
-    compile 'jp.wasabeef:blurry:1.0.5'
-    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }
