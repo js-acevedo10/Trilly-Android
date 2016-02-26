@@ -14,7 +14,7 @@
         <!-- Imagen del Bosque de Arboles-->
 
         <ImageView
-            android:id="@+id/bosque_de_arboles_main"
+            android:id="@+id/main_imagen_bosque_de_arboles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -26,10 +26,10 @@
             app:layout_widthPercent="100%" />
 
         <TextView
-            android:id="@+id/label_nombre_main"
+            android:id="@+id/main_label_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/fab_main"
+            android:layout_alignTop="@+id/main_fab"
             android:layout_centerHorizontal="true"
             android:text="@string/main_saludo"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -37,7 +37,7 @@
             android:textStyle="bold" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_main"
+            android:id="@+id/main_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
@@ -46,10 +46,10 @@
             app:borderWidth="0dp" />
 
         <com.natasa.progressviews.LineProgressBar
-            android:id="@+id/horizontal_progress_main"
+            android:id="@+id/main_progress_horizontal"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_below="@+id/bosque_de_arboles_main"
+            android:layout_below="@+id/main_imagen_bosque_de_arboles"
             android:onClick="actionNavBar"
             app:bar_color="#FFF"
             app:bar_width="20dp"
@@ -61,19 +61,19 @@
             android:id="@+id/main_label_porcentaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/horizontal_progress_main"
-            android:layout_alignEnd="@+id/horizontal_progress_main"
-            android:layout_alignRight="@+id/horizontal_progress_main"
+            android:layout_alignBottom="@+id/main_progress_horizontal"
+            android:layout_alignEnd="@+id/main_progress_horizontal"
+            android:layout_alignRight="@+id/main_progress_horizontal"
             android:text="55%"
             android:textColor="@android:color/black"
             app:layout_marginRightPercent="2%" />
 
         <!-- Botón de Empezar Viaje-->
         <com.tresastronautas.trilly.ExtendedImageButton
-            android:id="@+id/boton_empezar_viaje_main"
+            android:id="@+id/main_boton_empezar_viaje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/horizontal_progress_main"
+            android:layout_below="@+id/main_progress_horizontal"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:onClick="empezarViaje"
@@ -84,7 +84,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/boton_empezar_viaje_main"
+            android:layout_below="@+id/main_boton_empezar_viaje"
             android:paddingLeft="8dp"
             android:textAlignment="center">
 
@@ -95,7 +95,7 @@
                 android:layout_marginRight="8dp">
 
                 <com.tresastronautas.trilly.ExtendedImageButton
-                    android:id="@+id/boton_gas_main"
+                    android:id="@+id/main_boton_gas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -119,7 +119,7 @@
                     android:id="@+id/main_label_static_gasolina"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/boton_gas_main"
+                    android:layout_alignBottom="@id/main_boton_gas"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="-4dp"
@@ -137,7 +137,7 @@
                 android:layout_toRightOf="@+id/main_layout_gas">
 
                 <com.tresastronautas.trilly.ExtendedImageButton
-                    android:id="@+id/boton_arboles_main"
+                    android:id="@+id/main_boton_arboles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -161,7 +161,7 @@
                     android:id="@+id/main_label_static_arboles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/boton_arboles_main"
+                    android:layout_alignBottom="@id/main_boton_arboles"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="-4dp"
@@ -190,9 +190,9 @@
 
     </android.support.percent.PercentRelativeLayout>
 
-    <include
-        layout="@layout/layout_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+    <!--<include-->
+    <!--layout="@layout/layout_menu"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent" />-->
 
 </RelativeLayout>

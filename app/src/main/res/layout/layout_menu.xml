@@ -27,6 +27,7 @@
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
+                android:onClick="startPerfilActivity"
                 android:src="@drawable/menu_imagen_fondo_perfil" />
 
             <de.hdodenhof.circleimageview.CircleImageView
