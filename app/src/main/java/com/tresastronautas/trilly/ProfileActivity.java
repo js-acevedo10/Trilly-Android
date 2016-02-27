@@ -1,6 +1,7 @@
 package com.tresastronautas.trilly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -80,6 +81,12 @@ public class ProfileActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext())
                 .load(currentUser.getString(ParseConstants.User.PIC.val()))
                 .into(perfil_circle_profile);
+    }
+
+    public void startGroupListActivity(View view) {
+        Intent intent = new Intent(this, GroupListActivity.class);
+        intent.putExtra("user_id", currentUser.getObjectId());
+        startActivity(intent);
     }
 
     public void profileBack(View view) {

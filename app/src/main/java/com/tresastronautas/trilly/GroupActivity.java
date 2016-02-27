@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.parse.GetCallback;
@@ -16,7 +17,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class GroupActivity extends AppCompatActivity {
 
-    ParseUser currentUser;
+    private ParseUser currentUser;
+    private TextView group_text_nombre_grupo, group_text_arboles_dinamico, group_text_kilometros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,11 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     public void prepareLayout() {
-
+        group_text_nombre_grupo = (TextView) findViewById(R.id.group_text_nombre_grupo);
+        group_text_arboles_dinamico = (TextView) findViewById(R.id.group_text_arboles_dinamico);
+        group_text_arboles_dinamico.setText(getString(R.string.group_arboles_dinamico, 0));
+        group_text_kilometros = (TextView) findViewById(R.id.group_text_kilometros);
+        group_text_kilometros.setText(getString(R.string.group_kilometros, 0));
     }
 
     public void groupBack(View view) {

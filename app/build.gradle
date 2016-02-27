@@ -22,7 +22,7 @@ android {
 
     productFlavors {
         dev {
-            minSdkVersion 18 //The important bit.
+            minSdkVersion 20 //The important bit.
         }
         prod {
             minSdkVersion 15 //Example. Set to your real requirement.

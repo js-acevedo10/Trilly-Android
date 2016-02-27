@@ -170,13 +170,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void empezarViaje(View view) {
+    public void startViajeActivity(View view) {
         if (navigationExtended) {
             closeNavBar(getCurrentFocus());
         }
     }
 
-    public void verEstadisticas(View view) {
+    public void startEstadisticasActivity(View view) {
         if (navigationExtended) {
             closeNavBar(getCurrentFocus());
         } else {

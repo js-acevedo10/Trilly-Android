@@ -87,7 +87,7 @@
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
-        android:onClick=""
+        android:onClick="startGroupListActivity"
         android:scaleType="centerCrop"
         android:src="@drawable/perfil_boton_ver_grupos"
         app:layout_marginBottomPercent="10%" />
