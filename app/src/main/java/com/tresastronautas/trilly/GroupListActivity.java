@@ -1,6 +1,7 @@
 package com.tresastronautas.trilly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,18 +15,16 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ProfileActivity extends AppCompatActivity {
+public class GroupListActivity extends AppCompatActivity {
 
     private ParseUser currentUser;
-    private TextView perfil_label_nombre, perfil_label_arboles_dinamico, perfil_label_kilometros;
-    private CircleImageView perfil_circle_profile;
-    private FloatingActionButton perfil_fab;
+    private FloatingActionButton groupList_fab;
+    private TextView grouplist_text_nombre_grupo1, grouplist_text_nombre_grupo2, grouplist_text_nombre_grupo3,
+            grouplist_text_stats_grupo1, grouplist_text_stats_grupo2, grouplist_text_stats_grupo3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_group_list);
         String userID = getIntent().getStringExtra("user_id");
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.fromLocalDatastore();
@@ -68,21 +67,31 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void prepareLayout() {
-        perfil_fab = (FloatingActionButton) findViewById(R.id.perfil_fab);
-        perfil_fab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_chevron_left).colorRes(android.R.color.white));
-        perfil_label_nombre = (TextView) findViewById(R.id.perfil_label_nombre);
-        perfil_label_nombre.setText(currentUser.getString(ParseConstants.User.FIRST.val()));
-        perfil_label_arboles_dinamico = (TextView) findViewById(R.id.perfil_label_arboles_dinamico);
-        perfil_label_arboles_dinamico.setText(getString(R.string.perfil_arboles_dinamico, 0));
-        perfil_label_kilometros = (TextView) findViewById(R.id.perfil_label_kilometros);
-        perfil_label_kilometros.setText(getString(R.string.perfil_kilometros, 0));
-        perfil_circle_profile = (CircleImageView) findViewById(R.id.perfil_circle_profile);
-        Picasso.with(getApplicationContext())
-                .load(currentUser.getString(ParseConstants.User.PIC.val()))
-                .into(perfil_circle_profile);
+        groupList_fab = (FloatingActionButton) findViewById(R.id.grouplist_fab);
+        groupList_fab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_chevron_left)
+                .colorRes(android.R.color.white));
+
+        grouplist_text_nombre_grupo1 = (TextView) findViewById(R.id.grouplist_text_nombre_grupo1);
+        grouplist_text_nombre_grupo2 = (TextView) findViewById(R.id.grouplist_text_nombre_grupo2);
+        grouplist_text_nombre_grupo3 = (TextView) findViewById(R.id.grouplist_text_nombre_grupo3);
+
+        grouplist_text_stats_grupo1 = (TextView) findViewById(R.id.grouplist_text_stats_grupo1);
+        grouplist_text_stats_grupo1.setText(getString(R.string.grouplist_stats, 0, 0));
+        grouplist_text_stats_grupo2 = (TextView) findViewById(R.id.grouplist_text_stats_grupo2);
+        grouplist_text_stats_grupo2.setText(getString(R.string.grouplist_stats, 0, 0));
+        grouplist_text_stats_grupo3 = (TextView) findViewById(R.id.grouplist_text_stats_grupo3);
+        grouplist_text_stats_grupo3.setText(getString(R.string.grouplist_stats, 0, 0));
+
+
     }
 
-    public void profileBack(View view) {
+    public void startGroupActivity(View view) {
+        Intent intent = new Intent(getApplicationContext(), GroupActivity.class);
+        intent.putExtra("user_id", currentUser.getObjectId());
+        startActivity(intent);
+    }
+
+    public void groupListBack(View view) {
         finish();
     }
 }

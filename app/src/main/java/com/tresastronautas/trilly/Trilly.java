@@ -17,11 +17,11 @@ public class Trilly extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        Parse.enableLocalDatastore(this);
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                         .applicationId(APP_ID)
                         .clientKey(CLIENT_KEY)
                         .server(SERVER_URI)
+                        .enableLocalDataStore()
                         .build()
         );
         ParseFacebookUtils.initialize(this);

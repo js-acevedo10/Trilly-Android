@@ -12,6 +12,7 @@
     <!-- VISTA LOGIN-->
     <string name="login_hashtag">#yoHagoLaDiferencia</string>
     <string name="login_terminos">Al continuar aceptarás nuestros Términos de Servicio y Políticas de Privacidad</string>
+    <string name="login_error_red">Debes estar conectado a Internet.</string>
 
     <!-- VISTA MAIN-->
     <string name="main_saludo">Hola %s !</string>
@@ -26,4 +27,20 @@
     <string name="menu_viajes">Mis viajes</string>
     <string name="menu_ajustes">Ajustes</string>
     <string name="menu_ver_perfil">Ver Perfil</string>
+
+    <!-- VISTA PERFIL-->
+    <string name="perfil_arboles_dinamico">%d Árboles</string>
+    <string name="perfil_arboles_estatico">sembrados</string>
+    <string name="perfil_kilometros">%d Km recorridos</string>
+
+    <!-- VISTA LISTA DE GRUPOS-->
+    <string name="grouplist_title">Mis Grupos</string>
+    <string name="grouplist_nombre">Nombre del Grupo</string>
+    <string name="grouplist_stats">Árboles sembrados: %1$d | Miembros: %2$d</string>
+
+    <!-- VISTA GRUPO-->
+    <string name="group_nombre">Nombre del Grupo</string>
+    <string name="group_arboles_dinamico">%d Árboles</string>
+    <string name="group_arboles_estatico">sembrados</string>
+    <string name="group_kilometros">%d Km recorridos</string>
 </resources>

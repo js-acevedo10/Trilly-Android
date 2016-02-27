@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         if (parseUser == null) {
-                            Toast.makeText(LoginActivity.this, "Error al iniciar Sesion", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_error_red), Toast.LENGTH_LONG).show();
                         } else if (parseUser.isNew()) {
                             setResult(2);
                             finish();

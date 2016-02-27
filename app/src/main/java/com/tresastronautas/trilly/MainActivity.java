@@ -2,9 +2,6 @@ package com.tresastronautas.trilly;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -26,14 +23,9 @@ import com.natasa.progressviews.LineProgressBar;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -52,23 +44,6 @@ public class MainActivity extends AppCompatActivity {
     public ExtendedButton menu_boton_grupo, menu_boton_viajes, menu_boton_estadisticas, menu_boton_ajustes;
     public Boolean navigationExtended = false;
     public boolean fbGet;
-
-    public static Bitmap downloadImageBitmap(String url) {
-        Bitmap bm = null;
-        try {
-            URL aUrl = new URL(url);
-            URLConnection conn = aUrl.openConnection();
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            bm = BitmapFactory.decodeStream(bis);
-            bis.close();
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bm;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             finish();
         } else {
-            actionNavBar(getCurrentFocus());
+            closeNavBar(getCurrentFocus());
         }
     }
 
@@ -157,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void actionNavBar(View view) {
+    public void closeNavBar(View view) {
         if (navigationExtended) {
             FabTransformation.with(mFab)
                     .duration(30)
@@ -182,26 +157,28 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
 
     public void startPerfilActivity(View view) {
-        if (navigationExtended) {
-            FabTransformation.with(mFab)
-                    .duration(30)
-                    .transformFrom(menu_layout_navBar);
-            navigationExtended = false;
-        }
-        Intent intent = new Intent(this, ProfileActivity.class);
+        closeNavBar(getCurrentFocus());
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        intent.putExtra("user_id", currentUser.getObjectId());
+        startActivity(intent);
+    }
+
+    public void startGroupListActivity(View view) {
+        closeNavBar(getCurrentFocus());
+        Intent intent = new Intent(getApplicationContext(), GroupListActivity.class);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
 
     public void empezarViaje(View view) {
         if (navigationExtended) {
-            actionNavBar(getCurrentFocus());
+            closeNavBar(getCurrentFocus());
         }
     }
 
     public void verEstadisticas(View view) {
         if (navigationExtended) {
-            actionNavBar(getCurrentFocus());
+            closeNavBar(getCurrentFocus());
         } else {
             ParseUser.logOut();
             currentUser = null;
@@ -245,8 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         ).executeAsync();
-        ProfilePhotoAsync profilePhotoAsync = new ProfilePhotoAsync(fbProfile);
-        profilePhotoAsync.execute();
+        saveNewUser();
     }
 
     public void getDetailsFromParse() {
@@ -259,12 +235,14 @@ public class MainActivity extends AppCompatActivity {
         menu_texto_nombre.setText(firstName);
         id = currentUser.getString("facebookID");
         picture = currentUser.getString("picture");
-        ProfilePhotoAsync profilePhotoAsync = new ProfilePhotoAsync(fbProfile);
-        profilePhotoAsync.execute();
+        Picasso.with(getApplicationContext())
+                .load(picture)
+                .into(menu_imagen_perfil);
     }
 
-    public void saveNewUser(String pic) {
-        this.picture = pic;
+    public void saveNewUser() {
+        picture = fbProfile.getProfilePictureUri(500, 500).toString();
+        Picasso.with(getApplicationContext()).load(picture).into(menu_imagen_perfil);
         currentUser = ParseUser.getCurrentUser();
         currentUser.put(ParseConstants.User.FBID.val(), id);
         currentUser.put(ParseConstants.User.FIRST.val(), firstName);
@@ -284,35 +262,9 @@ public class MainActivity extends AppCompatActivity {
         currentUser.put(ParseConstants.User.STATS.val(), statistics);
         try {
             currentUser.save();
+            currentUser.pin(currentUser.getObjectId());
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-    }
-
-    public class ProfilePhotoAsync extends AsyncTask<String, String, String> {
-
-        public Bitmap bitmap;
-        public String pic;
-        Profile profile;
-
-        ProfilePhotoAsync(Profile profile) {
-            this.profile = profile == null ? Profile.getCurrentProfile() : profile;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            pic = profile.getProfilePictureUri(500, 500).toString();
-            bitmap = downloadImageBitmap(pic);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
-            menu_imagen_perfil.setImageBitmap(bitmap);
-            if (fbGet) saveNewUser(pic);
-            fbGet = false;
         }
     }
 }

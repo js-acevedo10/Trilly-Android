@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            android:onClick="actionNavBar"
+            android:onClick="closeNavBar"
             android:scaleType="centerCrop"
             android:src="@drawable/main_imagen_bosque_arbol_pequenio"
             app:layout_heightPercent="57%"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:onClick="actionNavBar"
+            android:onClick="closeNavBar"
             android:src="@android:drawable/ic_dialog_email"
             app:borderWidth="0dp" />
 
@@ -50,11 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_below="@+id/main_imagen_bosque_de_arboles"
-            android:onClick="actionNavBar"
+            android:onClick="closeNavBar"
             app:bar_color="#FFF"
             app:bar_width="20dp"
             app:progress="55"
-            app:progress_color="@color/trillyBlue"
+            app:progress_color="@color/trillyLightBlue"
             app:progress_width="20dp" />
 
         <TextView
@@ -101,7 +101,7 @@
                     android:layout_marginTop="15dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:onClick="actionNavBar"
+                    android:onClick="closeNavBar"
                     android:scaleType="fitXY"
                     android:src="@drawable/main_imagen_gas" />
 
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:onClick="actionNavBar"
+                    android:onClick="closeNavBar"
                     android:scaleType="fitXY"
                     android:src="@drawable/main_imagen_arboles_salvados" />
 
@@ -194,7 +194,7 @@
 
     <include
         layout="@layout/layout_menu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -4,52 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tresastronautas.trilly.ProfileActivity">
+    tools:context="com.tresastronautas.trilly.GroupActivity">
 
     <ImageView
-        android:id="@+id/perfil_imagen_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@drawable/perfil_bg"
+        android:src="@drawable/group_imagen_bg"
         app:layout_heightPercent="100%" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/perfil_fab"
+        android:id="@+id/group_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:onClick="profileBack" />
+        android:onClick="groupBack" />
 
     <TextView
-        android:id="@+id/perfil_label_nombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/perfil_fab"
-        android:layout_centerHorizontal="true"
-        android:text="@string/main_saludo"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/perfil_circle_profile"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/imagen_perfil_stock"
-        app:border_color="@android:color/white"
-        app:border_width="1dp"
-        app:layout_marginTopPercent="15%" />
-
-    <TextView
-        android:id="@+id/perfil_label_arboles_dinamico"
+        android:id="@+id/group_text_nombre_grupo"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/perfil_circle_profile"
+        android:layout_centerHorizontal="true"
+        android:text="@string/group_nombre"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="25%" />
+
+    <TextView
+        android:id="@+id/group_text_arboles_dinamico"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group_text_nombre_grupo"
         android:layout_centerHorizontal="true"
         android:text="@string/perfil_arboles_dinamico"
         android:textColor="@color/trillyDarkBlue"
@@ -57,11 +45,11 @@
         app:layout_marginTopPercent="7%" />
 
     <TextView
-        android:id="@+id/perfil_label_arboles_estatico"
+        android:id="@+id/group_text_arboles_estatico"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/perfil_label_arboles_dinamico"
+        android:layout_below="@+id/group_text_arboles_dinamico"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-8dp"
         android:text="@string/perfil_arboles_estatico"
@@ -69,27 +57,36 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/perfil_label_kilometros"
+        android:id="@+id/group_text_kilometros"
         style="?android:attr/textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/perfil_label_arboles_estatico"
+        android:layout_below="@+id/group_text_arboles_estatico"
         android:layout_centerHorizontal="true"
         android:text="@string/perfil_kilometros"
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="normal" />
 
     <com.tresastronautas.trilly.ExtendedImageButton
-        android:id="@+id/perfil_boton_ver_grupos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
-        android:onClick=""
-        android:scaleType="centerCrop"
-        android:src="@drawable/perfil_boton_ver_grupos"
-        app:layout_marginBottomPercent="10%" />
+        android:src="@drawable/group_boton_ver_miembros"
+        app:layout_marginBottomPercent="10%"
+        app:layout_marginLeftPercent="5%" />
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/group_boton_dejar_grupo"
+        app:layout_marginBottomPercent="10%"
+        app:layout_marginRightPercent="5%" />
 
 </android.support.percent.PercentRelativeLayout>
