@@ -43,4 +43,9 @@
     <string name="group_arboles_dinamico">%d Árboles</string>
     <string name="group_arboles_estatico">sembrados</string>
     <string name="group_kilometros">%d Km recorridos</string>
+    <string name="title_activity_viaje">Viaje</string>
+
+    <!-- VISTA VIAJE-->
+    <string name="viaje_kilometros_dinamico">%d KM</string>
+    <string name="viaje_kilometros_estatico">Recorridos</string>
 </resources>

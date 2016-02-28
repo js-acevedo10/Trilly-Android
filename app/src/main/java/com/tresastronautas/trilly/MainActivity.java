@@ -173,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
     public void startViajeActivity(View view) {
         if (navigationExtended) {
             closeNavBar(getCurrentFocus());
+        } else {
+            Intent intent = new Intent(this, ViajeActivity.class);
+            startActivity(intent);
         }
     }
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/viaje_imagen_bg"
+    tools:context="com.tresastronautas.trilly.ViajeActivity">
+
+    <ImageView
+        android:id="@+id/viaje_imagen_fondo_mapa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/viaje_imagen_fondo_mapa"
+        app:layout_heightPercent="62%"
+        app:layout_marginLeftPercent="3%"
+        app:layout_marginRightPercent="3%"
+        app:layout_marginTopPercent="2%" />
+
+    <android.support.percent.PercentFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/viaje_imagen_fondo_mapa"
+        android:layout_centerHorizontal="true"
+        app:layout_heightPercent="59%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="90%">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.percent.PercentFrameLayout>
+
+    <ImageView
+        android:id="@+id/viaje_imagen_fondo_morado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/viaje_imagen_fondo_mapa"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/viaje_imagen_fondo_morado"
+        app:layout_marginBottomPercent="3%"
+        app:layout_marginLeftPercent="3%"
+        app:layout_marginRightPercent="3%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/viaje_layout_texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/viaje_imagen_fondo_morado"
+        app:layout_marginLeftPercent="15%"
+        app:layout_marginTopPercent="13%">
+
+        <TextView
+            android:id="@+id/viaje_texto_kilometros_dinamico"
+            style="?android:textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/viaje_kilometros_dinamico"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/viaje_texto_kilometros_estatico"
+            style="?android:textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viaje_texto_kilometros_dinamico"
+            android:layout_centerHorizontal="true"
+            android:text="@string/viaje_kilometros_estatico"
+            android:textColor="@android:color/white" />
+    </android.support.percent.PercentRelativeLayout>
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/viaje_imagen_fondo_morado"
+        android:layout_alignTop="@+id/viaje_imagen_fondo_morado"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="stopViaje"
+        android:scaleType="fitCenter"
+        android:src="@drawable/viaje_boton_terminar_viaje"
+        app:layout_heightPercent="25%"
+        app:layout_marginRightPercent="5%"
+        app:layout_marginTopPercent="4%" />
+
+</android.support.percent.PercentRelativeLayout>
