@@ -19,6 +19,8 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final int NUEVO_USUARIO = 19;
+    public static final int VIEJO_USUARIO = 20;
     public List<String> fbPermissions;
     public ImageView login_imagen_nube_1, login_imagen_nube_2;
 
@@ -64,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
                         if (parseUser == null) {
                             Toast.makeText(LoginActivity.this, getString(R.string.login_error_red), Toast.LENGTH_LONG).show();
                         } else if (parseUser.isNew()) {
-                            setResult(2);
+                            setResult(NUEVO_USUARIO);
                             finish();
                         } else {
-                            setResult(1);
+                            setResult(VIEJO_USUARIO);
                             finish();
                         }
                     }

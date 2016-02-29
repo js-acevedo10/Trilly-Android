@@ -51,16 +51,17 @@
             android:textColor="@android:color/black"
             app:layout_widthPercent="50%" />
 
-        <com.tresastronautas.trilly.ExtendedButton
+        <EditText
             android:id="@+id/ajustes_texto_edad_dinamico"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/ajustes_texto_edad_estatico"
             android:background="@drawable/ajustes_boton_underline"
-            android:onClick="ajustesEditEdad"
-            android:text="@string/ajustes_edad_dinamico"
+            android:hint="@string/ajustes_edad_dinamico"
+            android:inputType="number"
+            android:paddingLeft="10dp"
             android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
             app:layout_heightPercent="10%"
             app:layout_widthPercent="50%" />
 
@@ -74,17 +75,18 @@
             android:textColor="@android:color/black"
             app:layout_widthPercent="50%" />
 
-        <com.tresastronautas.trilly.ExtendedButton
+        <EditText
             android:id="@+id/ajustes_texto_altura_dinamico"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ajustes_texto_edad_dinamico"
             android:layout_toRightOf="@id/ajustes_texto_altura_estatico"
             android:background="@drawable/ajustes_boton_underline"
-            android:onClick="ajustesEditAltura"
-            android:text="@string/ajustes_altura_dinamico"
+            android:hint="@string/ajustes_altura_dinamico"
+            android:inputType="number"
+            android:paddingLeft="10dp"
             android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
             app:layout_heightPercent="10%"
             app:layout_marginTopPercent="5%"
             app:layout_widthPercent="50%" />
@@ -99,18 +101,18 @@
             android:textColor="@android:color/black"
             app:layout_widthPercent="50%" />
 
-        <com.tresastronautas.trilly.ExtendedButton
+        <EditText
             android:id="@+id/ajustes_texto_peso_dinamico"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ajustes_texto_altura_dinamico"
             android:layout_toRightOf="@id/ajustes_texto_altura_estatico"
             android:background="@drawable/ajustes_boton_underline"
-            android:onClick="ajustesEditPeso"
-            android:text="@string/ajustes_peso_dinamico"
-            android:textAlignment="center"
+            android:hint="@string/ajustes_peso_dinamico"
+            android:inputType="number"
+            android:paddingLeft="10dp"
             android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
             app:layout_heightPercent="10%"
             app:layout_marginTopPercent="5%"
             app:layout_widthPercent="50%" />

@@ -1,11 +1,9 @@
 package com.tresastronautas.trilly;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -13,12 +11,17 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AjustesActivity extends AppCompatActivity {
 
+    public static final int RESULT_CERRAR_SESION = 99799;
     private ParseUser currentUser;
-    private ExtendedButton ajustes_texto_edad_dinamico, ajustes_texto_altura_dinamico, ajustes_texto_peso_dinamico;
+    private EditText ajustes_texto_edad_dinamico, ajustes_texto_altura_dinamico, ajustes_texto_peso_dinamico;
     private ExtendedImageButton ajustes_boton_guardarcambios;
+    private CircleImageView ajustes_circle_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,62 +42,64 @@ public class AjustesActivity extends AppCompatActivity {
     }
 
     public void prepareLayout() {
-        ajustes_texto_edad_dinamico = (ExtendedButton) findViewById(R.id.ajustes_texto_edad_dinamico);
-        ajustes_texto_edad_dinamico.setText(getString(R.string.ajustes_edad_dinamico, 0));
-        ajustes_texto_altura_dinamico = (ExtendedButton) findViewById(R.id.ajustes_texto_altura_dinamico);
-        ajustes_texto_altura_dinamico.setText(getString(R.string.ajustes_altura_dinamico, 0));
-        ajustes_texto_peso_dinamico = (ExtendedButton) findViewById(R.id.ajustes_texto_peso_dinamico);
-        ajustes_texto_peso_dinamico.setText(getString(R.string.ajustes_peso_dinamico, 0));
+        ajustes_circle_profile = (CircleImageView) findViewById(R.id.ajustes_circle_profile);
+        Picasso.with(this).load(currentUser.getString(ParseConstants.User.PIC.val())).into(ajustes_circle_profile);
+        ajustes_texto_edad_dinamico = (EditText) findViewById(R.id.ajustes_texto_edad_dinamico);
+        ajustes_texto_edad_dinamico.setHint(getString(R.string.ajustes_edad_dinamico, 0));
+        ajustes_texto_edad_dinamico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ajustes_boton_guardarcambios.setEnabled(true);
+            }
+        });
+        ajustes_texto_altura_dinamico = (EditText) findViewById(R.id.ajustes_texto_altura_dinamico);
+        ajustes_texto_altura_dinamico.setHint(getString(R.string.ajustes_altura_dinamico, 0.0));
+        ajustes_texto_altura_dinamico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ajustes_boton_guardarcambios.setEnabled(true);
+            }
+        });
+        ajustes_texto_peso_dinamico = (EditText) findViewById(R.id.ajustes_texto_peso_dinamico);
+        ajustes_texto_peso_dinamico.setHint(getString(R.string.ajustes_peso_dinamico, 0.0));
+        ajustes_texto_peso_dinamico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ajustes_boton_guardarcambios.setEnabled(true);
+            }
+        });
         ajustes_boton_guardarcambios = (ExtendedImageButton) findViewById(R.id.ajustes_boton_guardarcambios);
         ajustes_boton_guardarcambios.setEnabled(false);
-    }
-
-    public void ajustesEditEdad(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Ingresa tu Edad");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-        builder.setPositiveButton("Ingresar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ajustes_boton_guardarcambios.setEnabled(true);
-            }
-        });
-        builder.setNegativeButton("Cancelar", null);
-        builder.show();
-    }
-
-    public void ajustesEditAltura(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Ingresa tu Altura");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-        builder.setPositiveButton("Ingresar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ajustes_boton_guardarcambios.setEnabled(true);
-            }
-        });
-        builder.setNegativeButton("Cancelar", null);
-        builder.show();
-    }
-
-    public void ajustesEditPeso(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Ingresa tu Peso");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-        builder.setPositiveButton("Ingresar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ajustes_boton_guardarcambios.setEnabled(true);
-            }
-        });
-        builder.setNegativeButton("Cancelar", null);
-        builder.show();
     }
 
     public void ajustesGuardarCambios(View view) {
@@ -102,7 +107,7 @@ public class AjustesActivity extends AppCompatActivity {
     }
 
     public void ajustesCerrarSesion(View view) {
-        setResult(Activity.DEFAULT_KEYS_SHORTCUT);
+        setResult(RESULT_CERRAR_SESION);
         finish();
     }
 }

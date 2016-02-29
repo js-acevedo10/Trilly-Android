@@ -27,36 +27,51 @@ public class ExtendedImageButton extends ImageButton {
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
         // Determine what action with a switch statement
-        switch (event.getAction()) {
+        if (isEnabled()) {
+            switch (event.getAction()) {
 
-            // User presses down on the ImageView, record the original point
-            // and set the color filter
-            case MotionEvent.ACTION_DOWN: {
+                // User presses down on the ImageView, record the original point
+                // and set the color filter
+                case MotionEvent.ACTION_DOWN: {
 
-                // overlay is black with transparency of 0x77 (119)
-                getDrawable().setColorFilter(0x77000000,
-                        PorterDuff.Mode.SRC_ATOP);
-                invalidate();
+                    // overlay is black with transparency of 0x77 (119)
+                    getDrawable().setColorFilter(0x77000000,
+                            PorterDuff.Mode.SRC_ATOP);
+                    invalidate();
 
-                p = new Point((int) event.getX(), (int) event.getY());
-                break;
-            }
-
-            // Once the Path releases, record new point then compare the
-            // difference, if within a certain range perform onCLick
-            // and or otherwise clear the color filter
-            case MotionEvent.ACTION_UP: {
-                Point f = new Point((int) event.getX(), (int) event.getY());
-                if ((Math.abs(f.x - p.x) < 15)
-                        && ((Math.abs(f.x - p.x) < 15))) {
-                    performClick();
+                    p = new Point((int) event.getX(), (int) event.getY());
+                    break;
                 }
-                // clear the overlay
-                getDrawable().clearColorFilter();
-                invalidate();
-                break;
+
+                // Once the Path releases, record new point then compare the
+                // difference, if within a certain range perform onCLick
+                // and or otherwise clear the color filter
+                case MotionEvent.ACTION_UP: {
+                    Point f = new Point((int) event.getX(), (int) event.getY());
+                    if ((Math.abs(f.x - p.x) < 15)
+                            && ((Math.abs(f.x - p.x) < 15))) {
+                        performClick();
+                    }
+                    // clear the overlay
+                    getDrawable().clearColorFilter();
+                    invalidate();
+                    break;
+                }
             }
         }
         return true;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (!enabled) {
+            getDrawable().setColorFilter(0x77000000,
+                    PorterDuff.Mode.SRC_ATOP);
+            invalidate();
+        } else {
+            getDrawable().clearColorFilter();
+            invalidate();
+        }
     }
 }

@@ -44,7 +44,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/viaje_imagen_fondo_morado"
-        app:layout_marginBottomPercent="3%"
+        app:layout_marginBottomPercent="2%"
         app:layout_marginLeftPercent="3%"
         app:layout_marginRightPercent="3%" />
 

@@ -78,21 +78,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         prepareLayout();
-        if (resultCode == 0) {
-            finish();
-        } else if (resultCode == 2) {
+        if (resultCode == LoginActivity.NUEVO_USUARIO) {
             getDetailsFromFacebook();
-        } else if (resultCode == 1) {
+        } else if (resultCode == LoginActivity.VIEJO_USUARIO) {
             getDetailsFromParse();
-        } else if (resultCode == Activity.DEFAULT_KEYS_SHORTCUT) {
-            ParseUser.logOut();
-            try {
-                currentUser.unpin();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            currentUser = null;
-            checkUser();
+        } else if (resultCode == AjustesActivity.RESULT_CERRAR_SESION) {
+            cerrarSesion();
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+
         }
     }
 
@@ -114,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         main_texto_arboles = (TextView) findViewById(R.id.main_label_dynamic_arboles);
         main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, 0));
         main_texto_gas = (TextView) findViewById(R.id.main_label_dynamic_gasolina);
-        main_texto_gas.setText(getString(R.string.main_gas_dinamico, 0));
+        main_texto_gas.setText(getString(R.string.main_gas_dinamico, 0.0));
         main_progressBar = (LineProgressBar) findViewById(R.id.main_progress_horizontal);
         menu_background_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
         menu_boton_ajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
@@ -168,21 +161,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void startPerfilActivity(View view) {
         closeNavBar(getCurrentFocus());
-        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
 
     public void startGroupListActivity(View view) {
         closeNavBar(getCurrentFocus());
-        Intent intent = new Intent(getApplicationContext(), GroupListActivity.class);
+        Intent intent = new Intent(this, GroupListActivity.class);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
 
     public void startAjustesActivity(View view) {
         closeNavBar(getCurrentFocus());
-        Intent intent = new Intent(getApplicationContext(), AjustesActivity.class);
+        Intent intent = new Intent(this, AjustesActivity.class);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivityForResult(intent, 1);
     }
@@ -201,10 +194,14 @@ public class MainActivity extends AppCompatActivity {
         if (navigationExtended) {
             closeNavBar(getCurrentFocus());
         } else {
-            ParseUser.logOut();
-            currentUser = null;
-            checkUser();
+
         }
+    }
+
+    public void cerrarSesion() {
+        ParseUser.logOut();
+        currentUser = null;
+        checkUser();
     }
 
     //----------------------------------------------------------------------------------------------
@@ -237,25 +234,25 @@ public class MainActivity extends AppCompatActivity {
                             }
                             main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
                             menu_texto_nombre.setText(firstName);
+                            saveNewUser();
                         } catch (JSONException b) {
                             b.printStackTrace();
                         }
                     }
                 }
         ).executeAsync();
-        saveNewUser();
     }
 
     public void getDetailsFromParse() {
         fbGet = false;
         fbProfile = Profile.getCurrentProfile();
         currentUser = ParseUser.getCurrentUser();
-        firstName = currentUser.getString("nombre");
-        lastName = currentUser.getString("apellido");
+        firstName = currentUser.getString(ParseConstants.User.FIRST.val());
+        lastName = currentUser.getString(ParseConstants.User.LAST.val());
         main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre.setText(firstName);
-        id = currentUser.getString("facebookID");
-        picture = currentUser.getString("picture");
+        id = currentUser.getString(ParseConstants.User.FBID.val());
+        picture = currentUser.getString(ParseConstants.User.PIC.val());
         Picasso.with(getApplicationContext())
                 .load(picture)
                 .into(menu_imagen_perfil);

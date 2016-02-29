@@ -65,7 +65,7 @@ public class GroupActivity extends AppCompatActivity {
         group_text_arboles_dinamico = (TextView) findViewById(R.id.group_text_arboles_dinamico);
         group_text_arboles_dinamico.setText(getString(R.string.group_arboles_dinamico, 0));
         group_text_kilometros = (TextView) findViewById(R.id.group_text_kilometros);
-        group_text_kilometros.setText(getString(R.string.group_kilometros, 0));
+        group_text_kilometros.setText(getString(R.string.group_kilometros, 0.0));
     }
 
     public void groupBack(View view) {
