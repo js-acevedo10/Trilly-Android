@@ -34,7 +34,8 @@
             android:text="@string/main_saludo"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_marginTopPercent="2%" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_fab"
@@ -42,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             android:onClick="closeNavBar"
-            android:src="@android:drawable/ic_dialog_email"
             app:borderWidth="0dp" />
 
         <com.natasa.progressviews.LineProgressBar

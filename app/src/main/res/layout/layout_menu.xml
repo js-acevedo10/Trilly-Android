@@ -125,6 +125,7 @@
                 android:drawableLeft="@drawable/menu_icono_ajustes"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical|left"
+                android:onClick="startAjustesActivity"
                 android:text="@string/menu_ajustes"
                 android:textAllCaps="false"
                 android:textStyle="bold" />

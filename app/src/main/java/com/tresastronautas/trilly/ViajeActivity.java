@@ -25,6 +25,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +45,23 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     private float zoom = 18f;
     private Polyline route;
     private TextView viaje_texto_kilometros_dinamico;
+    private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viaje);
+        String userID = getIntent().getStringExtra("user_id");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.fromLocalDatastore();
+        query.getInBackground(userID, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if (e == null) {
+                    currentUser = object;
+                }
+            }
+        });
         routePoints = new ArrayList<LatLng>();
         setupMap();
         mGoogleApiClient = new GoogleApiClient.Builder(this)

@@ -1,5 +1,6 @@
 package com.tresastronautas.trilly;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -83,6 +84,15 @@ public class MainActivity extends AppCompatActivity {
             getDetailsFromFacebook();
         } else if (resultCode == 1) {
             getDetailsFromParse();
+        } else if (resultCode == Activity.DEFAULT_KEYS_SHORTCUT) {
+            ParseUser.logOut();
+            try {
+                currentUser.unpin();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            currentUser = null;
+            checkUser();
         }
     }
 
@@ -170,11 +180,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startAjustesActivity(View view) {
+        closeNavBar(getCurrentFocus());
+        Intent intent = new Intent(getApplicationContext(), AjustesActivity.class);
+        intent.putExtra("user_id", currentUser.getObjectId());
+        startActivityForResult(intent, 1);
+    }
+
     public void startViajeActivity(View view) {
         if (navigationExtended) {
             closeNavBar(getCurrentFocus());
         } else {
             Intent intent = new Intent(this, ViajeActivity.class);
+            intent.putExtra("user_id", currentUser.getObjectId());
             startActivity(intent);
         }
     }

@@ -48,4 +48,14 @@
     <!-- VISTA VIAJE-->
     <string name="viaje_kilometros_dinamico">%d KM</string>
     <string name="viaje_kilometros_estatico">Recorridos</string>
+
+    <!-- VISTA AJUSTES-->
+    <string name="ajustes_title">Ajustes</string>
+    <string name="ajustes_edad_estatico">Edad</string>
+    <string name="ajustes_edad_dinamico">%d Años</string>
+    <string name="ajustes_altura_estatico">Altura</string>
+    <string name="ajustes_altura_dinamico">%d m</string>
+    <string name="ajustes_peso_estatico">Peso</string>
+    <string name="ajustes_peso_dinamico">%d Kg</string>
+
 </resources>

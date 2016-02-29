@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ajustes_imagen_bg"
+    tools:context="com.tresastronautas.trilly.AjustesActivity">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/ajustes_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin" />
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/ajustes_fab"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ajustes_title"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="2%" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ajustes_circle_profile"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ajustes_imagen_perfilstock"
+        app:layout_marginTopPercent="14%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/ajustes_lay_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ajustes_circle_profile"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginRightPercent="10%"
+        app:layout_marginTopPercent="10%">
+
+        <TextView
+            android:id="@+id/ajustes_texto_edad_estatico"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ajustes_edad_estatico"
+            android:textColor="@android:color/black"
+            app:layout_widthPercent="50%" />
+
+        <com.tresastronautas.trilly.ExtendedButton
+            android:id="@+id/ajustes_texto_edad_dinamico"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ajustes_texto_edad_estatico"
+            android:background="@drawable/ajustes_boton_underline"
+            android:onClick="ajustesEditEdad"
+            android:text="@string/ajustes_edad_dinamico"
+            android:textColor="@android:color/black"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="50%" />
+
+        <TextView
+            android:id="@+id/ajustes_texto_altura_estatico"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ajustes_texto_altura_dinamico"
+            android:text="@string/ajustes_altura_estatico"
+            android:textColor="@android:color/black"
+            app:layout_widthPercent="50%" />
+
+        <com.tresastronautas.trilly.ExtendedButton
+            android:id="@+id/ajustes_texto_altura_dinamico"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ajustes_texto_edad_dinamico"
+            android:layout_toRightOf="@id/ajustes_texto_altura_estatico"
+            android:background="@drawable/ajustes_boton_underline"
+            android:onClick="ajustesEditAltura"
+            android:text="@string/ajustes_altura_dinamico"
+            android:textColor="@android:color/black"
+            app:layout_heightPercent="10%"
+            app:layout_marginTopPercent="5%"
+            app:layout_widthPercent="50%" />
+
+        <TextView
+            android:id="@+id/ajustes_texto_peso_estatico"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ajustes_texto_peso_dinamico"
+            android:text="@string/ajustes_peso_estatico"
+            android:textColor="@android:color/black"
+            app:layout_widthPercent="50%" />
+
+        <com.tresastronautas.trilly.ExtendedButton
+            android:id="@+id/ajustes_texto_peso_dinamico"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ajustes_texto_altura_dinamico"
+            android:layout_toRightOf="@id/ajustes_texto_altura_estatico"
+            android:background="@drawable/ajustes_boton_underline"
+            android:onClick="ajustesEditPeso"
+            android:text="@string/ajustes_peso_dinamico"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            app:layout_heightPercent="10%"
+            app:layout_marginTopPercent="5%"
+            app:layout_widthPercent="50%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/ajustes_boton_guardarcambios"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ajustes_boton_cerrarsesion"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:onClick="ajustesGuardarCambios"
+        android:src="@drawable/ajustes_boton_guardarcambios"
+        app:layout_marginTopPercent="5%" />
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/ajustes_boton_cerrarsesion"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:onClick="ajustesCerrarSesion"
+        android:src="@drawable/ajustes_boton_cerrarsesion" />
+
+</android.support.percent.PercentRelativeLayout>

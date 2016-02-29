@@ -45,14 +45,10 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_viaje"></activity>
-        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -61,6 +57,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".AjustesActivity"></activity>
     </application>
 
 </manifest>

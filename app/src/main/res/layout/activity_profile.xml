@@ -30,7 +30,8 @@
         android:text="@string/main_saludo"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_marginTopPercent="2%" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/perfil_circle_profile"
