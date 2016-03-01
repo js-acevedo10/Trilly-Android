@@ -34,7 +34,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.GetCallback;
@@ -65,6 +69,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     private int contadorActionDialog = 0;
     private double metrosRecorridos = 0;
     private Location lActual;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +102,8 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(1000)
-                .setFastestInterval(16);
+                .setFastestInterval(16)
+                .setSmallestDisplacement(8);
         prepareLayout();
     }
 
@@ -139,6 +145,11 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.mapa_imagen_punto_final);
+        if (marker != null) {
+            marker.remove();
+        }
+        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(icon));
         routePoints.add(latLng);
         route.setPoints(routePoints);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -167,10 +178,9 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                     ActivityCompat.requestPermissions(ViajeActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                             ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
                 }
-                mMap.setMyLocationEnabled(true);
                 route = mMap.addPolyline(new PolylineOptions());
                 route.setWidth(20f);
-                route.setColor(R.color.progress_color);
+                route.setColor(R.color.trillyLightBlue);
             }
         });
     }
@@ -188,8 +198,8 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         if (location == null) {
 
         } else {
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
             handleNewLocation(location);
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
         }
     }
 
@@ -298,8 +308,9 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         @Override
         public void onReceive(Context context, Intent intent) {
             Location location = intent.getParcelableExtra(Constants.LOCATION_EXTRA);
+//            if (location != null && location.getAccuracy() <= 30) {
             if (location != null) {
-                zoom = mMap.getCameraPosition().zoom >= 15 ? mMap.getCameraPosition().zoom : zoom;
+                zoom = mMap.getCameraPosition().zoom >= 18 ? mMap.getCameraPosition().zoom : zoom;
                 handleNewLocation(location);
             }
         }
