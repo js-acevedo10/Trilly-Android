@@ -48,8 +48,8 @@ import java.util.List;
 public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback<Status> {
 
     public static final String TAG = ViajeActivity.class.getSimpleName();
-    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 99;
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 2301;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 23012;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;

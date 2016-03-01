@@ -19,8 +19,8 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final int NUEVO_USUARIO = 19;
-    public static final int VIEJO_USUARIO = 20;
+    public static final int NUEVO_USUARIO = 1801;
+    public static final int VIEJO_USUARIO = 1802;
     public List<String> fbPermissions;
     public ImageView login_imagen_nube_1, login_imagen_nube_2;
 
