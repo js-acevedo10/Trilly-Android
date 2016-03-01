@@ -1,6 +1,5 @@
 package com.tresastronautas.trilly;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -84,8 +83,10 @@ public class MainActivity extends AppCompatActivity {
             getDetailsFromParse();
         } else if (resultCode == AjustesActivity.RESULT_CERRAR_SESION) {
             cerrarSesion();
-        } else if (resultCode == Activity.RESULT_CANCELED) {
-
+        } else if (resultCode == AjustesActivity.RESULT_GUARDAR_CAMBIOS) {
+            checkUser();
+        } else if (resultCode == AjustesActivity.RESULT_NOTHING_TODO) {
+            checkUser();
         }
     }
 

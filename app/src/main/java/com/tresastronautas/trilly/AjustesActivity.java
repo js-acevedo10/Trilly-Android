@@ -18,6 +18,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AjustesActivity extends AppCompatActivity {
 
     public static final int RESULT_CERRAR_SESION = 1101;
+    public static final int RESULT_GUARDAR_CAMBIOS = 1102;
+    public static final int RESULT_NOTHING_TODO = 1102;
     private ParseUser currentUser;
     private EditText ajustes_texto_edad_dinamico, ajustes_texto_altura_dinamico, ajustes_texto_peso_dinamico;
     private ExtendedImageButton ajustes_boton_guardarcambios;
