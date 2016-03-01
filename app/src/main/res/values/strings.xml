@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Trilly</string>
-    <string name="APPLICATION_ID">5k7poaTQLaV7KvDyKvNTdQ2hDlvENDrPIj0RxsG0</string>
-    <string name="CLIENT_KEY">biMQN5CkZErO1KxUl6Bv41T8q88Rrf8rv45nXmKd</string>
-    <string name="SERVER_URI">http://trilly-parse.herokuapp.com/parse</string>
-    <string name="FB_APP_ID">532505416917576</string>
+    <string name="APPLICATION_ID" translatable="false">5k7poaTQLaV7KvDyKvNTdQ2hDlvENDrPIj0RxsG0</string>
+    <string name="CLIENT_KEY" translatable="false">biMQN5CkZErO1KxUl6Bv41T8q88Rrf8rv45nXmKd</string>
+    <string name="SERVER_URI" translatable="false">http://trilly-parse.herokuapp.com/parse</string>
+    <string name="FB_APP_ID" translatable="false">532505416917576</string>
     <string-array name="my_facebook_permissions">
         <item>public_profile</item>
         <item>user_friends</item>
@@ -77,14 +77,14 @@
 
     <!--EXTRA-->
 
-    <string name="in_vehicle">In a vehicle</string>
-    <string name="on_bicycle">On a bicycle</string>
-    <string name="on_foot">On foot</string>
-    <string name="running">Running</string>
-    <string name="walking">Walking</string>
-    <string name="still">Still</string>
-    <string name="tilting">Tilting</string>
-    <string name="unknown">Unknown activity</string>
-    <string name="unidentifiable_activity">Unidentifiable activity: %1$d</string>
+    <string name="in_vehicle" translatable="false">In a vehicle</string>
+    <string name="on_bicycle" translatable="false">On a bicycle</string>
+    <string name="on_foot" translatable="false">On foot</string>
+    <string name="running" translatable="false">Running</string>
+    <string name="walking" translatable="false">Walking</string>
+    <string name="still" translatable="false">Still</string>
+    <string name="tilting" translatable="false">Tilting</string>
+    <string name="unknown" translatable="false">Unknown activity</string>
+    <string name="unidentifiable_activity" translatable="false">Unidentifiable activity: %1$d</string>
 
 </resources>
