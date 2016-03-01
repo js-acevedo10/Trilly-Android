@@ -193,7 +193,7 @@
     </android.support.percent.PercentRelativeLayout>
 
     <include
-        layout="@layout/layout_menu"
+        layout="@layout/layout_navbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
