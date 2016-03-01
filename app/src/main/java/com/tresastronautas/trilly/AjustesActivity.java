@@ -24,6 +24,7 @@ public class AjustesActivity extends AppCompatActivity {
     private EditText ajustes_texto_edad_dinamico, ajustes_texto_altura_dinamico, ajustes_texto_peso_dinamico;
     private ExtendedImageButton ajustes_boton_guardarcambios;
     private CircleImageView ajustes_circle_profile;
+    private boolean cambios = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,21 @@ public class AjustesActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!cambios) {
+            setResult(RESULT_NOTHING_TODO);
+        } else {
+            setResult(RESULT_GUARDAR_CAMBIOS);
+        }
+        finish();
+    }
+
     public void prepareLayout() {
         ajustes_circle_profile = (CircleImageView) findViewById(R.id.ajustes_circle_profile);
         Picasso.with(this).load(currentUser.getString(ParseConstants.User.PIC.val())).into(ajustes_circle_profile);
         ajustes_texto_edad_dinamico = (EditText) findViewById(R.id.ajustes_texto_edad_dinamico);
-        ajustes_texto_edad_dinamico.setHint(getString(R.string.ajustes_edad_dinamico, 0));
+        ajustes_texto_edad_dinamico.setHint(getString(R.string.ajustes_edad_dinamico, 0.0));
         ajustes_texto_edad_dinamico.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,6 +117,7 @@ public class AjustesActivity extends AppCompatActivity {
 
     public void ajustesGuardarCambios(View view) {
         ajustes_boton_guardarcambios.setEnabled(false);
+        cambios = true;
     }
 
     public void ajustesCerrarSesion(View view) {

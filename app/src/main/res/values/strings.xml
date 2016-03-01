@@ -18,7 +18,7 @@
     <string name="main_saludo">Hola %s !</string>
     <string name="main_gas_dinamico">%.1f Galones de</string>
     <string name="main_gas_estatico">gasolina ahorrados</string>
-    <string name="main_arboles_dinamico">%d Árboles</string>
+    <string name="main_arboles_dinamico">%.0f Árboles</string>
     <string name="main_arboles_estatico">plantados</string>
 
     <!-- VISTA MENU-->
@@ -29,18 +29,18 @@
     <string name="menu_ver_perfil">Ver Perfil</string>
 
     <!-- VISTA PERFIL-->
-    <string name="perfil_arboles_dinamico">%d Árboles</string>
+    <string name="perfil_arboles_dinamico">%.0f Árboles</string>
     <string name="perfil_arboles_estatico">sembrados</string>
     <string name="perfil_kilometros">%.2f Km recorridos</string>
 
     <!-- VISTA LISTA DE GRUPOS-->
     <string name="grouplist_title">Mis Grupos</string>
     <string name="grouplist_nombre">Nombre del Grupo</string>
-    <string name="grouplist_stats">Árboles sembrados: %1$d | Miembros: %2$d</string>
+    <string name="grouplist_stats">Árboles sembrados: %1$.0f | Miembros: %2$.0f</string>
 
     <!-- VISTA GRUPO-->
     <string name="group_nombre">Nombre del Grupo</string>
-    <string name="group_arboles_dinamico">%d Árboles</string>
+    <string name="group_arboles_dinamico">%.0f Árboles</string>
     <string name="group_arboles_estatico">sembrados</string>
     <string name="group_kilometros">%.2f Km recorridos</string>
     <string name="title_activity_viaje">Viaje</string>
@@ -52,11 +52,28 @@
     <!-- VISTA AJUSTES-->
     <string name="ajustes_title">Ajustes</string>
     <string name="ajustes_edad_estatico">Edad</string>
-    <string name="ajustes_edad_dinamico">%d</string>
+    <string name="ajustes_edad_dinamico">%.0f</string>
     <string name="ajustes_altura_estatico">Altura (m)</string>
     <string name="ajustes_altura_dinamico">%.2f</string>
     <string name="ajustes_peso_estatico">Peso (kg)</string>
     <string name="ajustes_peso_dinamico">%.1f</string>
+
+    <!-- VISTA ESTADISTICAS-->
+    <string name="estadisticas_title">Mis estadísticas</string>
+    <string name="estadisticas_gas_dinamico">%.1f Galones de</string>
+    <string name="estadisticas_gas_estatico">gasolina ahorrados</string>
+    <string name="estadisticas_arboles_dinamico">%.0f Árboles</string>
+    <string name="estadisticas_arboles_estatico">plantados</string>
+    <string name="estadisticas_calorias_dinamico">%.0f Calorías</string>
+    <string name="estadisticas_calorias_estatico">quemadas</string>
+    <string name="estadisticas_co2_dinamico">%.1f Kg de CO2</string>
+    <string name="estadisticas_co2_estatico">ahorrados</string>
+    <string name="estadisticas_bici_dinamico">%.0f Minutos</string>
+    <string name="estadisticas_bici_estatico">rodando</string>
+    <string name="estadisticas_km_dinamico">%.1f Km</string>
+    <string name="estadisticas_km_estatico">recorridos</string>
+    <string name="estadisticas_tiempo_dinamico">%.1f Horas</string>
+    <string name="estadisticas_tiempo_estatico">ahorradas</string>
 
     <!--EXTRA-->
 

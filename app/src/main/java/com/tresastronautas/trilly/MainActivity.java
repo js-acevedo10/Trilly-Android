@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (resultCode == AjustesActivity.RESULT_GUARDAR_CAMBIOS) {
             checkUser();
         } else if (resultCode == AjustesActivity.RESULT_NOTHING_TODO) {
-            checkUser();
+            prepareLayout();
         }
     }
 
@@ -106,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
         main_texto_saludo = (TextView) findViewById(R.id.perfil_label_nombre);
         menu_texto_nombre = (TextView) findViewById(R.id.menu_texto_nombre);
         main_texto_arboles = (TextView) findViewById(R.id.main_label_dynamic_arboles);
-        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, 0));
+        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, currentUser.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
         main_texto_gas = (TextView) findViewById(R.id.main_label_dynamic_gasolina);
-        main_texto_gas.setText(getString(R.string.main_gas_dinamico, 0.0));
+        main_texto_gas.setText(getString(R.string.main_gas_dinamico, currentUser.getDouble(ParseConstants.Estadistica.GAS.val())));
         main_progressBar = (LineProgressBar) findViewById(R.id.main_progress_horizontal);
         menu_background_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
         menu_boton_ajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkUser() {
         if (ParseUser.getCurrentUser() != null) {
+            currentUser = ParseUser.getCurrentUser();
             prepareLayout();
             getDetailsFromParse();
         } else {
@@ -195,7 +196,9 @@ public class MainActivity extends AppCompatActivity {
         if (navigationExtended) {
             closeNavBar(getCurrentFocus());
         } else {
-
+            Intent intent = new Intent(this, EstadisticasActivity.class);
+            intent.putExtra("user_id", currentUser.getObjectId());
+            startActivity(intent);
         }
     }
 

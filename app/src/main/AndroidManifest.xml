@@ -65,9 +65,9 @@
         <service
             android:name=".ActivitiesIntentService"
             android:exported="false" />
+        <service android:name=".LocationService" />
 
-        <service android:name="LocationService"></service>
-
+        <activity android:name=".EstadisticasActivity"></activity>
     </application>
 
 </manifest>

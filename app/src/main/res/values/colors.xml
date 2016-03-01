@@ -5,4 +5,6 @@
     <color name="colorAccent">#00C466</color>
     <color name="trillyLightBlue">#3e97e1</color>
     <color name="trillyDarkBlue">#00375f</color>
+    <color name="trillyRed">#EF3524</color>
+    <color name="trillyYellow">#FFC61A</color>
 </resources>

@@ -76,11 +76,11 @@ public class GroupListActivity extends AppCompatActivity {
         grouplist_text_nombre_grupo3 = (TextView) findViewById(R.id.grouplist_text_nombre_grupo3);
 
         grouplist_text_stats_grupo1 = (TextView) findViewById(R.id.grouplist_text_stats_grupo1);
-        grouplist_text_stats_grupo1.setText(getString(R.string.grouplist_stats, 0, 0));
+        grouplist_text_stats_grupo1.setText(getString(R.string.grouplist_stats, 0.0, 0.0));
         grouplist_text_stats_grupo2 = (TextView) findViewById(R.id.grouplist_text_stats_grupo2);
-        grouplist_text_stats_grupo2.setText(getString(R.string.grouplist_stats, 0, 0));
+        grouplist_text_stats_grupo2.setText(getString(R.string.grouplist_stats, 0.0, 0.0));
         grouplist_text_stats_grupo3 = (TextView) findViewById(R.id.grouplist_text_stats_grupo3);
-        grouplist_text_stats_grupo3.setText(getString(R.string.grouplist_stats, 0, 0));
+        grouplist_text_stats_grupo3.setText(getString(R.string.grouplist_stats, 0.0, 0.0));
 
 
     }

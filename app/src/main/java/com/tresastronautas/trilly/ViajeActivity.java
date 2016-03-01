@@ -96,7 +96,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(3000)
+                .setInterval(1000)
                 .setFastestInterval(16);
         prepareLayout();
     }

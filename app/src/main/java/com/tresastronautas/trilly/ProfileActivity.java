@@ -74,9 +74,9 @@ public class ProfileActivity extends AppCompatActivity {
         perfil_label_nombre = (TextView) findViewById(R.id.perfil_label_nombre);
         perfil_label_nombre.setText(currentUser.getString(ParseConstants.User.FIRST.val()));
         perfil_label_arboles_dinamico = (TextView) findViewById(R.id.perfil_label_arboles_dinamico);
-        perfil_label_arboles_dinamico.setText(getString(R.string.perfil_arboles_dinamico, 0));
+        perfil_label_arboles_dinamico.setText(getString(R.string.perfil_arboles_dinamico, currentUser.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
         perfil_label_kilometros = (TextView) findViewById(R.id.perfil_label_kilometros);
-        perfil_label_kilometros.setText(getString(R.string.perfil_kilometros, 0.0));
+        perfil_label_kilometros.setText(getString(R.string.perfil_kilometros, currentUser.getDouble(ParseConstants.Estadistica.KM.val())));
         perfil_circle_profile = (CircleImageView) findViewById(R.id.perfil_circle_profile);
         Picasso.with(getApplicationContext())
                 .load(currentUser.getString(ParseConstants.User.PIC.val()))

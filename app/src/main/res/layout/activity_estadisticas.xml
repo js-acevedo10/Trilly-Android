@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/estadisticas_imagen_bg"
+    tools:context="com.tresastronautas.trilly.EstadisticasActivity">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/estadisticas_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:onClick="estadisticasActivityBack" />
+
+    <TextView
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/estadisticas_fab"
+        android:layout_centerHorizontal="true"
+        android:text="@string/estadisticas_title"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="2%" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:scrollbars="vertical"
+        app:layout_heightPercent="100%"
+        app:layout_marginTopPercent="14.5%">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2">
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_gas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_gas"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_gas_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_gas_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_gas_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_gas_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_gas"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_gas_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_arboles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_arboles_sembrados"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_arboles_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_arboles_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_arboles_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_arboles_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_arboles"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_arboles_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_calorias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_calorias_quemadas"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_calorias_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_calorias_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_calorias_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_calorias_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_calorias"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_calorias_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_co2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_co2"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_co2_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_co2_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_co2_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@color/trillyRed"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_co2_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_co2"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_co2_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@color/trillyRed"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_bici"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_tiempo_bici"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_bici_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_bici_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_bici_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_bici_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_bici"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_bici_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_km_totales"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_km_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_km_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_km_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_km_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_km"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_km_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/estadisticas_imagen_tiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/estadisticas_imagen_tiempo_ahorrado"
+                    app:layout_widthPercent="50%" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_tiempo_dinamico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/estadisticas_texto_tiempo_estatico"
+                    android:layout_centerInParent="true"
+                    android:text="@string/estadisticas_tiempo_dinamico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/estadisticas_texto_tiempo_estatico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/estadisticas_imagen_tiempo"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="-3dp"
+                    android:text="@string/estadisticas_tiempo_estatico"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </android.support.percent.PercentRelativeLayout>
+
+        </GridLayout>
+    </ScrollView>
+
+
+</android.support.percent.PercentRelativeLayout>
