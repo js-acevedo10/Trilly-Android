@@ -306,7 +306,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void guardarViaje() {
-        if (checkpointViaje == null || checkpointViaje.getTotalTimeInSeconds() > 20 || (endTime - startTime) / 1000.0 > 20) {
+        if (checkpointViaje == null || checkpointViaje.getMetros() > 1000 || metrosRecorridos > 1000) {
             double elapsedSeconds = (endTime - startTime) / 1000.0;
             double elapsedKMetros = metrosRecorridos / 1000.0;
             if (checkpointViaje != null) {
