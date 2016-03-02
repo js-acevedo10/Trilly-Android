@@ -34,11 +34,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.GetCallback;
@@ -143,6 +140,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
+                mMap.setMyLocationEnabled(true);
                 if (ActivityCompat.checkSelfPermission(ViajeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ViajeActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(ViajeActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                             ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
@@ -161,13 +159,11 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
         }
-        startTime = SystemClock.elapsedRealtime();
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getLocationDetectionPendingIntent());
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, 0, getActivityDetectionPendingIntent()).setResultCallback(this);
         if (location != null) {
             mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
-            handleNewLocation(location);
         }
     }
 
@@ -202,7 +198,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void prepareLayout() {
         viaje_texto_kilometros_dinamico = (TextView) findViewById(R.id.viaje_texto_kilometros_dinamico);
-        viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, metrosRecorridos / 1000));
+        viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, 0.0));
     }
 
     private void handleNewLocation(Location location) {
@@ -210,11 +206,12 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.mapa_imagen_punto_final);
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(icon));
+//        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.mapa_imagen_punto_final);
+//        if (marker != null) {
+//            marker.remove();
+//        }
+//        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(icon));
+        startTime = SystemClock.elapsedRealtime();
         routePoints.add(latLng);
         route.setPoints(routePoints);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -225,7 +222,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, activity.toString());
         if (activity.getType() != DetectedActivity.ON_BICYCLE) {
             alertaActividad++;
-            if ((SystemClock.elapsedRealtime() - startTime) / 1000.0 > 15) {
+            if ((SystemClock.elapsedRealtime() - startTime) / 1000.0 > 10) {
                 checkpointViaje = new CheckpointViaje(startTime, SystemClock.elapsedRealtime(), metrosRecorridos);
                 Toast.makeText(ViajeActivity.this, "Parece que NO vas en bici", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Parece que NO vas en bici");

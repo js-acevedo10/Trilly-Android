@@ -23,7 +23,7 @@ public class ServiceLocationDetector extends IntentService {
         if (LocationResult.hasResult(intent)) {
             LocationResult locationResult = LocationResult.extractResult(intent);
             Location location = locationResult.getLastLocation();
-            if (location != null && location.getAccuracy() <= 100) {
+            if (location != null && location.getAccuracy() <= 50) {
                 Intent i = new Intent(Constants.LOCATION_ACTION);
                 i.putExtra(Constants.LOCATION_EXTRA, location);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(i);
