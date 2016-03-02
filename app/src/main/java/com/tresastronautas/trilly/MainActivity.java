@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public Profile fbProfile;
     public ParseUser currentUser;
     public CircleImageView menu_imagen_perfil;
-    public TextView main_texto_saludo, menu_texto_nombre, main_texto_gas, main_texto_arboles;
+    public TextView main_texto_saludo, menu_texto_nombre, main_texto_gas, main_texto_arboles, main_texto_porcentaje;
     public LineProgressBar main_progressBar;
     public FloatingActionButton mFab;
     public LinearLayout menu_layout_navBar, menu_background_navBar;
@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        prepareLayout();
         if (resultCode == LoginActivity.NUEVO_USUARIO) {
             getDetailsFromFacebook();
         } else if (resultCode == LoginActivity.VIEJO_USUARIO) {
@@ -87,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
             checkUser();
         } else if (resultCode == AjustesActivity.RESULT_NOTHING_TODO) {
             prepareLayout();
+        } else if (resultCode == LoginActivity.CERRAR_EJECUCION) {
+            finish();
         }
     }
 
@@ -102,14 +103,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void prepareLayout() {
         setContentView(R.layout.activity_main);
+        currentUser = ParseUser.getCurrentUser();
+        ParseObject statitics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+        try {
+            statitics.fetch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
+        Picasso.with(getApplicationContext())
+                .load(picture)
+                .into(menu_imagen_perfil);
         main_texto_saludo = (TextView) findViewById(R.id.perfil_label_nombre);
+        main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre = (TextView) findViewById(R.id.menu_texto_nombre);
+        menu_texto_nombre.setText(firstName);
         main_texto_arboles = (TextView) findViewById(R.id.main_label_dynamic_arboles);
-        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, currentUser.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
+        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statitics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
         main_texto_gas = (TextView) findViewById(R.id.main_label_dynamic_gasolina);
-        main_texto_gas.setText(getString(R.string.main_gas_dinamico, currentUser.getDouble(ParseConstants.Estadistica.GAS.val())));
+        main_texto_gas.setText(getString(R.string.main_gas_dinamico, statitics.getDouble(ParseConstants.Estadistica.GAS.val())));
         main_progressBar = (LineProgressBar) findViewById(R.id.main_progress_horizontal);
+        main_progressBar.setProgress((float) statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
+        main_texto_porcentaje = (TextView) findViewById(R.id.main_texto_porcentaje);
+        main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
         menu_background_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
         menu_boton_ajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
         menu_boton_estadisticas = (ExtendedButton) findViewById(R.id.menu_boton_estadisticas);
@@ -134,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 navigationExtended = true;
             }
         });
+        Picasso.with(getApplicationContext()).load(picture).into(menu_imagen_perfil);
     }
 
     public void closeNavBar(View view) {
@@ -153,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, 1);
-            currentUser = ParseUser.getCurrentUser();
         }
     }
 
@@ -236,8 +252,6 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 lastName = " ";
                             }
-                            main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
-                            menu_texto_nombre.setText(firstName);
                             saveNewUser();
                         } catch (JSONException b) {
                             b.printStackTrace();
@@ -253,24 +267,21 @@ public class MainActivity extends AppCompatActivity {
         currentUser = ParseUser.getCurrentUser();
         firstName = currentUser.getString(ParseConstants.User.FIRST.val());
         lastName = currentUser.getString(ParseConstants.User.LAST.val());
-        main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
-        menu_texto_nombre.setText(firstName);
         id = currentUser.getString(ParseConstants.User.FBID.val());
         picture = currentUser.getString(ParseConstants.User.PIC.val());
-        Picasso.with(getApplicationContext())
-                .load(picture)
-                .into(menu_imagen_perfil);
+        prepareLayout();
     }
 
     public void saveNewUser() {
         picture = fbProfile.getProfilePictureUri(500, 500).toString();
-        Picasso.with(getApplicationContext()).load(picture).into(menu_imagen_perfil);
         currentUser = ParseUser.getCurrentUser();
         currentUser.put(ParseConstants.User.FBID.val(), id);
         currentUser.put(ParseConstants.User.FIRST.val(), firstName);
         currentUser.put(ParseConstants.User.LAST.val(), lastName);
         currentUser.put(ParseConstants.User.PIC.val(), picture);
-        currentUser.put(ParseConstants.User.KG.val(), 0);
+        currentUser.put(ParseConstants.User.KG.val(), 60);
+        currentUser.put(ParseConstants.User.EDAD.val(), 20);
+        currentUser.put(ParseConstants.User.ALTURA.val(), 1.7);
         ParseObject statistics = new ParseObject(ParseConstants.Estadistica.NAME.val());
         statistics.put(ParseConstants.Estadistica.USER.val(), currentUser);
         statistics.put(ParseConstants.Estadistica.KM.val(), 0);
@@ -288,5 +299,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        prepareLayout();
     }
 }

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by JuanSantiagoAcev on 28/02/16!
  */
-public class ActivitiesIntentService extends IntentService {
+public class ServiceActivityDetector extends IntentService {
 
-    private static final String TAG = ActivitiesIntentService.class.getSimpleName();
+    private static final String TAG = ServiceActivityDetector.class.getSimpleName();
 
-    public ActivitiesIntentService() {
+    public ServiceActivityDetector() {
         super(TAG);
     }
 
@@ -24,9 +24,7 @@ public class ActivitiesIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
         Intent i = new Intent(Constants.STRING_ACTION);
-
         ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
-
         i.putExtra(Constants.STRING_EXTRA, detectedActivities);
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }

@@ -13,7 +13,9 @@ public class ParseConstants {
         FBID("facebookID"),
         GROUPS("grupos"),
         PIC("picture"),
-        KG("peso");
+        KG("peso"),
+        EDAD("edad"),
+        ALTURA("altura");
 
         private String value;
 

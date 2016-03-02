@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -43,8 +43,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +66,14 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     private ParseUser currentUser;
     private ActivityDetectionBroadcastReceiver mActivityBroadcastReceiver;
     private LocationDetectionBroadcastReceiver mLocationDetectionBroadcastReceiver;
-    private Intent mIntentService;
-    private PendingIntent mPendingIntent;
+    private Intent locationIntent, activityIntent;
     private int contadorActionDialog = 0;
     private double metrosRecorridos = 0;
     private Location lActual;
     private Marker marker;
+    private int alertaActividad = 0;
+    private long startTime, endTime;
+    private CheckpointViaje checkpointViaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,20 +94,17 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         mLocationDetectionBroadcastReceiver = new LocationDetectionBroadcastReceiver();
         routePoints = new ArrayList<LatLng>();
         setupMap();
-        mIntentService = new Intent(this, LocationService.class);
-        mPendingIntent = PendingIntent.getService(this, 1, mIntentService, 0);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .addApi(ActivityRecognition.API)
                 .build();
-
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(1000)
                 .setFastestInterval(16)
-                .setSmallestDisplacement(8);
+                .setSmallestDisplacement(5);
         prepareLayout();
     }
 
@@ -125,7 +126,6 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     public void onResult(Status status) {
         if (status.isSuccess()) {
             Log.e(TAG, "Successfully added activity detection.");
-
         } else {
             Log.e(TAG, "Error: " + status.getStatusMessage());
         }
@@ -134,37 +134,6 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onBackPressed() {
         stopViaje(getCurrentFocus());
-    }
-
-    //------------------------------------------------------------------------
-    //-------------------------------- MAPAS ---------------------------------
-    //------------------------------------------------------------------------
-
-    private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.mapa_imagen_punto_final);
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(icon));
-        routePoints.add(latLng);
-        route.setPoints(routePoints);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        calcularDistancia(location);
-    }
-
-    public void calcularDistancia(Location lNueva) {
-        if (lActual == null) {
-            lActual = lNueva;
-        } else {
-            metrosRecorridos += lActual.distanceTo(lNueva);
-            viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, metrosRecorridos / 1000));
-            lActual = lNueva;
-        }
-
     }
 
     private void setupMap() {
@@ -187,19 +156,18 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i(TAG, "Location services connected.");
+        Log.i(TAG, "Location & Activity services connected.");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
         }
+        startTime = SystemClock.elapsedRealtime();
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mPendingIntent);
-        requestActivityUpdates();
-        if (location == null) {
-
-        } else {
-            handleNewLocation(location);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getLocationDetectionPendingIntent());
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, 0, getActivityDetectionPendingIntent()).setResultCallback(this);
+        if (location != null) {
             mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
+            handleNewLocation(location);
         }
     }
 
@@ -228,13 +196,62 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    //------------------------------------------------------------------------
-    //-------------------------------- LOGICA --------------------------------
-    //------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------- LOGICA --------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------------
 
     public void prepareLayout() {
         viaje_texto_kilometros_dinamico = (TextView) findViewById(R.id.viaje_texto_kilometros_dinamico);
         viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, metrosRecorridos / 1000));
+    }
+
+    private void handleNewLocation(Location location) {
+        Log.d(TAG, location.toString());
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.mapa_imagen_punto_final);
+        if (marker != null) {
+            marker.remove();
+        }
+        marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(icon));
+        routePoints.add(latLng);
+        route.setPoints(routePoints);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+        calcularDistancia(location);
+    }
+
+    private void handleNewActivity(DetectedActivity activity) {
+        Log.d(TAG, activity.toString());
+        if (activity.getType() != DetectedActivity.ON_BICYCLE) {
+            alertaActividad++;
+            if ((SystemClock.elapsedRealtime() - startTime) / 1000.0 > 15) {
+                checkpointViaje = new CheckpointViaje(startTime, SystemClock.elapsedRealtime(), metrosRecorridos);
+                Toast.makeText(ViajeActivity.this, "Parece que NO vas en bici", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Parece que NO vas en bici");
+            }
+        } else {
+            Toast.makeText(ViajeActivity.this, "Parece que SI vas en bici", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Parece que SI vas en bici");
+            if (alertaActividad > 0) alertaActividad--;
+            if (alertaActividad <= 1) {
+                checkpointViaje = null;
+            }
+        }
+        if (alertaActividad > 5) {
+            forceViajeStop();
+        }
+    }
+
+    public void calcularDistancia(Location lNueva) {
+        if (lActual == null) {
+            lActual = lNueva;
+        } else {
+            metrosRecorridos += lActual.distanceTo(lNueva);
+            viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, metrosRecorridos / 1000));
+            lActual = lNueva;
+        }
+
     }
 
     public void stopViaje(View view) {
@@ -247,13 +264,14 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (mGoogleApiClient.isConnected()) {
-                                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mPendingIntent);
+                                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getLocationDetectionPendingIntent());
+                                ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(mGoogleApiClient, getActivityDetectionPendingIntent());
                                 LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mActivityBroadcastReceiver);
                                 LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mLocationDetectionBroadcastReceiver);
                                 mGoogleApiClient.disconnect();
                             }
-                            contadorActionDialog = 0;
-                            finish();
+                            endTime = SystemClock.elapsedRealtime();
+                            guardarViaje();
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -267,52 +285,82 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    public void requestActivityUpdates() {
-        if (!mGoogleApiClient.isConnected()) {
-            Toast.makeText(this, "GoogleApiClient not yet connected", Toast.LENGTH_SHORT).show();
-        } else {
-            ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, 0, getActivityDetectionPendingIntent()).setResultCallback(this);
+    public void forceViajeStop() {
+        Toast.makeText(ViajeActivity.this, "Oops... Detectamos que no vas en bici.", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Oops... Detectamos que no vas en bici.");
+        endTime = SystemClock.elapsedRealtime();
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getLocationDetectionPendingIntent());
+            ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(mGoogleApiClient, getActivityDetectionPendingIntent());
+            LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mActivityBroadcastReceiver);
+            LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mLocationDetectionBroadcastReceiver);
+            mGoogleApiClient.disconnect();
         }
+        if (checkpointViaje.getTotalTimeInSeconds() > 20) {
+            guardarViaje();
+        } else {
+            contadorActionDialog = 0;
+            metrosRecorridos = 0;
+            checkpointViaje = null;
+            startTime = 0;
+            endTime = 0;
+            finish();
+        }
+    }
+
+    private void guardarViaje() {
+        if (checkpointViaje == null || checkpointViaje.getTotalTimeInSeconds() > 20 || (endTime - startTime) / 1000.0 > 20) {
+            double elapsedSeconds = (endTime - startTime) / 1000.0;
+            double elapsedKMetros = metrosRecorridos / 1000.0;
+            if (checkpointViaje != null) {
+                elapsedSeconds = checkpointViaje.getTotalTimeInSeconds();
+                elapsedKMetros = checkpointViaje.getMetros() / 1000.0;
+            }
+            Toast.makeText(ViajeActivity.this, "Carrera de :" + elapsedSeconds + " segundos guardada.", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Carrera de :" + elapsedSeconds + " segundos guardada.");
+            ParseObject statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+            statistics.increment(ParseConstants.Estadistica.TIME.val(), elapsedSeconds);
+            statistics.increment(ParseConstants.Estadistica.KM.val(), elapsedKMetros);
+            statistics.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    contadorActionDialog = 0;
+                    metrosRecorridos = 0;
+                    checkpointViaje = null;
+                    startTime = 0;
+                    endTime = 0;
+                    finish();
+                }
+            });
+        } else {
+            forceViajeStop();
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------- BROADCAST -----------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------------
+
+    private PendingIntent getLocationDetectionPendingIntent() {
+        if (locationIntent == null) {
+            locationIntent = new Intent(this, ServiceLocationDetector.class);
+        }
+        return PendingIntent.getService(this, 0, locationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private PendingIntent getActivityDetectionPendingIntent() {
-        Intent intent = new Intent(this, ActivitiesIntentService.class);
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    public String getDetectedActivity(int detectedActivityType) {
-        Resources resources = this.getResources();
-        switch (detectedActivityType) {
-            case DetectedActivity.IN_VEHICLE:
-                return resources.getString(R.string.in_vehicle);
-            case DetectedActivity.ON_BICYCLE:
-                return resources.getString(R.string.on_bicycle);
-            case DetectedActivity.ON_FOOT:
-                return resources.getString(R.string.on_foot);
-            case DetectedActivity.RUNNING:
-                return resources.getString(R.string.running);
-            case DetectedActivity.WALKING:
-                return resources.getString(R.string.walking);
-            case DetectedActivity.STILL:
-                return resources.getString(R.string.still);
-            case DetectedActivity.TILTING:
-                return resources.getString(R.string.tilting);
-            case DetectedActivity.UNKNOWN:
-                return resources.getString(R.string.unknown);
-            default:
-                return resources.getString(R.string.unidentifiable_activity, detectedActivityType);
+        if (activityIntent == null) {
+            activityIntent = new Intent(this, ServiceActivityDetector.class);
         }
+        return PendingIntent.getService(this, 0, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public class LocationDetectionBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             Location location = intent.getParcelableExtra(Constants.LOCATION_EXTRA);
-//            if (location != null && location.getAccuracy() <= 30) {
-            if (location != null) {
-                zoom = mMap.getCameraPosition().zoom >= 18 ? mMap.getCameraPosition().zoom : zoom;
-                handleNewLocation(location);
-            }
+            zoom = mMap.getCameraPosition().zoom >= 18 ? mMap.getCameraPosition().zoom : zoom;
+            handleNewLocation(location);
         }
     }
 
@@ -321,10 +369,10 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<DetectedActivity> detectedActivities = intent.getParcelableArrayListExtra(Constants.STRING_EXTRA);
-            String activityString = "";
             for (DetectedActivity activity : detectedActivities) {
-                activityString += "Activity: " + getDetectedActivity(activity.getType()) + ", Confidence: " + activity.getConfidence() + "%\n";
-                Log.d(TAG, "Activity: " + getDetectedActivity(activity.getType()) + ", Confidence: " + activity.getConfidence());
+                if (activity.getConfidence() > 60) {
+                    handleNewActivity(activity);
+                }
             }
         }
     }

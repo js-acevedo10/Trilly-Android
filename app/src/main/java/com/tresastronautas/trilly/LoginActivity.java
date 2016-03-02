@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final int NUEVO_USUARIO = 1801;
     public static final int VIEJO_USUARIO = 1802;
+    public static final int CERRAR_EJECUCION = 1803;
     public List<String> fbPermissions;
     public ImageView login_imagen_nube_1, login_imagen_nube_2;
 
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        setResult(CERRAR_EJECUCION);
         finish();
     }
 

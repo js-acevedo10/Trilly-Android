@@ -10,16 +10,12 @@ import com.google.android.gms.location.LocationResult;
 /**
  * Created by JuanSantiagoAcev on 28/02/16!
  */
-public class LocationService extends IntentService {
+public class ServiceLocationDetector extends IntentService {
 
-    private String TAG = this.getClass().getSimpleName();
+    private static final String TAG = ServiceLocationDetector.class.getSimpleName();
 
-    public LocationService() {
-        super("Fused Location");
-    }
-
-    public LocationService(String name) {
-        super("Fused Location");
+    public ServiceLocationDetector() {
+        super(TAG);
     }
 
     @Override
@@ -27,11 +23,10 @@ public class LocationService extends IntentService {
         if (LocationResult.hasResult(intent)) {
             LocationResult locationResult = LocationResult.extractResult(intent);
             Location location = locationResult.getLastLocation();
-            if (location != null) {
+            if (location != null && location.getAccuracy() <= 100) {
                 Intent i = new Intent(Constants.LOCATION_ACTION);
                 i.putExtra(Constants.LOCATION_EXTRA, location);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(i);
-//                Log.d(TAG, location.toString());
             }
         }
     }

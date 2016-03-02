@@ -20,6 +20,7 @@
     <string name="main_gas_estatico">gasolina ahorrados</string>
     <string name="main_arboles_dinamico">%.0f Árboles</string>
     <string name="main_arboles_estatico">plantados</string>
+    <string name="main_porcentaje">%.0f\%</string>
 
     <!-- VISTA MENU-->
     <string name="menu_grupos">Mis grupos</string>
