@@ -2,13 +2,18 @@ package com.tresastronautas.trilly;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -44,10 +49,13 @@ public class MainActivity extends AppCompatActivity {
     public ExtendedButton menu_boton_grupo, menu_boton_viajes, menu_boton_estadisticas, menu_boton_ajustes;
     public Boolean navigationExtended = false;
     public boolean fbGet;
+    ParseObject statitics;
+    private ViewSwitcher viewSwitcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/lato-regular-webfont.ttf")
                         .setFontAttrId(R.attr.fontPath)
@@ -78,14 +86,18 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == LoginActivity.NUEVO_USUARIO) {
             getDetailsFromFacebook();
+            loadView x = new loadView();
+            x.execute();
         } else if (resultCode == LoginActivity.VIEJO_USUARIO) {
             getDetailsFromParse();
+            loadView x = new loadView();
+            x.execute();
         } else if (resultCode == AjustesActivity.RESULT_CERRAR_SESION) {
             cerrarSesion();
         } else if (resultCode == AjustesActivity.RESULT_GUARDAR_CAMBIOS) {
             checkUser();
         } else if (resultCode == AjustesActivity.RESULT_NOTHING_TODO) {
-            prepareLayout();
+//            prepareLayout();
         } else if (resultCode == LoginActivity.CERRAR_EJECUCION) {
             finish();
         }
@@ -93,47 +105,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!navigationExtended) {
-            super.onBackPressed();
-            finish();
-        } else {
-            closeNavBar(getCurrentFocus());
+        if (viewSwitcher.getDisplayedChild() != 0) {
+            if (!navigationExtended) {
+                super.onBackPressed();
+                finish();
+            } else {
+                closeNavBar(getCurrentFocus());
+            }
         }
     }
 
     public void prepareLayout() {
-        setContentView(R.layout.activity_main);
-        currentUser = ParseUser.getCurrentUser();
-        ParseObject statitics = currentUser.getParseObject(ParseConstants.User.STATS.val());
-        try {
-            statitics.fetch();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
         Picasso.with(getApplicationContext())
                 .load(picture)
                 .into(menu_imagen_perfil);
         main_texto_saludo = (TextView) findViewById(R.id.perfil_label_nombre);
-        main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre = (TextView) findViewById(R.id.menu_texto_nombre);
-        menu_texto_nombre.setText(firstName);
         main_texto_arboles = (TextView) findViewById(R.id.main_label_dynamic_arboles);
-        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statitics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
         main_texto_gas = (TextView) findViewById(R.id.main_label_dynamic_gasolina);
-        main_texto_gas.setText(getString(R.string.main_gas_dinamico, statitics.getDouble(ParseConstants.Estadistica.GAS.val())));
         main_progressBar = (LineProgressBar) findViewById(R.id.main_progress_horizontal);
-        main_progressBar.setProgress((float) statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
         main_texto_porcentaje = (TextView) findViewById(R.id.main_texto_porcentaje);
-        main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
         menu_background_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
         menu_boton_ajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
         menu_boton_estadisticas = (ExtendedButton) findViewById(R.id.menu_boton_estadisticas);
         menu_boton_grupo = (ExtendedButton) findViewById(R.id._menu_boton_grupo);
         menu_boton_viajes = (ExtendedButton) findViewById(R.id.menu_boton_viajes);
         mFab = (FloatingActionButton) findViewById(R.id.main_fab);
-        mFab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_menu).colorRes(android.R.color.white));
         menu_layout_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
+
+        main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
+        menu_texto_nombre.setText(firstName);
+        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statitics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
+        main_texto_gas.setText(getString(R.string.main_gas_dinamico, statitics.getDouble(ParseConstants.Estadistica.GAS.val())));
+        main_progressBar.setProgress((float) statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
+        main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
+        mFab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_menu).colorRes(android.R.color.white));
         menu_layout_navBar.setBackgroundResource(R.drawable.menu_imagen_bg);
         menu_layout_navBar.setVisibility(View.INVISIBLE);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
                 navigationExtended = true;
             }
         });
-        Picasso.with(getApplicationContext()).load(picture).into(menu_imagen_perfil);
     }
 
     public void closeNavBar(View view) {
@@ -165,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
     public void checkUser() {
         if (ParseUser.getCurrentUser() != null) {
             currentUser = ParseUser.getCurrentUser();
-            prepareLayout();
+            loadView x = new loadView();
+            x.execute();
             getDetailsFromParse();
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -173,16 +180,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //----------------------------------------------------------------------------------------------
-    //-------------------------------------BUTTON METHODS-------------------------------------------
-    //----------------------------------------------------------------------------------------------
-
     public void startPerfilActivity(View view) {
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
+
+    //----------------------------------------------------------------------------------------------
+    //-------------------------------------BUTTON METHODS-------------------------------------------
+    //----------------------------------------------------------------------------------------------
 
     public void startGroupListActivity(View view) {
         closeNavBar(getCurrentFocus());
@@ -224,10 +231,6 @@ public class MainActivity extends AppCompatActivity {
         checkUser();
     }
 
-    //----------------------------------------------------------------------------------------------
-    //-------------------------------------PARSE METHODS--------------------------------------------
-    //----------------------------------------------------------------------------------------------
-
     public void getDetailsFromFacebook() {
         fbGet = true;
         fbProfile = Profile.getCurrentProfile();
@@ -242,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse graphResponse) {
-                            Log.d("JSON", graphResponse.getRawResponse());
+                        Log.d("JSON", graphResponse.getRawResponse());
                         try {
                             id = graphResponse.getJSONObject().getString("id");
                             String n = graphResponse.getJSONObject().getString("name");
@@ -261,6 +264,10 @@ public class MainActivity extends AppCompatActivity {
         ).executeAsync();
     }
 
+    //----------------------------------------------------------------------------------------------
+    //-------------------------------------PARSE METHODS--------------------------------------------
+    //----------------------------------------------------------------------------------------------
+
     public void getDetailsFromParse() {
         fbGet = false;
         fbProfile = Profile.getCurrentProfile();
@@ -269,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
         lastName = currentUser.getString(ParseConstants.User.LAST.val());
         id = currentUser.getString(ParseConstants.User.FBID.val());
         picture = currentUser.getString(ParseConstants.User.PIC.val());
-        prepareLayout();
     }
 
     public void saveNewUser() {
@@ -299,6 +305,73 @@ public class MainActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        prepareLayout();
+    }
+
+    private class loadView extends AsyncTask {
+        @Override
+        protected void onPreExecute() {
+            viewSwitcher = new ViewSwitcher(MainActivity.this);
+            viewSwitcher.addView(ViewSwitcher.inflate(MainActivity.this, R.layout.layout_splash_screen, null));
+            setContentView(viewSwitcher);
+            final ImageView bici = (ImageView) viewSwitcher.findViewById(R.id.splash_imagen_bici);
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nubes_traslacion);
+            animation.setRepeatMode(Animation.INFINITE);
+            animation.setDuration(4000);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    bici.startAnimation(animation);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            bici.startAnimation(animation);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            currentUser = ParseUser.getCurrentUser();
+            statitics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+            try {
+                statitics.fetch();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                //Get the current thread's token
+                synchronized (this) {
+                    //Initialize an integer (that will act as a counter) to zero
+                    int counter = 0;
+                    //While the counter is smaller than four
+                    while (counter <= 8) {
+                        //Wait 850 milliseconds
+                        this.wait(850);
+                        //Increment the counter
+                        counter++;
+                        //Set the current progress.
+                        //This value is going to be passed to the onProgressUpdate() method.
+                        publishProgress(counter * 25);
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return currentUser;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            viewSwitcher.addView(ViewSwitcher.inflate(MainActivity.this, R.layout.activity_main, null));
+            viewSwitcher.showNext();
+            prepareLayout();
+        }
     }
 }

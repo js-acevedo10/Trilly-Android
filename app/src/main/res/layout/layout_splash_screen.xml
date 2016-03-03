@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_imagen_bg2login" />
+
+    <ImageView
+        android:id="@+id/splash_imagen_bici"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/splash_texto_cargando"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/login_imagen_bici"
+        app:layout_marginBottomPercent="13.5%" />
+
+    <TextView
+        android:id="@+id/splash_texto_cargando"
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/main_loading"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_marginBottomPercent="20%" />
+
+</android.support.percent.PercentRelativeLayout>
