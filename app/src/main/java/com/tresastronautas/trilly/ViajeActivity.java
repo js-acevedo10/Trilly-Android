@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -53,6 +54,9 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     public static final String TAG = ViajeActivity.class.getSimpleName();
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 2301;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 23012;
+    private final static int MINIMO_METROS = 500;
+    private final static int MAXIMO_ALERTAS = 5;
+    private final static int MINIMO_CERTEZA_ACTIVIDAD = 60;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -222,8 +226,8 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, activity.toString());
         if (activity.getType() != DetectedActivity.ON_BICYCLE) {
             alertaActividad++;
-            if ((SystemClock.elapsedRealtime() - startTime) / 1000.0 > 10) {
-                checkpointViaje = new CheckpointViaje(startTime, SystemClock.elapsedRealtime(), metrosRecorridos);
+            if (((SystemClock.elapsedRealtime() - startTime) / 1000.0) > 10.0) {
+                checkpointViaje = new CheckpointViaje(startTime, SystemClock.elapsedRealtime(), metrosRecorridos, routePoints);
                 Toast.makeText(ViajeActivity.this, "Parece que NO vas en bici", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Parece que NO vas en bici");
             }
@@ -235,7 +239,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                 checkpointViaje = null;
             }
         }
-        if (alertaActividad > 5) {
+        if (alertaActividad > MAXIMO_ALERTAS) {
             forceViajeStop();
         }
     }
@@ -283,8 +287,6 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void forceViajeStop() {
-        Toast.makeText(ViajeActivity.this, "Oops... Detectamos que no vas en bici.", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "Oops... Detectamos que no vas en bici.");
         endTime = SystemClock.elapsedRealtime();
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getLocationDetectionPendingIntent());
@@ -293,9 +295,16 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mLocationDetectionBroadcastReceiver);
             mGoogleApiClient.disconnect();
         }
-        if (checkpointViaje.getTotalTimeInSeconds() > 20) {
+        if (checkpointViaje != null && checkpointViaje.getMetros() > MINIMO_METROS) {
             guardarViaje();
         } else {
+            if (checkpointViaje == null || checkpointViaje.getMetros() < MINIMO_METROS) {
+                Toast.makeText(ViajeActivity.this, "Oops... Parece que tu viaje fue muy corto.", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Oops... Parece que tu viaje fue muy corto.");
+            } else if (checkpointViaje != null) {
+                Toast.makeText(ViajeActivity.this, "Oops... Detectamos que no vas en bici.", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Oops... Detectamos que no vas en bici.");
+            }
             contadorActionDialog = 0;
             metrosRecorridos = 0;
             checkpointViaje = null;
@@ -306,7 +315,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void guardarViaje() {
-        if (checkpointViaje == null || checkpointViaje.getMetros() > 1000 || metrosRecorridos > 1000) {
+        if ((checkpointViaje == null || checkpointViaje.getMetros() > MINIMO_METROS) && metrosRecorridos > MINIMO_METROS) {
             double elapsedSeconds = (endTime - startTime) / 1000.0;
             double elapsedKMetros = metrosRecorridos / 1000.0;
             if (checkpointViaje != null) {
@@ -315,10 +324,16 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             }
             Toast.makeText(ViajeActivity.this, "Carrera de :" + elapsedSeconds + " segundos guardada.", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Carrera de :" + elapsedSeconds + " segundos guardada.");
-            ParseObject statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
-            statistics.increment(ParseConstants.Estadistica.TIME.val(), elapsedSeconds);
-            statistics.increment(ParseConstants.Estadistica.KM.val(), elapsedKMetros);
-            statistics.saveInBackground(new SaveCallback() {
+            ParseObject path = new ParseObject(ParseConstants.Path.NAME.val());
+            path.put(ParseConstants.Path.DATA.val(), RouteEncoder.getRouteInHex(routePoints));
+            ParseObject route = new ParseObject(ParseConstants.Ruta.NAME.val());
+            route.put(ParseConstants.Ruta.KM.val(), elapsedKMetros);
+            route.put(ParseConstants.Ruta.CAL.val(), 0);
+            route.put(ParseConstants.Ruta.PATH.val(), path);
+            route.put(ParseConstants.Ruta.TIME.val(), elapsedSeconds);
+            route.put(ParseConstants.Ruta.USER.val(), currentUser);
+            route.put(ParseConstants.Ruta.ORIGIN.val(), new ParseGeoPoint(routePoints.get(0).latitude, routePoints.get(0).longitude));
+            route.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     contadorActionDialog = 0;
@@ -329,6 +344,20 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                     finish();
                 }
             });
+//            ParseObject statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+//            statistics.increment(ParseConstants.Estadistica.TIME.val(), elapsedSeconds);
+//            statistics.increment(ParseConstants.Estadistica.KM.val(), elapsedKMetros);
+//            statistics.saveInBackground(new SaveCallback() {
+//                @Override
+//                public void done(ParseException e) {
+//                    contadorActionDialog = 0;
+//                    metrosRecorridos = 0;
+//                    checkpointViaje = null;
+//                    startTime = 0;
+//                    endTime = 0;
+//                    finish();
+//                }
+//            });
         } else {
             forceViajeStop();
         }
@@ -367,7 +396,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         public void onReceive(Context context, Intent intent) {
             ArrayList<DetectedActivity> detectedActivities = intent.getParcelableArrayListExtra(Constants.STRING_EXTRA);
             for (DetectedActivity activity : detectedActivities) {
-                if (activity.getConfidence() > 60) {
+                if (activity.getConfidence() > MINIMO_CERTEZA_ACTIVIDAD) {
                     handleNewActivity(activity);
                 }
             }
