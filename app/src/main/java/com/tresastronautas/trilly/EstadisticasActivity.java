@@ -1,10 +1,14 @@
 package com.tresastronautas.trilly;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -13,6 +17,7 @@ import com.parse.ParseUser;
 
 public class EstadisticasActivity extends AppCompatActivity {
 
+    private FloatingActionButton estadisticas_fab;
     public double cal, savedTrees, gas, kmRecorridos, tiempo, kgCO2;
     private ParseUser currentUser;
     private TextView estadisticas_texto_gas_dinamico, estadisticas_texto_arboles_dinamico, estadisticas_texto_calorias_dinamico,
@@ -37,18 +42,34 @@ public class EstadisticasActivity extends AppCompatActivity {
     }
 
     public void prepareLayout() {
-        ParseObject statitics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+        estadisticas_fab = (FloatingActionButton) findViewById(R.id.estadisticas_fab);
+        estadisticas_fab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_chevron_left)
+                .colorRes(android.R.color.white));
+
+        ParseObject statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
         try {
-            statitics.fetchIfNeeded();
+            final ProgressDialog progressDialog = new ProgressDialog(EstadisticasActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage(getString(R.string.progressCountingKilometers));
+            progressDialog.show();
+            statistics.fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    progressDialog.dismiss();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        cal = statitics.getDouble(ParseConstants.Estadistica.CAL.val());
-        savedTrees = statitics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val());
-        gas = statitics.getDouble(ParseConstants.Estadistica.GAS.val());
-        tiempo = statitics.getDouble(ParseConstants.Estadistica.TIME.val()) / 60;
-        kgCO2 = statitics.getDouble(ParseConstants.Estadistica.CO2.val());
-        kmRecorridos = statitics.getDouble(ParseConstants.Estadistica.KM.val());
+        cal = statistics.getDouble(ParseConstants.Estadistica.CAL.val());
+        savedTrees = statistics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val());
+        gas = statistics.getDouble(ParseConstants.Estadistica.GAS.val());
+        tiempo = statistics.getDouble(ParseConstants.Estadistica.TIME.val()) / 60;
+        kgCO2 = statistics.getDouble(ParseConstants.Estadistica.CO2.val());
+        kmRecorridos = statistics.getDouble(ParseConstants.Estadistica.KM.val());
 
         estadisticas_texto_gas_dinamico = (TextView) findViewById(R.id.estadisticas_texto_gas_dinamico);
         estadisticas_texto_gas_dinamico.setText(getString(R.string.estadisticas_gas_dinamico, gas));

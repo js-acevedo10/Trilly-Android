@@ -54,13 +54,11 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        AppEventsLogger.deactivateApp(this);
     }
 
     @Override

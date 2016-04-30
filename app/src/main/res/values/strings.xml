@@ -89,4 +89,14 @@
     <string name="unknown" translatable="false">Unknown activity</string>
     <string name="unidentifiable_activity" translatable="false">Unidentifiable activity: %1$d</string>
 
+    <!--PROGRESO-->
+    <string name="progressCountingKilometers">Contando Kilómetros</string>
+    <string name="progressChangingWorld">Salvando el Planeta...</string>
+    <string name="progressReloadingUserGroups">Buscando a tus amigos.</string>
+    <string name="progressLeavingUserGroup">Consolando a tus excompañeros</string>
+    <string name="progressJoiningUserGroup">Planeando fiesta de Bienvenida</string>
+
+    <!--PERMISOS-->
+    <string name="permission_location">Trilly desea acceder a tu ubicación precisa.</string>
+
 </resources>

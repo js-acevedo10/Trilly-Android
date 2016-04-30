@@ -1,5 +1,7 @@
 package com.tresastronautas.trilly;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,15 +30,20 @@ import com.natasa.progressviews.LineProgressBar;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     public String firstName, lastName, id, picture;
     public Profile fbProfile;
@@ -51,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean fbGet;
     ParseObject statitics;
     private ViewSwitcher viewSwitcher;
+    public String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
+    private static final int LOCATION_PERMISSION = 2303;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +74,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        // Some permissions have been granted
+        // ...
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Some permissions have been denied
+        // ...
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
@@ -157,6 +183,15 @@ public class MainActivity extends AppCompatActivity {
                 navigationExtended = true;
             }
         });
+        checkPermissions();
+    }
+
+    @AfterPermissionGranted(LOCATION_PERMISSION)
+    public void checkPermissions() {
+        if (!EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.permission_location),
+                    LOCATION_PERMISSION, perms);
+        }
     }
 
     public void closeNavBar(View view) {
@@ -300,7 +335,19 @@ public class MainActivity extends AppCompatActivity {
         statistics.put(ParseConstants.Estadistica.MONEY.val(), 0);
         currentUser.put(ParseConstants.User.STATS.val(), statistics);
         try {
-            currentUser.save();
+            final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage(getString(R.string.progressChangingWorld));
+            progressDialog.show();
+            currentUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    progressDialog.dismiss();
+                }
+            });
             currentUser.pin(currentUser.getObjectId());
         } catch (ParseException e) {
             e.printStackTrace();
@@ -351,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
                     //Initialize an integer (that will act as a counter) to zero
                     int counter = 0;
                     //While the counter is smaller than four
-                    while (counter <= 8) {
+                    while (counter <= 3) {
                         //Wait 850 milliseconds
                         this.wait(850);
                         //Increment the counter
