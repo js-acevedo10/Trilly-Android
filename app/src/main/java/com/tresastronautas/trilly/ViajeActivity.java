@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
@@ -49,11 +50,13 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback<Status> {
 
     public static final String TAG = ViajeActivity.class.getSimpleName();
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 2301;
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 23012;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 2302;
     private final static int MINIMO_METROS = 500;
     private final static int MAXIMO_ALERTAS = 5;
     private final static int MINIMO_CERTEZA_ACTIVIDAD = 60;
@@ -91,6 +94,10 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             }
         });
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
+        }
         mActivityBroadcastReceiver = new ActivityDetectionBroadcastReceiver();
         mLocationDetectionBroadcastReceiver = new LocationDetectionBroadcastReceiver();
         routePoints = new ArrayList<LatLng>();
@@ -134,7 +141,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onBackPressed() {
-        stopViaje(getCurrentFocus());
+        finishDialog(getCurrentFocus());
     }
 
     private void setupMap() {
@@ -163,12 +170,8 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getLocationDetectionPendingIntent());
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, 0, getActivityDetectionPendingIntent()).setResultCallback(this);
-        if (location != null) {
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
-        }
     }
 
     @Override
@@ -203,6 +206,30 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     public void prepareLayout() {
         viaje_texto_kilometros_dinamico = (TextView) findViewById(R.id.viaje_texto_kilometros_dinamico);
         viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, 0.0));
+    }
+
+    public void finishDialog(View view) {
+        if (contadorActionDialog == 0) {
+            contadorActionDialog = 1;
+            new AlertDialog.Builder(ViajeActivity.this)
+                    .setMessage("¿Deseas terminar el viaje?")
+                    .setCancelable(false)
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            stopViaje();
+                            contadorActionDialog = 0;
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            contadorActionDialog = 0;
+                        }
+                    })
+                    .show();
+        }
     }
 
     private void handleNewLocation(Location location) {
@@ -240,7 +267,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             }
         }
         if (alertaActividad > MAXIMO_ALERTAS) {
-            forceViajeStop();
+            stopViaje();
         }
     }
 
@@ -255,39 +282,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    public void stopViaje(View view) {
-        if (contadorActionDialog == 0) {
-            contadorActionDialog = 1;
-            new AlertDialog.Builder(ViajeActivity.this)
-                    .setMessage("¿Deseas terminar el viaje?")
-                    .setCancelable(false)
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (mGoogleApiClient.isConnected()) {
-                                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getLocationDetectionPendingIntent());
-                                ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(mGoogleApiClient, getActivityDetectionPendingIntent());
-                                LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mActivityBroadcastReceiver);
-                                LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mLocationDetectionBroadcastReceiver);
-                                mGoogleApiClient.disconnect();
-                            }
-                            endTime = SystemClock.elapsedRealtime();
-                            guardarViaje();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            contadorActionDialog = 0;
-                        }
-                    })
-                    .show();
-        }
-    }
-
-    public void forceViajeStop() {
-        endTime = SystemClock.elapsedRealtime();
+    public void stopViaje() {
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getLocationDetectionPendingIntent());
             ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(mGoogleApiClient, getActivityDetectionPendingIntent());
@@ -295,72 +290,67 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
             LocalBroadcastManager.getInstance(ViajeActivity.this).unregisterReceiver(mLocationDetectionBroadcastReceiver);
             mGoogleApiClient.disconnect();
         }
-        if (checkpointViaje != null && checkpointViaje.getMetros() > MINIMO_METROS) {
-            guardarViaje();
-        } else {
-            if (checkpointViaje == null || checkpointViaje.getMetros() < MINIMO_METROS) {
-                Toast.makeText(ViajeActivity.this, "Oops... Parece que tu viaje fue muy corto.", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Oops... Parece que tu viaje fue muy corto.");
-            } else if (checkpointViaje != null) {
-                Toast.makeText(ViajeActivity.this, "Oops... Detectamos que no vas en bici.", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Oops... Detectamos que no vas en bici.");
-            }
-            contadorActionDialog = 0;
-            metrosRecorridos = 0;
-            checkpointViaje = null;
-            startTime = 0;
-            endTime = 0;
-            finish();
-        }
+        endTime = SystemClock.elapsedRealtime();
+        guardarViaje();
+        finish();
     }
 
     private void guardarViaje() {
-        if ((checkpointViaje == null || checkpointViaje.getMetros() > MINIMO_METROS) && metrosRecorridos > MINIMO_METROS) {
-            double elapsedSeconds = (endTime - startTime) / 1000.0;
-            double elapsedKMetros = metrosRecorridos / 1000.0;
-            if (checkpointViaje != null) {
-                elapsedSeconds = checkpointViaje.getTotalTimeInSeconds();
-                elapsedKMetros = checkpointViaje.getMetros() / 1000.0;
+        String mensaje = "";
+        if(checkpointViaje == null) {
+            if(metrosRecorridos > MINIMO_METROS) {
+                double elapsedSeconds = (endTime - startTime) / 1000.0;
+                double elapsedKMetros = metrosRecorridos / 1000.0;
+                ParseObject path = new ParseObject(ParseConstants.Path.NAME.val());
+                path.put(ParseConstants.Path.DATA.val(), RouteEncoder.getRouteInHex(routePoints));
+                ParseObject route = new ParseObject(ParseConstants.Ruta.NAME.val());
+                route.put(ParseConstants.Ruta.KM.val(), elapsedKMetros);
+                route.put(ParseConstants.Ruta.CAL.val(), 0);
+                route.put(ParseConstants.Ruta.PATH.val(), path);
+                route.put(ParseConstants.Ruta.TIME.val(), elapsedSeconds);
+                route.put(ParseConstants.Ruta.USER.val(), currentUser);
+                route.put(ParseConstants.Ruta.ORIGIN.val(), new ParseGeoPoint(routePoints.get(0).latitude, routePoints.get(0).longitude));
+                route.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        finish();
+                    }
+                });
+                mensaje = "Carrera de " + elapsedSeconds + " segundos guardada.";
+            } else {
+                mensaje = "Ooops... Parece que tu viaje fue muy corto.";
             }
-            Toast.makeText(ViajeActivity.this, "Carrera de :" + elapsedSeconds + " segundos guardada.", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Carrera de :" + elapsedSeconds + " segundos guardada.");
-            ParseObject path = new ParseObject(ParseConstants.Path.NAME.val());
-            path.put(ParseConstants.Path.DATA.val(), RouteEncoder.getRouteInHex(routePoints));
-            ParseObject route = new ParseObject(ParseConstants.Ruta.NAME.val());
-            route.put(ParseConstants.Ruta.KM.val(), elapsedKMetros);
-            route.put(ParseConstants.Ruta.CAL.val(), 0);
-            route.put(ParseConstants.Ruta.PATH.val(), path);
-            route.put(ParseConstants.Ruta.TIME.val(), elapsedSeconds);
-            route.put(ParseConstants.Ruta.USER.val(), currentUser);
-            route.put(ParseConstants.Ruta.ORIGIN.val(), new ParseGeoPoint(routePoints.get(0).latitude, routePoints.get(0).longitude));
-            route.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    contadorActionDialog = 0;
-                    metrosRecorridos = 0;
-                    checkpointViaje = null;
-                    startTime = 0;
-                    endTime = 0;
-                    finish();
-                }
-            });
-//            ParseObject statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
-//            statistics.increment(ParseConstants.Estadistica.TIME.val(), elapsedSeconds);
-//            statistics.increment(ParseConstants.Estadistica.KM.val(), elapsedKMetros);
-//            statistics.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(ParseException e) {
-//                    contadorActionDialog = 0;
-//                    metrosRecorridos = 0;
-//                    checkpointViaje = null;
-//                    startTime = 0;
-//                    endTime = 0;
-//                    finish();
-//                }
-//            });
         } else {
-            forceViajeStop();
+            if(checkpointViaje.getMetros() > MINIMO_METROS) {
+                double elapsedSeconds = checkpointViaje.getTotalTimeInSeconds();
+                double elapsedKMetros = checkpointViaje.getMetros() / 1000.0;
+                ParseObject path = new ParseObject(ParseConstants.Path.NAME.val());
+                path.put(ParseConstants.Path.DATA.val(), RouteEncoder.getRouteInHex(routePoints));
+                ParseObject route = new ParseObject(ParseConstants.Ruta.NAME.val());
+                route.put(ParseConstants.Ruta.KM.val(), elapsedKMetros);
+                route.put(ParseConstants.Ruta.CAL.val(), 0);
+                route.put(ParseConstants.Ruta.PATH.val(), path);
+                route.put(ParseConstants.Ruta.TIME.val(), elapsedSeconds);
+                route.put(ParseConstants.Ruta.USER.val(), currentUser);
+                route.put(ParseConstants.Ruta.ORIGIN.val(), new ParseGeoPoint(routePoints.get(0).latitude, routePoints.get(0).longitude));
+                route.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        finish();
+                    }
+                });
+                mensaje = "Carrera de " + elapsedSeconds + " segundos guardada.";
+            } else {
+                mensaje = "Ooops... Parece que tu viaje en bici fue muy corto.";
+            }
         }
+        Toast.makeText(ViajeActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, mensaje);
+        contadorActionDialog = 0;
+        metrosRecorridos = 0;
+        checkpointViaje = null;
+        startTime = 0;
+        endTime = 0;
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------------

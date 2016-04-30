@@ -26,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/group_nombre"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
@@ -39,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/group_text_nombre_grupo"
         android:layout_centerHorizontal="true"
-        android:text="@string/perfil_arboles_dinamico"
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="bold"
         app:layout_marginTopPercent="7%" />
@@ -63,15 +61,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/group_text_arboles_estatico"
         android:layout_centerHorizontal="true"
-        android:text="@string/perfil_kilometros"
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="normal" />
 
     <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/group_boton_ver_miembros"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:src="@drawable/group_boton_ver_miembros"
@@ -79,13 +78,29 @@
         app:layout_marginLeftPercent="5%" />
 
     <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/group_boton_dejar_grupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:src="@drawable/group_boton_dejar_grupo"
+        app:layout_marginBottomPercent="10%"
+        app:layout_marginRightPercent="5%"
+        android:visibility="gone" />
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/group_boton_unirsegrupo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/group_boton_unirsegrupo"
         app:layout_marginBottomPercent="10%"
         app:layout_marginRightPercent="5%" />
 

@@ -43,6 +43,7 @@
             android:background="@android:color/transparent"
             android:onClick="startGroupActivity"
             android:src="@drawable/grouplist_imagen_box_verde"
+            android:visibility="gone"
             app:layout_heightPercent="28%" />
 
         <TextView
@@ -52,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/grouplist_boton_grupo_1"
             android:layout_centerHorizontal="true"
-            android:text="@string/grouplist_nombre"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_marginTopPercent="6%" />
@@ -64,7 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/grouplist_text_nombre_grupo1"
             android:layout_centerHorizontal="true"
-            android:text="@string/grouplist_stats"
             android:textColor="@android:color/white"
             app:layout_marginTopPercent="1%" />
 
@@ -76,6 +75,7 @@
             android:background="@android:color/transparent"
             android:onClick="startGroupActivity"
             android:src="@drawable/grouplist_imagen_box_morada"
+            android:visibility="gone"
             app:layout_heightPercent="28%"
             app:layout_marginTopPercent="5%" />
 
@@ -86,7 +86,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/grouplist_boton_grupo_2"
             android:layout_centerHorizontal="true"
-            android:text="@string/grouplist_nombre"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_marginTopPercent="6%" />
@@ -98,7 +97,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/grouplist_text_nombre_grupo2"
             android:layout_centerHorizontal="true"
-            android:text="@string/grouplist_stats"
             android:textColor="@android:color/white"
             app:layout_marginTopPercent="1%" />
 
@@ -110,6 +108,7 @@
             android:background="@android:color/transparent"
             android:onClick="startGroupActivity"
             android:src="@drawable/grouplist_imagen_box_naranja"
+            android:visibility="gone"
             app:layout_heightPercent="28%"
             app:layout_marginTopPercent="5%" />
 
@@ -120,7 +119,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/grouplist_boton_grupo_3"
             android:layout_centerHorizontal="true"
-            android:text="@string/grouplist_nombre"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_marginTopPercent="6%" />
@@ -132,10 +130,85 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/grouplist_text_nombre_grupo3"
             android:layout_centerHorizontal="true"
-            android:text="@string/grouplist_stats"
             android:textColor="@android:color/white"
             app:layout_marginTopPercent="1%" />
 
+        <!--NO GROUOS AVAILABLE-->
+        <com.tresastronautas.trilly.ExtendedImageButton
+            android:id="@+id/grouplist_boton_nogroup1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/grouplist_boton_grupo_1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/grouplist_imagen_boxmoradoc"
+            android:visibility="gone"
+            app:layout_heightPercent="28%"
+            app:layout_marginTopPercent="5%" />
+
+        <com.tresastronautas.trilly.ExtendedImageButton
+            android:id="@+id/grouplist_boton_nogroup2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/grouplist_boton_grupo_2"
+            android:background="@android:color/transparent"
+            android:src="@drawable/grouplist_imagen_botonnaranjac"
+            android:visibility="gone"
+            app:layout_heightPercent="28%"
+            app:layout_marginTopPercent="5%" />
+
     </android.support.percent.PercentRelativeLayout>
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/grouplist_boton_redgroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/grouplist_imagen_boxroja"
+        app:layout_heightPercent="45%"
+        app:layout_marginTopPercent="5%"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/grouplist_text_nogroups"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/grouplist_boton_redgroup"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:text="No perteneces a ningún grupo :("
+        app:layout_marginTopPercent="12%"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/grouplist_text_stats_gru"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grouplist_text_nogroups"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:text="¡Únete a un grupo ahora!"
+        app:layout_marginTopPercent="1%"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:visibility="gone" />
+
+    <com.tresastronautas.trilly.ExtendedImageButton
+        android:id="@+id/grouplist_boton_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/grouplist_boton_botonbuscar"
+        android:layout_below="@+id/grouplist_text_stats_gru"
+        app:layout_marginTopPercent="2%"
+        android:visibility="gone" />
 
 </android.support.percent.PercentRelativeLayout>
