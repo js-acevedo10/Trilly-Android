@@ -24,7 +24,7 @@ public class ServiceActivityDetector extends IntentService {
     protected void onHandleIntent(Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
         Intent i = new Intent(Constants.STRING_ACTION);
-        ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
+        ArrayList<DetectedActivity> detectedActivities = (ArrayList<DetectedActivity>) result.getProbableActivities();
         i.putExtra(Constants.STRING_EXTRA, detectedActivities);
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }

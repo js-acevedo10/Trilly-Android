@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,11 +23,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
-import com.facebook.appevents.AppEventsLogger;
 import com.konifar.fab_transformation.FabTransformation;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.natasa.progressviews.LineProgressBar;
+import com.parse.GetCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -45,6 +47,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
+    private static final int LOCATION_PERMISSION = 2303;
     public String firstName, lastName, id, picture;
     public Profile fbProfile;
     public ParseUser currentUser;
@@ -56,10 +59,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public ExtendedButton menu_boton_grupo, menu_boton_viajes, menu_boton_estadisticas, menu_boton_ajustes;
     public Boolean navigationExtended = false;
     public boolean fbGet;
-    ParseObject statitics;
-    private ViewSwitcher viewSwitcher;
     public String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
-    private static final int LOCATION_PERMISSION = 2303;
+    private ParseObject statistics;
+    private ViewSwitcher viewSwitcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        currentUser = StaticThings.getCurrentUser();
         if (resultCode == LoginActivity.NUEVO_USUARIO) {
             getDetailsFromFacebook();
             loadView x = new loadView();
@@ -120,12 +123,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             x.execute();
         } else if (resultCode == AjustesActivity.RESULT_CERRAR_SESION) {
             cerrarSesion();
-        } else if (resultCode == AjustesActivity.RESULT_GUARDAR_CAMBIOS) {
-            checkUser();
-        } else if (resultCode == AjustesActivity.RESULT_NOTHING_TODO) {
-//            prepareLayout();
         } else if (resultCode == LoginActivity.CERRAR_EJECUCION) {
             finish();
+        } else {
+            checkStats();
         }
     }
 
@@ -162,10 +163,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
         main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre.setText(firstName);
-        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statitics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
-        main_texto_gas.setText(getString(R.string.main_gas_dinamico, statitics.getDouble(ParseConstants.Estadistica.GAS.val())));
-        main_progressBar.setProgress((float) statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
-        main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statitics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
+        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statistics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
+        main_texto_gas.setText(getString(R.string.main_gas_dinamico, statistics.getDouble(ParseConstants.Estadistica.GAS.val())));
+        main_progressBar.setProgress((float) statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
+        main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
         mFab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_menu).colorRes(android.R.color.white));
         menu_layout_navBar.setBackgroundResource(R.drawable.menu_imagen_bg);
         menu_layout_navBar.setVisibility(View.INVISIBLE);
@@ -184,6 +185,26 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
         });
         checkPermissions();
+    }
+
+    public void checkStats() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                StaticThings.setCurrentUser(currentUser);
+                finish();
+            }
+        }, 3000);
+        currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+                main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statistics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
+                main_texto_gas.setText(getString(R.string.main_gas_dinamico, statistics.getDouble(ParseConstants.Estadistica.GAS.val())));
+                main_progressBar.setProgress((float) statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
+                main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
+            }
+        });
     }
 
     @AfterPermissionGranted(LOCATION_PERMISSION)
@@ -206,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public void checkUser() {
         if (ParseUser.getCurrentUser() != null) {
             currentUser = ParseUser.getCurrentUser();
+            StaticThings.setCurrentUser(currentUser);
             loadView x = new loadView();
             x.execute();
             getDetailsFromParse();
@@ -218,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public void startPerfilActivity(View view) {
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, ProfileActivity.class);
+        StaticThings.setCurrentUser(currentUser);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
@@ -229,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public void startGroupListActivity(View view) {
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, GroupListActivity.class);
+        StaticThings.setCurrentUser(currentUser);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }
@@ -236,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public void startAjustesActivity(View view) {
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, AjustesActivity.class);
+        StaticThings.setCurrentUser(currentUser);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivityForResult(intent, 1);
     }
@@ -245,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             closeNavBar(getCurrentFocus());
         } else {
             Intent intent = new Intent(this, ViajeActivity.class);
+            StaticThings.setCurrentUser(currentUser);
             intent.putExtra("user_id", currentUser.getObjectId());
             startActivity(intent);
         }
@@ -255,15 +281,29 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             closeNavBar(getCurrentFocus());
         } else {
             Intent intent = new Intent(this, EstadisticasActivity.class);
+            StaticThings.setCurrentUser(currentUser);
             intent.putExtra("user_id", currentUser.getObjectId());
             startActivity(intent);
         }
     }
 
     public void cerrarSesion() {
-        ParseUser.logOut();
-        currentUser = null;
-        checkUser();
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(getString(R.string.progressSignOut));
+        progressDialog.show();
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                currentUser = null;
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 1);
+                progressDialog.dismiss();
+            }
+        });
     }
 
     public void getDetailsFromFacebook() {
@@ -307,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         fbGet = false;
         fbProfile = Profile.getCurrentProfile();
         currentUser = ParseUser.getCurrentUser();
+        StaticThings.setCurrentUser(currentUser);
         firstName = currentUser.getString(ParseConstants.User.FIRST.val());
         lastName = currentUser.getString(ParseConstants.User.LAST.val());
         id = currentUser.getString(ParseConstants.User.FBID.val());
@@ -352,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        StaticThings.setCurrentUser(currentUser);
     }
 
     private class loadView extends AsyncTask {
@@ -386,9 +428,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected Object doInBackground(Object[] params) {
             currentUser = ParseUser.getCurrentUser();
-            statitics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+            statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
             try {
-                statitics.fetch();
+                statistics.fetch();
             } catch (Exception e) {
                 e.printStackTrace();
             }

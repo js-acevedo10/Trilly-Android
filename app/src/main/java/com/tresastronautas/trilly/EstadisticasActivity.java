@@ -12,13 +12,12 @@ import com.malinskiy.materialicons.Iconify;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class EstadisticasActivity extends AppCompatActivity {
 
-    private FloatingActionButton estadisticas_fab;
     public double cal, savedTrees, gas, kmRecorridos, tiempo, kgCO2;
+    private FloatingActionButton estadisticas_fab;
     private ParseUser currentUser;
     private TextView estadisticas_texto_gas_dinamico, estadisticas_texto_arboles_dinamico, estadisticas_texto_calorias_dinamico,
             estadisticas_texto_co2_dinamico, estadisticas_texto_bici_dinamico, estadisticas_texto_km_dinamico, estadisticas_texto_tiempo_dinamico;
@@ -27,18 +26,8 @@ public class EstadisticasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas);
-        String userID = getIntent().getStringExtra("user_id");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.fromLocalDatastore();
-        query.getInBackground(userID, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if (e == null) {
-                    currentUser = object;
-                    prepareLayout();
-                }
-            }
-        });
+        currentUser = StaticThings.getCurrentUser();
+        prepareLayout();
     }
 
     public void prepareLayout() {

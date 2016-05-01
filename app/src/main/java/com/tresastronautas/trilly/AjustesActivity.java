@@ -1,5 +1,6 @@
 package com.tresastronautas.trilly;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -7,10 +8,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,27 +30,12 @@ public class AjustesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
-        String userID = getIntent().getStringExtra("user_id");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.fromLocalDatastore();
-        query.getInBackground(userID, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if (e == null) {
-                    currentUser = object;
-                    prepareLayout();
-                }
-            }
-        });
+        currentUser = StaticThings.getCurrentUser();
+        prepareLayout();
     }
 
     @Override
     public void onBackPressed() {
-        if (!cambios) {
-            setResult(RESULT_NOTHING_TODO);
-        } else {
-            setResult(RESULT_GUARDAR_CAMBIOS);
-        }
         finish();
     }
 
@@ -58,7 +43,7 @@ public class AjustesActivity extends AppCompatActivity {
         ajustes_circle_profile = (CircleImageView) findViewById(R.id.ajustes_circle_profile);
         Picasso.with(this).load(currentUser.getString(ParseConstants.User.PIC.val())).into(ajustes_circle_profile);
         ajustes_texto_edad_dinamico = (EditText) findViewById(R.id.ajustes_texto_edad_dinamico);
-        ajustes_texto_edad_dinamico.setHint(getString(R.string.ajustes_edad_dinamico, 0.0));
+        ajustes_texto_edad_dinamico.setHint(getString(R.string.ajustes_edad_dinamico, currentUser.getDouble(ParseConstants.User.EDAD.val())));
         ajustes_texto_edad_dinamico.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -76,7 +61,7 @@ public class AjustesActivity extends AppCompatActivity {
             }
         });
         ajustes_texto_altura_dinamico = (EditText) findViewById(R.id.ajustes_texto_altura_dinamico);
-        ajustes_texto_altura_dinamico.setHint(getString(R.string.ajustes_altura_dinamico, 0.0));
+        ajustes_texto_altura_dinamico.setHint(getString(R.string.ajustes_altura_dinamico, currentUser.getDouble(ParseConstants.User.ALTURA.val())));
         ajustes_texto_altura_dinamico.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -94,7 +79,7 @@ public class AjustesActivity extends AppCompatActivity {
             }
         });
         ajustes_texto_peso_dinamico = (EditText) findViewById(R.id.ajustes_texto_peso_dinamico);
-        ajustes_texto_peso_dinamico.setHint(getString(R.string.ajustes_peso_dinamico, 0.0));
+        ajustes_texto_peso_dinamico.setHint(getString(R.string.ajustes_peso_dinamico, currentUser.getDouble(ParseConstants.User.KG.val())));
         ajustes_texto_peso_dinamico.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -117,7 +102,29 @@ public class AjustesActivity extends AppCompatActivity {
 
     public void ajustesGuardarCambios(View view) {
         ajustes_boton_guardarcambios.setEnabled(false);
-        cambios = true;
+        final ProgressDialog progressDialog = new ProgressDialog(AjustesActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(getString(R.string.progressSavingUserSettings));
+        progressDialog.show();
+        if (!ajustes_texto_peso_dinamico.getText().toString().isEmpty()) {
+            currentUser.put(ParseConstants.User.KG.val(), Double.parseDouble(ajustes_texto_peso_dinamico.getText().toString()));
+        }
+        if (!ajustes_texto_edad_dinamico.getText().toString().isEmpty()) {
+            currentUser.put(ParseConstants.User.EDAD.val(), Double.parseDouble(ajustes_texto_edad_dinamico.getText().toString()));
+        }
+        if (!ajustes_texto_altura_dinamico.getText().toString().isEmpty()) {
+            currentUser.put(ParseConstants.User.ALTURA.val(), Double.parseDouble(ajustes_texto_altura_dinamico.getText().toString()) / 100.0);
+        }
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                progressDialog.dismiss();
+                StaticThings.setCurrentUser(currentUser);
+            }
+        });
     }
 
     public void ajustesCerrarSesion(View view) {

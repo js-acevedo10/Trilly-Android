@@ -19,7 +19,7 @@ public class RouteDecoder {
     }
 
     public static List<LatLng> getRouteFromHex(String hexString) {
-        List<LatLng> unencodedList = new ArrayList<LatLng>();
+        List<LatLng> unencodedList = new ArrayList<>();
         byte[] data = hexStringToByteArray(hexString);
         ArrayList<Map> dictionaries;
         try {

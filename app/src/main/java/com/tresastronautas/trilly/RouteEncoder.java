@@ -22,10 +22,10 @@ public class RouteEncoder {
     }
 
     public static String getRouteInHex(List<LatLng> unencodedRoute) {
-        Map dictionary;
-        ArrayList<Map> latLongArray = new ArrayList<Map>();
+        Map<String, Double> dictionary;
+        ArrayList<Map> latLongArray = new ArrayList<>();
         for (LatLng latlong : unencodedRoute) {
-            dictionary = new HashMap();
+            dictionary = new HashMap<>();
             dictionary.put("lat", latlong.latitude);
             dictionary.put("lng", latlong.longitude);
             latLongArray.add(dictionary);

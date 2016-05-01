@@ -8,12 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.appevents.AppEventsLogger;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView perfil_label_nombre, perfil_label_arboles_dinamico, perfil_label_kilometros;
     private CircleImageView perfil_circle_profile;
     private FloatingActionButton perfil_fab;
+    private ParseObject statistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +35,9 @@ public class ProfileActivity extends AppCompatActivity {
                         .build()
         );
         setContentView(R.layout.activity_profile);
-        String userID = getIntent().getStringExtra("user_id");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.fromLocalDatastore();
-        query.getInBackground(userID, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if (e == null) {
-                    currentUser = object;
-                    prepareLayout();
-                }
-            }
-        });
+        currentUser = StaticThings.getCurrentUser();
+        statistics = currentUser.getParseObject(ParseConstants.User.STATS.val());
+        prepareLayout();
     }
 
     @Override
@@ -74,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         perfil_label_arboles_dinamico = (TextView) findViewById(R.id.perfil_label_arboles_dinamico);
         perfil_label_arboles_dinamico.setText(getString(R.string.perfil_arboles_dinamico, currentUser.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
         perfil_label_kilometros = (TextView) findViewById(R.id.perfil_label_kilometros);
-        perfil_label_kilometros.setText(getString(R.string.perfil_kilometros, currentUser.getDouble(ParseConstants.Estadistica.KM.val())));
+        perfil_label_kilometros.setText(getString(R.string.perfil_kilometros, statistics.getDouble(ParseConstants.Estadistica.KM.val())));
         perfil_circle_profile = (CircleImageView) findViewById(R.id.perfil_circle_profile);
         Picasso.with(getApplicationContext())
                 .load(currentUser.getString(ParseConstants.User.PIC.val()))
@@ -83,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void startGroupListActivity(View view) {
         Intent intent = new Intent(this, GroupListActivity.class);
-        intent.putExtra("user_id", currentUser.getObjectId());
+        StaticThings.setCurrentUser(currentUser);
         startActivity(intent);
     }
 

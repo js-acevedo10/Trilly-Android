@@ -50,6 +50,7 @@
     <!-- VISTA VIAJE-->
     <string name="viaje_kilometros_dinamico">%.2f KM</string>
     <string name="viaje_kilometros_estatico">Recorridos</string>
+    <string name="viaje_notificacion_ongoing">Trilly va contigo en la bici.</string>
 
     <!-- VISTA AJUSTES-->
     <string name="ajustes_title">Ajustes</string>
@@ -95,6 +96,9 @@
     <string name="progressReloadingUserGroups">Buscando a tus amigos.</string>
     <string name="progressLeavingUserGroup">Consolando a tus excompañeros</string>
     <string name="progressJoiningUserGroup">Planeando fiesta de Bienvenida</string>
+    <string name="progressSignOut">Cerrando Sesión</string>
+    <string name="progressLocationAccuracy">Calibrando neumáticos</string>
+    <string name="progressSavingUserSettings">Guardando los cambios</string>
 
     <!--PERMISOS-->
     <string name="permission_location">Trilly desea acceder a tu ubicación precisa.</string>
