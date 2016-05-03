@@ -111,6 +111,7 @@
                 android:drawableLeft="@drawable/menu_icono_bici"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical|left"
+                android:onClick="startViajeListActivity"
                 android:text="@string/menu_viajes"
                 android:textAllCaps="false"
                 android:textStyle="bold" />

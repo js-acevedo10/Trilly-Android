@@ -78,6 +78,9 @@
     <string name="estadisticas_tiempo_dinamico">%.1f Horas</string>
     <string name="estadisticas_tiempo_estatico">ahorradas</string>
 
+    <!--VISTA VIAJELIST-->
+    <string name="viajelist_title">Mis viajes</string>
+
     <!--EXTRA-->
 
     <string name="in_vehicle" translatable="false">In a vehicle</string>

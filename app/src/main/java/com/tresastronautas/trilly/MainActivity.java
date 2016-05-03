@@ -276,6 +276,16 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }
     }
 
+    public void startViajeListActivity(View view) {
+        if (navigationExtended) {
+            closeNavBar(getCurrentFocus());
+        } else {
+            Intent intent = new Intent(this, ViajeListActivity.class);
+            StaticThings.setCurrentUser(currentUser);
+            startActivity(intent);
+        }
+    }
+
     public void cerrarSesion() {
         final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

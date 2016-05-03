@@ -364,6 +364,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                 progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.setMessage(getString(R.string.progressJoiningUserGroup));
                 progressDialog.show();
+                Log.d("GUARDADO", route.toString());
                 route.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
