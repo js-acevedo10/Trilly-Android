@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             getDetailsFromFacebook();
             loadView x = new loadView();
             x.execute();
-        } else if (resultCode == LoginActivity.VIEJO_USUARIO) {
+        } else if (resultCode == LoginActivity.VIEJO_USUARIO || resultCode == ViajeActivity.VIAJE_GUARDADO) {
             getDetailsFromParse();
             loadView x = new loadView();
             x.execute();
@@ -188,13 +187,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     public void checkStats() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                StaticThings.setCurrentUser(currentUser);
-                finish();
-            }
-        }, 3000);
         currentUser.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
@@ -253,8 +245,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, GroupListActivity.class);
         StaticThings.setCurrentUser(currentUser);
-        intent.putExtra("user_id", currentUser.getObjectId());
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void startAjustesActivity(View view) {
@@ -271,8 +262,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         } else {
             Intent intent = new Intent(this, ViajeActivity.class);
             StaticThings.setCurrentUser(currentUser);
-            intent.putExtra("user_id", currentUser.getObjectId());
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         }
     }
 
@@ -282,8 +272,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         } else {
             Intent intent = new Intent(this, EstadisticasActivity.class);
             StaticThings.setCurrentUser(currentUser);
-            intent.putExtra("user_id", currentUser.getObjectId());
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         }
     }
 

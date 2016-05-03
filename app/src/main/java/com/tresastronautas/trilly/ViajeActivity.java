@@ -14,7 +14,6 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -49,7 +48,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -60,12 +58,13 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
 
     public static final String TAG = ViajeActivity.class.getSimpleName();
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 2301;
+    public final static int VIAJE_GUARDADO = 2303;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 2302;
     private final static int MINIMO_METROS = 500;
     private final static int MAXIMO_ALERTAS = 3;
     private final static int MINIMO_CERTEZA_ACTIVIDAD = 60;
     private static final int NOTIF_VIAJE = 23032303;
-    public ProgressDialog progressLocationAccuray;
+    public ProgressDialog progressLocationAccuracy;
     public boolean fini = false;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -94,17 +93,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viaje);
-        String userID = getIntent().getStringExtra("user_id");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.fromLocalDatastore();
-        query.getInBackground(userID, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if (e == null) {
-                    currentUser = object;
-                }
-            }
-        });
+        currentUser = StaticThings.getCurrentUser();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
@@ -232,13 +221,13 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
         notificationManager.notify(NOTIF_VIAJE, ongoingViajeNotification);
 
-        progressLocationAccuray = new ProgressDialog(ViajeActivity.this);
-        progressLocationAccuray.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressLocationAccuray.setIndeterminate(false);
-        progressLocationAccuray.setCancelable(false);
-        progressLocationAccuray.setCanceledOnTouchOutside(false);
-        progressLocationAccuray.setMessage(getString(R.string.progressLocationAccuracy));
-        progressLocationAccuray.show();
+        progressLocationAccuracy = new ProgressDialog(ViajeActivity.this);
+        progressLocationAccuracy.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressLocationAccuracy.setIndeterminate(false);
+        progressLocationAccuracy.setCancelable(false);
+        progressLocationAccuracy.setCanceledOnTouchOutside(false);
+        progressLocationAccuracy.setMessage(getString(R.string.progressLocationAccuracy));
+        progressLocationAccuracy.show();
         viaje_texto_kilometros_dinamico = (TextView) findViewById(R.id.viaje_texto_kilometros_dinamico);
         viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, 0.0));
         startTime = SystemClock.elapsedRealtime();
@@ -269,9 +258,9 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void handleNewLocation(Location location) {
-        if (progressLocationAccuray.isShowing()) {
-            progressLocationAccuray.dismiss();
-            progressLocationAccuray.cancel();
+        if (progressLocationAccuracy.isShowing()) {
+            progressLocationAccuracy.dismiss();
+            progressLocationAccuracy.cancel();
         }
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
@@ -378,20 +367,12 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                 route.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                StaticThings.setCurrentUser(currentUser);
-                                progressDialog.dismiss();
-                                finish();
-                            }
-                        }, 3000);
                         currentUser.fetchInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject object, ParseException e) {
                                 StaticThings.setCurrentUser(currentUser);
                                 progressDialog.dismiss();
-                                finish();
+                                endActivity();
                             }
                         });
                     }
@@ -424,20 +405,12 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                 route.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                StaticThings.setCurrentUser(currentUser);
-                                progressDialog.dismiss();
-                                finish();
-                            }
-                        }, 3000);
                         currentUser.fetchInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject object, ParseException e) {
                                 StaticThings.setCurrentUser(currentUser);
                                 progressDialog.dismiss();
-                                finish();
+                                endActivity();
                             }
                         });
                     }
@@ -456,8 +429,14 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         startTime = 0;
         endTime = 0;
         if (fini) {
-            finish();
+            endActivity();
+            endActivity();
         }
+    }
+
+    public void endActivity() {
+        setResult(VIAJE_GUARDADO);
+        finish();
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -467,7 +446,6 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     private PendingIntent getLocationDetectionPendingIntent() {
         if (locationIntent == null) {
             locationIntent = new Intent(this, ServiceLocationDetector.class);
-            finish();
         }
         return PendingIntent.getService(this, 0, locationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

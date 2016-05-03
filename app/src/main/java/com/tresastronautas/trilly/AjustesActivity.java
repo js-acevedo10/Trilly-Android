@@ -2,12 +2,15 @@ package com.tresastronautas.trilly;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -23,6 +26,7 @@ public class AjustesActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private EditText ajustes_texto_edad_dinamico, ajustes_texto_altura_dinamico, ajustes_texto_peso_dinamico;
     private ExtendedImageButton ajustes_boton_guardarcambios;
+    private FloatingActionButton ajustes_fab;
     private CircleImageView ajustes_circle_profile;
     private boolean cambios = false;
 
@@ -40,7 +44,17 @@ public class AjustesActivity extends AppCompatActivity {
     }
 
     public void prepareLayout() {
+        ajustes_fab = (FloatingActionButton) findViewById(R.id.ajustes_fab);
+        ajustes_fab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_chevron_left)
+                .colorRes(android.R.color.white));
+        ajustes_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         ajustes_circle_profile = (CircleImageView) findViewById(R.id.ajustes_circle_profile);
+
         Picasso.with(this).load(currentUser.getString(ParseConstants.User.PIC.val())).into(ajustes_circle_profile);
         ajustes_texto_edad_dinamico = (EditText) findViewById(R.id.ajustes_texto_edad_dinamico);
         ajustes_texto_edad_dinamico.setHint(getString(R.string.ajustes_edad_dinamico, currentUser.getDouble(ParseConstants.User.EDAD.val())));
