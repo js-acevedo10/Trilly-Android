@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
     private ParseObject statistics;
     private ViewSwitcher viewSwitcher;
+    private ImageView main_imagen_bosque_de_arboles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     public void prepareLayout() {
+        main_imagen_bosque_de_arboles = (ImageView) findViewById(R.id.main_imagen_bosque_de_arboles);
         menu_imagen_perfil = (CircleImageView) findViewById(R.id.menu_circle_profile);
         Picasso.with(getApplicationContext())
                 .load(picture)
@@ -162,10 +164,25 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
         main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre.setText(firstName);
-        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, statistics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
+        main_texto_arboles.setText(getString(R.string.main_arboles_dinamico, Math.floor(statistics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val()))));
         main_texto_gas.setText(getString(R.string.main_gas_dinamico, statistics.getDouble(ParseConstants.Estadistica.GAS.val())));
         main_progressBar.setProgress((float) statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()));
         main_texto_porcentaje.setText(getString(R.string.main_porcentaje, statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val())) + "%");
+
+        if (statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()) > 80) {
+            Picasso.with(this)
+                    .load(R.drawable.main_imagen_bosque_arbol_grande)
+                    .into(main_imagen_bosque_de_arboles);
+        } else if (statistics.getDouble(ParseConstants.Estadistica.CURRENT_TREE.val()) > 40) {
+            Picasso.with(this)
+                    .load(R.drawable.main_imagen_bosque_arbol_mediano)
+                    .into(main_imagen_bosque_de_arboles);
+        } else {
+            Picasso.with(this)
+                    .load(R.drawable.main_imagen_bosque_arbol_pequenio)
+                    .into(main_imagen_bosque_de_arboles);
+        }
+
         mFab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_menu).colorRes(android.R.color.white));
         menu_layout_navBar.setBackgroundResource(R.drawable.menu_imagen_bg);
         menu_layout_navBar.setVisibility(View.INVISIBLE);

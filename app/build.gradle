@@ -45,4 +45,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'pub.devrel:easypermissions:0.1.5'
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 }
