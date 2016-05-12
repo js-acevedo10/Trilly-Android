@@ -59,6 +59,7 @@ public class ParseConstants {
         TIME("tiempo"),
         USER("usuario"),
         VEL("velPromedio"),
+        FECHA("createdAt"),
         CAL("cal");
 
         private String value;

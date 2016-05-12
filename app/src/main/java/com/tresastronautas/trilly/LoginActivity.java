@@ -1,5 +1,6 @@
 package com.tresastronautas.trilly;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -57,10 +58,18 @@ public class LoginActivity extends AppCompatActivity {
     public void loginWithFB(View view) {
 
         fbPermissions = Arrays.asList(getResources().getStringArray(R.array.my_facebook_permissions));
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(getString(R.string.progressLogin));
+        progressDialog.show();
         ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this,
                 fbPermissions, new LogInCallback() {
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {
+                        progressDialog.dismiss();
                         if (e != null) {
                             e.printStackTrace();
                         }

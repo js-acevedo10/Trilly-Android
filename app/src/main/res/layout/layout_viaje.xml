@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/viajelist_map"
+        android:layout_width="match_parent"
+        android:layout_height="600px" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viajelist_map"
+        android:background="@drawable/viajeslist_imagen_fondodatos">
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/viajelist_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/viajelist_fecha_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Fecha"
+                android:textStyle="bold"
+                app:layout_marginTopPercent="5%" />
+
+            <TextView
+                android:id="@+id/viajelist_fecha_dynamic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viajelist_fecha_static"
+                android:layout_centerHorizontal="true" />
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/viajelist_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/viajelist_1"
+            android:layout_toRightOf="@+id/viajelist_1"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/viajelist_duracion_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Duración"
+                android:textStyle="bold"
+                app:layout_marginTopPercent="5%" />
+
+            <TextView
+                android:id="@+id/viajelist_duracion_dynamic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viajelist_duracion_static"
+                android:layout_centerHorizontal="true" />
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/viajelist_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/viajelist_2"
+            android:layout_toRightOf="@+id/viajelist_2"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/viajelist_distancia_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Distancia"
+                android:textStyle="bold"
+                app:layout_marginTopPercent="5%" />
+
+            <TextView
+                android:id="@+id/viajelist_distancia_dynamic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viajelist_distancia_static"
+                android:layout_centerHorizontal="true" />
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/viajelist_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/viajelist_3"
+            android:layout_toRightOf="@+id/viajelist_3"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/viajelist_distanci_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Distancia"
+                android:textStyle="bold"
+                app:layout_marginTopPercent="5%" />
+
+            <TextView
+                android:id="@+id/viajelist_distanci_dynamic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viajelist_distanci_static"
+                android:layout_centerHorizontal="true"
+                android:text="21.3km" />
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

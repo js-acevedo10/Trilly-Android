@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/viaje_kilometros_dinamico"
+            android:text="5.53 KM"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
