@@ -77,7 +77,7 @@
             android:textColor="@android:color/white" />
     </android.support.percent.PercentRelativeLayout>
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/viaje_imagen_fondo_morado"

@@ -119,7 +119,7 @@
 
     </android.support.percent.PercentRelativeLayout>
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/ajustes_boton_guardarcambios"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
         android:src="@drawable/ajustes_boton_guardarcambios"
         app:layout_marginTopPercent="5%" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/ajustes_boton_cerrarsesion"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"

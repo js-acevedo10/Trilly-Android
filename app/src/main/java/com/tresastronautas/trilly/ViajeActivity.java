@@ -50,6 +50,13 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.tresastronautas.trilly.Helpers.CheckpointViaje;
+import com.tresastronautas.trilly.Helpers.Constants;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.RouteEncoder;
+import com.tresastronautas.trilly.Helpers.ServiceActivityDetector;
+import com.tresastronautas.trilly.Helpers.ServiceLocationDetector;
+import com.tresastronautas.trilly.Helpers.StaticThings;
 
 import java.util.ArrayList;
 import java.util.List;

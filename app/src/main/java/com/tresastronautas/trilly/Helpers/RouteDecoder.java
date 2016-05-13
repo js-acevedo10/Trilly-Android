@@ -1,4 +1,4 @@
-package com.tresastronautas.trilly;
+package com.tresastronautas.trilly.Helpers;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -39,10 +39,14 @@ public class RouteDecoder {
     }
 
     private static Object convertFromBytes(byte[] bytes) throws IOException, ClassNotFoundException {
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-             ObjectInput in = new ObjectInputStream(bis)) {
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            ObjectInput in = new ObjectInputStream(bis);
             return in.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private static byte[] hexStringToByteArray(String s) {

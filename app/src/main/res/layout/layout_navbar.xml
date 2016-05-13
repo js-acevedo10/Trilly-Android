@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-            <com.tresastronautas.trilly.ExtendedImageButton
+            <com.tresastronautas.trilly.Helpers.ExtendedImageButton
                 android:id="@+id/menu_imagen_fondo_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@android:color/tertiary_text_light" />
 
-            <com.tresastronautas.trilly.ExtendedButton
+            <com.tresastronautas.trilly.Helpers.ExtendedButton
                 android:id="@+id/:menu_boton_grupo"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 
-            <com.tresastronautas.trilly.ExtendedButton
+            <com.tresastronautas.trilly.Helpers.ExtendedButton
                 android:id="@+id/menu_boton_viajes"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 
-            <com.tresastronautas.trilly.ExtendedButton
+            <com.tresastronautas.trilly.Helpers.ExtendedButton
                 android:id="@+id/menu_boton_estadisticas"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 
-            <com.tresastronautas.trilly.ExtendedButton
+            <com.tresastronautas.trilly.Helpers.ExtendedButton
                 android:id="@+id/menu_boton_ajustes"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"

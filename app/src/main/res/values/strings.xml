@@ -103,6 +103,7 @@
     <string name="progressLocationAccuracy">Calibrando neumáticos</string>
     <string name="progressSavingUserSettings">Guardando los cambios</string>
     <string name="progressLogin">Iniciando Sesión</string>
+    <string name="progressFetchingViajes">Cargando viajes</string>
 
     <!--PERMISOS-->
     <string name="permission_location">Trilly desea acceder a tu ubicación precisa.</string>

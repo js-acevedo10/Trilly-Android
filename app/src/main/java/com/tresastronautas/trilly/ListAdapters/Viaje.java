@@ -1,4 +1,4 @@
-package com.tresastronautas.trilly;
+package com.tresastronautas.trilly.ListAdapters;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseGeoPoint;

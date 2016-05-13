@@ -64,20 +64,20 @@
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="normal" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/group_boton_ver_miembros"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:src="@drawable/group_boton_ver_miembros"
         app:layout_marginBottomPercent="10%"
         app:layout_marginLeftPercent="5%" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/group_boton_dejar_grupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,11 +87,11 @@
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:src="@drawable/group_boton_dejar_grupo"
+        android:visibility="gone"
         app:layout_marginBottomPercent="10%"
-        app:layout_marginRightPercent="5%"
-        android:visibility="gone" />
+        app:layout_marginRightPercent="5%" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/group_boton_unirsegrupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -15,6 +15,9 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
+import com.tresastronautas.trilly.Helpers.ExtendedImageButton;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.StaticThings;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

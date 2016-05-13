@@ -5,23 +5,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.appevents.AppEventsLogger;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.tresastronautas.trilly.Helpers.ExtendedImageButton;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.StaticThings;
 
-import java.security.acl.Group;
 import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;

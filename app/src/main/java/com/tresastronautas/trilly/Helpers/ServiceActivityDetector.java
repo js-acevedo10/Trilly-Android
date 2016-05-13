@@ -1,4 +1,4 @@
-package com.tresastronautas.trilly;
+package com.tresastronautas.trilly.Helpers;
 
 import android.app.IntentService;
 import android.content.Intent;

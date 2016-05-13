@@ -17,6 +17,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.tresastronautas.trilly.Helpers.ExtendedImageButton;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.StaticThings;
 
 import java.util.List;
 

@@ -13,6 +13,8 @@ import com.malinskiy.materialicons.Iconify;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.StaticThings;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -61,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         perfil_label_nombre = (TextView) findViewById(R.id.perfil_label_nombre);
         perfil_label_nombre.setText(currentUser.getString(ParseConstants.User.FIRST.val()));
         perfil_label_arboles_dinamico = (TextView) findViewById(R.id.perfil_label_arboles_dinamico);
-        perfil_label_arboles_dinamico.setText(getString(R.string.perfil_arboles_dinamico, currentUser.getDouble(ParseConstants.Estadistica.SAVED_TREES.val())));
+        perfil_label_arboles_dinamico.setText(getString(R.string.perfil_arboles_dinamico, Math.floor(statistics.getDouble(ParseConstants.Estadistica.SAVED_TREES.val()))));
         perfil_label_kilometros = (TextView) findViewById(R.id.perfil_label_kilometros);
         perfil_label_kilometros.setText(getString(R.string.perfil_kilometros, statistics.getDouble(ParseConstants.Estadistica.KM.val())));
         perfil_circle_profile = (CircleImageView) findViewById(R.id.perfil_circle_profile);

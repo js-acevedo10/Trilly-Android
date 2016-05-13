@@ -33,6 +33,9 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
+import com.tresastronautas.trilly.Helpers.ExtendedButton;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.StaticThings;
 
 import org.json.JSONException;
 
@@ -250,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, ProfileActivity.class);
         StaticThings.setCurrentUser(currentUser);
+        StaticThings.setStatistics(statistics);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
     }

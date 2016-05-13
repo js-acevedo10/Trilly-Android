@@ -1,4 +1,4 @@
-package com.tresastronautas.trilly;
+package com.tresastronautas.trilly.Helpers;
 
 /**
  * Created by JuanSantiagoAcev on 28/02/16!

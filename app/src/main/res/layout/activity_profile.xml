@@ -80,7 +80,7 @@
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="normal" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/perfil_boton_ver_grupos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

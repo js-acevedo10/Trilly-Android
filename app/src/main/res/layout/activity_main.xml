@@ -68,7 +68,7 @@
             app:layout_marginRightPercent="2%" />
 
         <!-- Botón de Empezar Viaje-->
-        <com.tresastronautas.trilly.ExtendedImageButton
+        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
             android:id="@+id/main_boton_empezar_viaje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp">
 
-                <com.tresastronautas.trilly.ExtendedImageButton
+                <com.tresastronautas.trilly.Helpers.ExtendedImageButton
                     android:id="@+id/main_boton_gas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/main_layout_gas">
 
-                <com.tresastronautas.trilly.ExtendedImageButton
+                <com.tresastronautas.trilly.Helpers.ExtendedImageButton
                     android:id="@+id/main_boton_arboles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/main_layout_arboles">
 
-                <com.tresastronautas.trilly.ExtendedImageButton
+                <com.tresastronautas.trilly.Helpers.ExtendedImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"

@@ -40,7 +40,7 @@
         android:textStyle="bold"
         app:layout_marginTopPercent="70%" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/login_boton_facebook"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"

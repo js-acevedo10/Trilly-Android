@@ -34,7 +34,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <com.tresastronautas.trilly.ExtendedImageButton
+        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
             android:id="@+id/grouplist_boton_grupo_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             android:textColor="@android:color/white"
             app:layout_marginTopPercent="1%" />
 
-        <com.tresastronautas.trilly.ExtendedImageButton
+        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
             android:id="@+id/grouplist_boton_grupo_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             android:textColor="@android:color/white"
             app:layout_marginTopPercent="1%" />
 
-        <com.tresastronautas.trilly.ExtendedImageButton
+        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
             android:id="@+id/grouplist_boton_grupo_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             app:layout_marginTopPercent="1%" />
 
         <!--NO GROUOS AVAILABLE-->
-        <com.tresastronautas.trilly.ExtendedImageButton
+        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
             android:id="@+id/grouplist_boton_nogroup1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
             app:layout_heightPercent="28%"
             app:layout_marginTopPercent="5%" />
 
-        <com.tresastronautas.trilly.ExtendedImageButton
+        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
             android:id="@+id/grouplist_boton_nogroup2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
 
     </android.support.percent.PercentRelativeLayout>
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/grouplist_boton_redgroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
         android:visibility="gone"
         app:layout_marginTopPercent="1%" />
 
-    <com.tresastronautas.trilly.ExtendedImageButton
+    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
         android:id="@+id/grouplist_boton_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

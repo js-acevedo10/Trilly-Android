@@ -1,4 +1,4 @@
-package com.tresastronautas.trilly;
+package com.tresastronautas.trilly.ListAdapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.google.maps.android.PolyUtil;
 import com.squareup.picasso.Picasso;
+import com.tresastronautas.trilly.R;
 
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class ViajesAdapter extends RecyclerView.Adapter<ViajesAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Viaje viaje = viajesList.get(position);
         String encodedPoly = PolyUtil.encode(viaje.getPath());
-        String url = "https://maps.googleapis.com/maps/api/staticmap?size=1200x920&path=weight:5%7Ccolor:0x00C466%7Cenc:" + encodedPoly;
+        String url = "https://maps.googleapis.com/maps/api/staticmap?size=1200x920&path=weight:8%7Ccolor:0x00C466%7Cenc:" + encodedPoly;
         Picasso.with(mContext).
                 load(url)
                 .fit()
                 .into(holder.mapa);
-        holder.distancia.setText(viaje.getKm() + "");
-        holder.duracion.setText(viaje.getTiempo() + "");
+        holder.distancia.setText(Double.toString(viaje.getKm()).substring(0, 4) + " km");
+        holder.duracion.setText(Double.toString(viaje.getTiempo() / 60).substring(0, 3) + " min");
         holder.fecha.setText(viaje.getFecha());
     }
 

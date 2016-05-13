@@ -1,4 +1,4 @@
-package com.tresastronautas.trilly;
+package com.tresastronautas.trilly.Helpers;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -41,11 +41,15 @@ public class RouteEncoder {
     }
 
     private static byte[] convertToBytes(ArrayList<Map> toSerialize) throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutput out = new ObjectOutputStream(bos)) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutput out = new ObjectOutputStream(bos);
             out.writeObject(toSerialize);
             return bos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private static String bytesToHex(byte[] bytes) {

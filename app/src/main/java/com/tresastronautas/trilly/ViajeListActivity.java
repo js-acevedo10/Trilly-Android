@@ -1,5 +1,6 @@
 package com.tresastronautas.trilly;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,13 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.tresastronautas.trilly.Helpers.ParseConstants;
+import com.tresastronautas.trilly.Helpers.RouteDecoder;
+import com.tresastronautas.trilly.Helpers.StaticThings;
+import com.tresastronautas.trilly.ListAdapters.Viaje;
+import com.tresastronautas.trilly.ListAdapters.ViajesAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +64,13 @@ public class ViajeListActivity extends AppCompatActivity {
     public void prepareLayout() {
         ParseQuery<ParseObject> query = new ParseQuery(ParseConstants.Ruta.NAME.val());
         query.whereMatches(ParseConstants.Ruta.USER.val(), currentUser.getObjectId());
+        final ProgressDialog progressDialog = new ProgressDialog(ViajeListActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(getString(R.string.progressFetchingViajes));
+        progressDialog.show();
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -66,19 +80,21 @@ public class ViajeListActivity extends AppCompatActivity {
                     try {
                         path.fetch();
                         routeInLat = RouteDecoder.getRouteFromHex(path.getString(ParseConstants.Path.DATA.val()));
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         Viaje v = new Viaje(routeInLat,
                                 viaj.getDouble(ParseConstants.Ruta.KM.val()),
                                 viaj.getDouble(ParseConstants.Ruta.TIME.val()),
                                 viaj.getDouble(ParseConstants.Ruta.CAL.val()),
                                 0.0,
                                 viaj.getParseGeoPoint(ParseConstants.Ruta.ORIGIN.val()),
-                                viaj.getString(ParseConstants.Ruta.FECHA.val()));
+                                simpleDateFormat.format(viaj.getUpdatedAt()));
                         viajes.add(v);
-                        viajesAdapter.notifyDataSetChanged();
                     } catch (Exception m) {
                         m.printStackTrace();
                     }
                 }
+                viajesAdapter.notifyDataSetChanged();
+                progressDialog.dismiss();
             }
         });
         viajelist_fab = (FloatingActionButton) findViewById(R.id.viajelist_fab);
@@ -90,14 +106,6 @@ public class ViajeListActivity extends AppCompatActivity {
                 finish();
             }
         });
-//        mapa_pruebas = (ImageView) findViewById(R.id.mapa_pruebas);
-//        String encodedPoly = PolyUtil.encode(routeInLat);
-//        String url = "https://maps.googleapis.com/maps/api/staticmap?size=600x300&path=weight:5%7Ccolor:0x00C466%7Cenc:" + encodedPoly;
-//        Log.d("URL", url);
-//        Picasso.with(this)
-//                .load(url)
-//                .into(mapa_pruebas);
-
     }
 
     @Override
