@@ -2,9 +2,11 @@ package com.tresastronautas.trilly;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +17,6 @@ import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.tresastronautas.trilly.Helpers.ExtendedImageButton;
 import com.tresastronautas.trilly.Helpers.ParseConstants;
 import com.tresastronautas.trilly.Helpers.StaticThings;
 
@@ -29,7 +30,7 @@ public class GroupActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private FloatingActionButton group_fab;
     private TextView group_text_nombre_grupo, group_text_arboles_dinamico, group_text_kilometros;
-    private ExtendedImageButton group_boton_ver_miembros, group_boton_dejar_grupo, group_boton_unirsegrupo;
+    private AppCompatButton group_boton_ver_miembros, group_boton_dejar_grupo, group_boton_unirsegrupo;
     private ParseObject selectedGroup;
     private List<ParseObject> userGroups;
 
@@ -72,9 +73,9 @@ public class GroupActivity extends AppCompatActivity {
         group_text_arboles_dinamico = (TextView) findViewById(R.id.group_text_arboles_dinamico);
         group_text_kilometros = (TextView) findViewById(R.id.group_text_kilometros);
 
-        group_boton_ver_miembros = (ExtendedImageButton) findViewById(R.id.group_boton_ver_miembros);
-        group_boton_dejar_grupo = (ExtendedImageButton) findViewById(R.id.group_boton_dejar_grupo);
-        group_boton_unirsegrupo = (ExtendedImageButton) findViewById(R.id.group_boton_unirsegrupo);
+        group_boton_ver_miembros = (AppCompatButton) findViewById(R.id.group_boton_ver_miembros);
+        group_boton_dejar_grupo = (AppCompatButton) findViewById(R.id.group_boton_dejar_grupo);
+        group_boton_unirsegrupo = (AppCompatButton) findViewById(R.id.group_boton_unirsegrupo);
 
         if(userGroups.contains(selectedGroup)) {
             group_boton_dejar_grupo.setVisibility(View.VISIBLE);
@@ -127,11 +128,24 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
 
+        group_boton_ver_miembros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMemberlistActivity();
+            }
+        });
+
         group_text_nombre_grupo.setText(selectedGroup.getString(ParseConstants.Grupo.GROUP_NAME.val()));
         group_text_arboles_dinamico.setText(getString(R.string.group_arboles_dinamico,
                 selectedGroup.getDouble(ParseConstants.Grupo.SAVED_TREES.val())));
         group_text_kilometros.setText(getString(R.string.group_kilometros,
                 selectedGroup.getDouble(ParseConstants.Grupo.KM.val())));
+    }
+
+    public void startMemberlistActivity() {
+        StaticThings.setSelectedGroup(selectedGroup);
+        Intent intent = new Intent(getApplicationContext(), MemberListActivity.class);
+        startActivity(intent);
     }
 
     public void groupBack(View view) {

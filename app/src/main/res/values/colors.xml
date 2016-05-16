@@ -7,4 +7,5 @@
     <color name="trillyDarkBlue">#00375f</color>
     <color name="trillyRed">#EF3524</color>
     <color name="trillyYellow">#FFC61A</color>
+    <color name="ripple_dark">#33000000</color>
 </resources>

@@ -46,7 +46,7 @@ public class Viaje {
     }
 
     public void setKm(double km) {
-        km = km;
+        this.km = km;
     }
 
     public double getTiempo() {

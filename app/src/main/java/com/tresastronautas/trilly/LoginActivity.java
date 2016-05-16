@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final int CERRAR_EJECUCION = 1803;
     public List<String> fbPermissions;
     public ImageView login_imagen_nube_1, login_imagen_nube_2;
+    public AppCompatButton login_boton_facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         login_imagen_nube_1 = (ImageView) findViewById(R.id.login_imagen_nube_1);
         login_imagen_nube_2 = (ImageView) findViewById(R.id.login_imagen_nube_2);
+        login_boton_facebook = (AppCompatButton) findViewById(R.id.login_boton_facebook);
+        login_boton_facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginWithFB(v);
+            }
+        });
         Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nubes_traslacion);
         Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nubes_traslacion);
         animation1.setRepeatCount(Animation.INFINITE);

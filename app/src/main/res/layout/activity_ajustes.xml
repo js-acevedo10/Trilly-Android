@@ -119,27 +119,33 @@
 
     </android.support.percent.PercentRelativeLayout>
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/ajustes_boton_guardarcambios"
-        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ajustes_boton_cerrarsesion"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:onClick="ajustesGuardarCambios"
-        android:src="@drawable/ajustes_boton_guardarcambios"
-        app:layout_marginTopPercent="5%" />
+        android:text="@string/ajustes_boton_guardar"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_marginTopPercent="5%"
+        app:layout_widthPercent="73%" />
+    <!--
+    android:src="@drawable/ajustes_boton_guardarcambios"
+    android:background="@android:color/transparent"
+    android:foreground="?attr/selectableItemBackground"
+    -->
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/ajustes_boton_cerrarsesion"
-        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:onClick="ajustesCerrarSesion"
-        android:src="@drawable/ajustes_boton_cerrarsesion" />
+        android:src="@drawable/ajustes_boton_cerrarsesion"
+        android:text="@string/ajustes_boton_signout"
+        app:backgroundTint="@color/trillyRed"
+        app:layout_marginBottomPercent="1%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="73%" />
 
 </android.support.percent.PercentRelativeLayout>

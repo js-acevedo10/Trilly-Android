@@ -64,20 +64,20 @@
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="normal" />
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/group_boton_ver_miembros"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/group_boton_ver_miembros"
+        android:text="@string/group_boton_verMiembros"
+        app:backgroundTint="@color/trillyYellow"
         app:layout_marginBottomPercent="10%"
-        app:layout_marginLeftPercent="5%" />
+        app:layout_marginLeftPercent="5%"
+        app:layout_widthPercent="40%" />
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/group_boton_dejar_grupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,13 +85,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/group_boton_dejar_grupo"
+        android:text="@string/group_boton_dejarGrupo"
         android:visibility="gone"
+        app:backgroundTint="@color/trillyRed"
         app:layout_marginBottomPercent="10%"
-        app:layout_marginRightPercent="5%" />
+        app:layout_marginRightPercent="5%"
+        app:layout_widthPercent="40%" />
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/group_boton_unirsegrupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,9 +100,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/group_boton_unirsegrupo"
+        android:text="@string/group_boton_joinGrupo"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:layout_marginBottomPercent="10%"
-        app:layout_marginRightPercent="5%" />
+        app:layout_marginRightPercent="5%"
+        app:layout_widthPercent="40%" />
 
 </android.support.percent.PercentRelativeLayout>

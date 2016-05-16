@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/perfil_fab"
         android:layout_centerHorizontal="true"
-        android:text="@string/main_saludo"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -80,17 +79,16 @@
         android:textColor="@color/trillyDarkBlue"
         android:textStyle="normal" />
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/perfil_boton_ver_grupos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:onClick="startGroupListActivity"
         android:scaleType="centerCrop"
-        android:src="@drawable/perfil_boton_ver_grupos"
-        app:layout_marginBottomPercent="10%" />
+        android:text="@string/perfil_boton_verGrupos"
+        app:backgroundTint="@color/trillyYellow"
+        app:layout_marginBottomPercent="10%"
+        app:layout_widthPercent="75%" />
 
 </android.support.percent.PercentRelativeLayout>

@@ -21,7 +21,7 @@
     <string name="main_arboles_dinamico">%.0f Árboles</string>
     <string name="main_arboles_estatico">plantados</string>
     <string name="main_porcentaje">%.0f\%</string>
-    <string name="main_loading">Cargando...</string>
+    <string name="main_boton_empezarViaje">EMPEZAR VIAJE</string>
 
     <!-- VISTA MENU-->
     <string name="menu_grupos">Mis grupos</string>
@@ -34,6 +34,7 @@
     <string name="perfil_arboles_dinamico">%.0f Árboles</string>
     <string name="perfil_arboles_estatico">sembrados</string>
     <string name="perfil_kilometros">%.2f Km recorridos</string>
+    <string name="perfil_boton_verGrupos">Ver Grupos</string>
 
     <!-- VISTA LISTA DE GRUPOS-->
     <string name="grouplist_title">Mis Grupos</string>
@@ -46,11 +47,15 @@
     <string name="group_arboles_estatico">sembrados</string>
     <string name="group_kilometros">%.2f Km recorridos</string>
     <string name="title_activity_viaje">Viaje</string>
+    <string name="group_boton_verMiembros">Ver miembros</string>
+    <string name="group_boton_dejarGrupo">Dejar grupo</string>
+    <string name="group_boton_joinGrupo">Unirse al grupo</string>
 
     <!-- VISTA VIAJE-->
     <string name="viaje_kilometros_dinamico">%.2f KM</string>
     <string name="viaje_kilometros_estatico">Recorridos</string>
     <string name="viaje_notificacion_ongoing">Trilly va contigo en la bici.</string>
+    <string name="viaje_dialogo_terminar">¿Deseas terminar el viaje?</string>
 
     <!-- VISTA AJUSTES-->
     <string name="ajustes_title">Ajustes</string>
@@ -60,6 +65,8 @@
     <string name="ajustes_altura_dinamico">%.2f</string>
     <string name="ajustes_peso_estatico">Peso (kg)</string>
     <string name="ajustes_peso_dinamico">%.1f</string>
+    <string name="ajustes_boton_guardar">Guardar Cambios</string>
+    <string name="ajustes_boton_signout">Cerrar Sesión</string>
 
     <!-- VISTA ESTADISTICAS-->
     <string name="estadisticas_title">Mis estadísticas</string>
@@ -81,8 +88,16 @@
     <!--VISTA VIAJELIST-->
     <string name="viajelist_title">Mis viajes</string>
 
+    <!--VISTA MEMBERLIST-->
+    <string name="memberlist_arboles_dynamic">%.0f Árboles</string>
+    <string name="memberlist_arboles_static">Sembrados</string>
+    <string name="memberlist_miembros_dynamic">%.0f Miembros</string>
+
     <!--EXTRA-->
 
+    <string name="answer_positivo">Si</string>
+    <string name="answer_negativo">No</string>
+    <string name="loading">Cargando...</string>
     <string name="in_vehicle" translatable="false">In a vehicle</string>
     <string name="on_bicycle" translatable="false">On a bicycle</string>
     <string name="on_foot" translatable="false">On foot</string>
@@ -104,6 +119,7 @@
     <string name="progressSavingUserSettings">Guardando los cambios</string>
     <string name="progressLogin">Iniciando Sesión</string>
     <string name="progressFetchingViajes">Cargando viajes</string>
+    <string name="progressFetchingMembers">Cargando miembros</string>
 
     <!--PERMISOS-->
     <string name="permission_location">Trilly desea acceder a tu ubicación precisa.</string>

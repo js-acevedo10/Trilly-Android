@@ -40,18 +40,16 @@
         android:textStyle="bold"
         app:layout_marginTopPercent="70%" />
 
-    <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/login_boton_facebook"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:onClick="loginWithFB"
-        android:scaleType="centerCrop"
-        android:src="@drawable/login_boton_fb"
-        app:layout_marginBottomPercent="10%" />
+        android:text="@string/com_facebook_loginview_log_in_button_long"
+        app:backgroundTint="@color/com_facebook_blue"
+        app:layout_marginBottomPercent="10%"
+        app:layout_widthPercent="75%" />
 
     <TextView
         android:layout_width="wrap_content"

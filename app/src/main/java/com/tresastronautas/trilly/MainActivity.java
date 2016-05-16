@@ -8,10 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,7 +35,6 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
-import com.tresastronautas.trilly.Helpers.ExtendedButton;
 import com.tresastronautas.trilly.Helpers.ParseConstants;
 import com.tresastronautas.trilly.Helpers.StaticThings;
 
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public LineProgressBar main_progressBar;
     public FloatingActionButton mFab;
     public LinearLayout menu_layout_navBar, menu_background_navBar;
-    public ExtendedButton menu_boton_grupo, menu_boton_viajes, menu_boton_estadisticas, menu_boton_ajustes;
+    public AppCompatButton main_boton_empezar_viaje;
+    public Button menu_boton_grupo, menu_boton_viajes, menu_boton_estadisticas, menu_boton_ajustes;
     public Boolean navigationExtended = false;
     public boolean fbGet;
     public String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
@@ -158,12 +160,20 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         main_progressBar = (LineProgressBar) findViewById(R.id.main_progress_horizontal);
         main_texto_porcentaje = (TextView) findViewById(R.id.main_texto_porcentaje);
         menu_background_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
-        menu_boton_ajustes = (ExtendedButton) findViewById(R.id.menu_boton_ajustes);
-        menu_boton_estadisticas = (ExtendedButton) findViewById(R.id.menu_boton_estadisticas);
-        menu_boton_grupo = (ExtendedButton) findViewById(R.id._menu_boton_grupo);
-        menu_boton_viajes = (ExtendedButton) findViewById(R.id.menu_boton_viajes);
+        menu_boton_ajustes = (Button) findViewById(R.id.menu_boton_ajustes);
+        menu_boton_estadisticas = (Button) findViewById(R.id.menu_boton_estadisticas);
+        menu_boton_grupo = (Button) findViewById(R.id._menu_boton_grupo);
+        menu_boton_viajes = (Button) findViewById(R.id.menu_boton_viajes);
         mFab = (FloatingActionButton) findViewById(R.id.main_fab);
         menu_layout_navBar = (LinearLayout) findViewById(R.id.menu_navBar);
+
+        main_boton_empezar_viaje = (AppCompatButton) findViewById(R.id.main_boton_empezar_viaje);
+        main_boton_empezar_viaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startViajeActivity(v);
+            }
+        });
 
         main_texto_saludo.setText(getString(R.string.main_saludo, firstName));
         menu_texto_nombre.setText(firstName);
@@ -240,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         if (ParseUser.getCurrentUser() != null) {
             currentUser = ParseUser.getCurrentUser();
             StaticThings.setCurrentUser(currentUser);
+            StaticThings.setSelectedUser(currentUser);
             loadView x = new loadView();
             x.execute();
             getDetailsFromParse();
@@ -252,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public void startPerfilActivity(View view) {
         closeNavBar(getCurrentFocus());
         Intent intent = new Intent(this, ProfileActivity.class);
-        StaticThings.setCurrentUser(currentUser);
+        StaticThings.setSelectedUser(currentUser);
         StaticThings.setStatistics(statistics);
         intent.putExtra("user_id", currentUser.getObjectId());
         startActivity(intent);
@@ -288,23 +299,17 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     public void startEstadisticasActivity(View view) {
-        if (navigationExtended) {
-            closeNavBar(getCurrentFocus());
-        } else {
-            Intent intent = new Intent(this, EstadisticasActivity.class);
-            StaticThings.setCurrentUser(currentUser);
-            startActivityForResult(intent, 1);
-        }
+        closeNavBar(getCurrentFocus());
+        Intent intent = new Intent(this, EstadisticasActivity.class);
+        StaticThings.setCurrentUser(currentUser);
+        startActivityForResult(intent, 1);
     }
 
     public void startViajeListActivity(View view) {
-        if (navigationExtended) {
-            closeNavBar(getCurrentFocus());
-        } else {
-            Intent intent = new Intent(this, ViajeListActivity.class);
-            StaticThings.setCurrentUser(currentUser);
-            startActivity(intent);
-        }
+        closeNavBar(getCurrentFocus());
+        Intent intent = new Intent(this, ViajeListActivity.class);
+        StaticThings.setCurrentUser(currentUser);
+        startActivity(intent);
     }
 
     public void cerrarSesion() {
@@ -368,6 +373,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         fbProfile = Profile.getCurrentProfile();
         currentUser = ParseUser.getCurrentUser();
         StaticThings.setCurrentUser(currentUser);
+        StaticThings.setSelectedUser(currentUser);
         firstName = currentUser.getString(ParseConstants.User.FIRST.val());
         lastName = currentUser.getString(ParseConstants.User.LAST.val());
         id = currentUser.getString(ParseConstants.User.FBID.val());
@@ -414,6 +420,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             e.printStackTrace();
         }
         StaticThings.setCurrentUser(currentUser);
+        StaticThings.setSelectedUser(currentUser);
     }
 
     private class loadView extends AsyncTask {

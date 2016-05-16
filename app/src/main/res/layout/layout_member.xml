@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/memberlist_layout_member"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/memberlist_imagen_perfil"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/imagen_perfil_stock" />
+
+    <TextView
+        android:id="@+id/memberlist_text_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/memberlist_imagen_perfil"
+        app:layout_widthPercent="45%" />
+
+    <ImageView
+        android:id="@+id/memberlist_imagen_corona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/memberlist_layout_arboles"
+        android:src="@drawable/memberlist_imagen_corona"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/memberlist_layout_arboles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/memberlist_imagen_placeholderblanco"
+        app:layout_widthPercent="25%">
+
+        <TextView
+            android:id="@+id/memberlist_text_arboles_dynamic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/memberlist_arboles_dynamic"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Memberlist_text_arboles_static"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/memberlist_text_arboles_dynamic"
+            android:layout_centerHorizontal="true"
+            android:text="@string/memberlist_arboles_static"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

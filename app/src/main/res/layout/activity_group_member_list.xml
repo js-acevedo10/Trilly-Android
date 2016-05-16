@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/memberlist_imagen_bg"
+    tools:context=".MemberListActivity">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/memberlist_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:onClick="memberListBack" />
+
+    <TextView
+        android:id="@+id/memberlist_text_groupname"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/memberlist_fab"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="2%" />
+
+    <TextView
+        android:id="@+id/memberlist_text_miembros_dynamic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/memberlist_text_groupname"
+        android:layout_centerHorizontal="true"
+        android:text="@string/memberlist_miembros_dynamic"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/members_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginTopPercent="25.3%">
+
+    </android.support.v7.widget.RecyclerView>
+
+</android.support.percent.PercentRelativeLayout>

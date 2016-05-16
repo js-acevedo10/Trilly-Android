@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,7 +16,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
-import com.tresastronautas.trilly.Helpers.ExtendedImageButton;
 import com.tresastronautas.trilly.Helpers.ParseConstants;
 import com.tresastronautas.trilly.Helpers.StaticThings;
 
@@ -28,7 +28,7 @@ public class AjustesActivity extends AppCompatActivity {
     public static final int RESULT_NOTHING_TODO = 1102;
     private ParseUser currentUser;
     private EditText ajustes_texto_edad_dinamico, ajustes_texto_altura_dinamico, ajustes_texto_peso_dinamico;
-    private ExtendedImageButton ajustes_boton_guardarcambios;
+    private AppCompatButton ajustes_boton_guardarcambios, ajustes_boton_cerrarsesion;
     private FloatingActionButton ajustes_fab;
     private CircleImageView ajustes_circle_profile;
     private boolean cambios = false;
@@ -113,8 +113,22 @@ public class AjustesActivity extends AppCompatActivity {
                 ajustes_boton_guardarcambios.setEnabled(true);
             }
         });
-        ajustes_boton_guardarcambios = (ExtendedImageButton) findViewById(R.id.ajustes_boton_guardarcambios);
+        ajustes_boton_guardarcambios = (AppCompatButton) findViewById(R.id.ajustes_boton_guardarcambios);
         ajustes_boton_guardarcambios.setEnabled(false);
+        ajustes_boton_guardarcambios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ajustesGuardarCambios(v);
+            }
+        });
+
+        ajustes_boton_cerrarsesion = (AppCompatButton) findViewById(R.id.ajustes_boton_cerrarsesion);
+        ajustes_boton_cerrarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ajustesCerrarSesion(v);
+            }
+        });
     }
 
     public void ajustesGuardarCambios(View view) {

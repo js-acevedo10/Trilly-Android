@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/menu_navBar"
@@ -19,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-            <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+            <ImageButton
                 android:id="@+id/menu_imagen_fondo_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,6 +30,7 @@
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="startPerfilActivity"
                 android:src="@drawable/menu_imagen_fondo_perfil" />
 
@@ -35,6 +38,7 @@
                 android:id="@+id/menu_circle_profile"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
+                android:layout_alignLeft="@+id/menu_imagen_fondo_perfil"
                 android:layout_alignStart="@+id/menu_imagen_fondo_perfil"
                 android:layout_alignTop="@+id/menu_imagen_fondo_perfil"
                 android:layout_marginLeft="10dp"
@@ -68,7 +72,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@android:color/tertiary_text_light" />
 
-            <com.tresastronautas.trilly.Helpers.ExtendedButton
+            <Button
                 android:id="@+id/:menu_boton_grupo"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -76,15 +80,16 @@
                 android:layout_alignLeft="@+id/menu_imagen_fondo_perfil"
                 android:layout_alignStart="@+id/menu_imagen_fondo_perfil"
                 android:layout_below="@+id/menu_imagen_fondo_perfil"
+                android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/menu_icono_grupo"
                 android:drawablePadding="15dp"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:onClick="startGroupListActivity"
                 android:text="@string/menu_grupos"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 
-            <com.tresastronautas.trilly.Helpers.ExtendedButton
+            <Button
                 android:id="@+id/menu_boton_viajes"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -92,15 +97,16 @@
                 android:layout_alignLeft="@+id/:menu_boton_grupo"
                 android:layout_alignStart="@+id/:menu_boton_grupo"
                 android:layout_below="@+id/:menu_boton_grupo"
+                android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/menu_icono_estadisticas"
                 android:drawablePadding="15dp"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:onClick="startEstadisticasActivity"
                 android:text="@string/menu_estadisticas"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 
-            <com.tresastronautas.trilly.Helpers.ExtendedButton
+            <Button
                 android:id="@+id/menu_boton_estadisticas"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -108,15 +114,16 @@
                 android:layout_alignLeft="@+id/menu_boton_viajes"
                 android:layout_alignStart="@+id/menu_boton_viajes"
                 android:layout_below="@+id/menu_boton_viajes"
+                android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/menu_icono_bici"
                 android:drawablePadding="15dp"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:onClick="startViajeListActivity"
                 android:text="@string/menu_viajes"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
 
-            <com.tresastronautas.trilly.Helpers.ExtendedButton
+            <Button
                 android:id="@+id/menu_boton_ajustes"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -124,9 +131,10 @@
                 android:layout_alignLeft="@+id/menu_boton_estadisticas"
                 android:layout_alignStart="@+id/menu_boton_estadisticas"
                 android:layout_below="@+id/menu_boton_estadisticas"
+                android:background="?attr/selectableItemBackground"
                 android:drawableLeft="@drawable/menu_icono_ajustes"
                 android:drawablePadding="15dp"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:onClick="startAjustesActivity"
                 android:text="@string/menu_ajustes"
                 android:textAllCaps="false"

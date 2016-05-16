@@ -6,11 +6,11 @@ import com.parse.ParseUser;
 import java.util.List;
 
 /**
- * Created by juansantiagoacev on 4/29/16.
+ * Created by juansantiagoacev on 4/29/16!
  */
 public class StaticThings {
 
-    public static ParseObject selectedGroup;
+    public static ParseObject selectedGroup, selectedUser;
     public static ParseUser currentUser;
     public static List<ParseObject> userGroups;
     public static ParseObject statistics;
@@ -49,5 +49,13 @@ public class StaticThings {
 
     public static void setUserGroups(List<ParseObject> userGroups) {
         StaticThings.userGroups = userGroups;
+    }
+
+    public static ParseObject getSelectedUser() {
+        return selectedUser;
+    }
+
+    public static void setSelectedUser(ParseObject selectedUser) {
+        StaticThings.selectedUser = selectedUser;
     }
 }

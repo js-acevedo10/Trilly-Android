@@ -68,16 +68,17 @@
             app:layout_marginRightPercent="2%" />
 
         <!-- Botón de Empezar Viaje-->
-        <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/main_boton_empezar_viaje"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/main_progress_horizontal"
             android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:onClick="startViajeActivity"
-            android:scaleType="centerCrop"
-            android:src="@drawable/main_boton_empezar_viaje" />
+            android:text="@string/main_boton_empezarViaje"
+            android:textStyle="bold"
+            app:backgroundTint="@color/trillyYellow"
+            app:layout_heightPercent="18%" />
 
         <!-- Layout de las estadísticas-->
         <RelativeLayout
@@ -93,13 +94,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp">
 
-                <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+                <ImageButton
                     android:id="@+id/main_boton_gas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:onClick="closeNavBar"
                     android:scaleType="fitXY"
                     android:src="@drawable/main_imagen_gas" />
@@ -137,12 +139,13 @@
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/main_layout_gas">
 
-                <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+                <ImageButton
                     android:id="@+id/main_boton_arboles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:onClick="closeNavBar"
                     android:scaleType="fitXY"
                     android:src="@drawable/main_imagen_arboles_salvados" />
@@ -177,13 +180,14 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/main_layout_arboles">
 
-                <com.tresastronautas.trilly.Helpers.ExtendedImageButton
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:onClick="startEstadisticasActivity"
-                    android:paddingTop="15dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/main_boton_continuar" />
             </RelativeLayout>

@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.malinskiy.materialicons.IconDrawable;
@@ -34,7 +33,6 @@ public class ViajeListActivity extends AppCompatActivity {
 
     private ParseUser currentUser;
     private List<ParseObject> viajesList;
-    private ImageView mapa_pruebas;
     private List<LatLng> routeInLat;
     private FloatingActionButton viajelist_fab;
     private ViajesAdapter viajesAdapter;

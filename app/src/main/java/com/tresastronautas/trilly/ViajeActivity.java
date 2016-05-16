@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -72,6 +73,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
     private final static int MINIMO_CERTEZA_ACTIVIDAD = 60;
     private static final int NOTIF_VIAJE = 23032303;
     public ProgressDialog progressLocationAccuracy;
+    public AppCompatImageButton viaje_boton_terminar;
     public boolean fini = false;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -180,6 +182,7 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getLocationDetectionPendingIntent());
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, 0, getActivityDetectionPendingIntent()).setResultCallback(this);
+        startTime = SystemClock.elapsedRealtime();
     }
 
     @Override
@@ -237,23 +240,29 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
         progressLocationAccuracy.show();
         viaje_texto_kilometros_dinamico = (TextView) findViewById(R.id.viaje_texto_kilometros_dinamico);
         viaje_texto_kilometros_dinamico.setText(getString(R.string.viaje_kilometros_dinamico, 0.0));
-        startTime = SystemClock.elapsedRealtime();
+        viaje_boton_terminar = (AppCompatImageButton) findViewById(R.id.viaje_boton_terminar);
+        viaje_boton_terminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishDialog(v);
+            }
+        });
     }
 
     public void finishDialog(View view) {
         if (contadorActionDialog == 0) {
             contadorActionDialog = 1;
             new AlertDialog.Builder(ViajeActivity.this)
-                    .setMessage("¿Deseas terminar el viaje?")
-                    .setCancelable(false)
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    .setMessage(getString(R.string.viaje_dialogo_terminar))
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.answer_positivo), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             stopViaje();
                             contadorActionDialog = 0;
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.answer_negativo), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();

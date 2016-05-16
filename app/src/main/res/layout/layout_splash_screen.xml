@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/main_loading"
+        android:text="@string/loading"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_marginBottomPercent="20%" />
