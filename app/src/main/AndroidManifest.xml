@@ -79,6 +79,7 @@
             android:exported="false" />
         <service android:name=".Helpers.ServiceLocationDetector" />
 
+        <activity android:name=".ViajeDetailsActivity"></activity>
     </application>
 
 </manifest>

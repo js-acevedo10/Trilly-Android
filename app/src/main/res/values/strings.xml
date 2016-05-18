@@ -88,6 +88,16 @@
     <!--VISTA VIAJELIST-->
     <string name="viajelist_title">Mis viajes</string>
 
+    <!--VISTA VIAJEDETAILS-->
+    <string name="viajedetails_calorias_dynamic">%.0f Calorías</string>
+    <string name="viajedetails_calorias_static">quemadas</string>
+    <string name="viajedetails_km_dynamic">%.0f Km</string>
+    <string name="viajedetails_km_static">recorridos</string>
+    <string name="viajedetails_duracion_dynamic">%1$.0fh %2$.0fmin</string>
+    <string name="viajedetails_duracion_static">Duración del Viaje</string>
+    <string name="viajedetails_velocidad_dynamic">%.0fkm/h</string>
+    <string name="viajedetails_velocidad_static">Velocidad Promedio</string>
+
     <!--VISTA MEMBERLIST-->
     <string name="memberlist_arboles_dynamic">%.0f Árboles</string>
     <string name="memberlist_arboles_static">Sembrados</string>

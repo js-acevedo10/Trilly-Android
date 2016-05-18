@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/viajedetails_imagen_bg"
+    tools:context="com.tresastronautas.trilly.ViajeDetailsActivity">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/viajedetails_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin" />
+
+    <TextView
+        android:id="@+id/viajedetails_text_title"
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/viajedetails_fab"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="2%" />
+
+    <android.support.percent.PercentFrameLayout
+        android:id="@+id/viajedetails_layout_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:layout_heightPercent="41%"
+        app:layout_marginTopPercent="13.5%">
+
+        <fragment
+            android:id="@+id/viajedetails_map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@android:layout/simple_gallery_item" />
+    </android.support.percent.PercentFrameLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/viajedetails_place_holder_estadisticas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viajedetails_layout_map"
+        android:background="@drawable/viajedetails_imagen_place_holder_estadisticas"
+        app:layout_heightPercent="25%">
+
+        <RelativeLayout
+            android:id="@+id/viajelist_layout_estadisticas_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="41%">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/viajedetails_text_km_dynamic"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/viajedetails_km_dynamic"
+                    android:textColor="@color/trillyYellow"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/viajedetails_text_km_static"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/viajedetails_text_km_dynamic"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/viajedetails_km_static"
+                    android:textColor="@color/trillyYellow" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viajelist_layout_estadisticas_righttop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/viajelist_layout_estadisticas_left"
+            app:layout_heightPercent="51%"
+            app:layout_widthPercent="59">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/viajedetails_text_duracion_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viajedetails_duracion_static"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/viajedetails_text_duracion_dynamic"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/viajedetails_text_duracion_static"
+                    android:text="@string/viajedetails_duracion_dynamic"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viajelist_layout_estadisticas_rightbottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viajelist_layout_estadisticas_righttop"
+            android:layout_toRightOf="@+id/viajelist_layout_estadisticas_left"
+            app:layout_heightPercent="51%"
+            app:layout_widthPercent="59">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/viajedetails_text_velocidad_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viajedetails_velocidad_static"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/viajedetails_text_velocidad_dynamic"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/viajedetails_text_velocidad_static"
+                    android:text="@string/viajedetails_velocidad_dynamic"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:id="@+id/viajedetails_imagen_calorias"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/viajedetails_place_holder_estadisticas"
+        android:background="@drawable/viajedetails_imagen_calorias_quemadas" />
+
+    <TextView
+        android:id="@+id/viajedetails_text_calorias_dynamic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/viajedetails_imagen_calorias"
+        android:layout_centerHorizontal="true"
+        android:text="@string/viajedetails_calorias_dynamic"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="12.5%" />
+
+    <TextView
+        android:id="@+id/viajedetails_text_calorias_static"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viajedetails_text_calorias_dynamic"
+        android:layout_centerHorizontal="true"
+        android:text="@string/viajedetails_calorias_static"
+        android:textStyle="bold" />
+
+</android.support.percent.PercentRelativeLayout>

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class StaticThings {
 
-    public static ParseObject selectedGroup, selectedUser;
+    public static ParseObject selectedGroup, selectedUser, selectedViaje;
     public static ParseUser currentUser;
     public static List<ParseObject> userGroups;
     public static ParseObject statistics;
@@ -57,5 +57,13 @@ public class StaticThings {
 
     public static void setSelectedUser(ParseObject selectedUser) {
         StaticThings.selectedUser = selectedUser;
+    }
+
+    public static ParseObject getSelectedViaje() {
+        return selectedViaje;
+    }
+
+    public static void setSelectedViaje(ParseObject selectedViaje) {
+        StaticThings.selectedViaje = selectedViaje;
     }
 }

@@ -10,15 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.tresastronautas.trilly.Helpers.ParseConstants;
-import com.tresastronautas.trilly.Helpers.RouteDecoder;
 import com.tresastronautas.trilly.Helpers.StaticThings;
 import com.tresastronautas.trilly.ListAdapters.Viaje;
 import com.tresastronautas.trilly.ListAdapters.ViajesAdapter;
@@ -73,25 +74,29 @@ public class ViajeListActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 viajesList = objects;
-                for (ParseObject viaj : viajesList) {
+                for (final ParseObject viaj : viajesList) {
                     final ParseObject path = viaj.getParseObject(ParseConstants.Ruta.PATH.val());
                     try {
-                        path.fetch();
-                        routeInLat = RouteDecoder.getRouteFromHex(path.getString(ParseConstants.Path.DATA.val()));
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        Viaje v = new Viaje(routeInLat,
-                                viaj.getDouble(ParseConstants.Ruta.KM.val()),
-                                viaj.getDouble(ParseConstants.Ruta.TIME.val()),
-                                viaj.getDouble(ParseConstants.Ruta.CAL.val()),
-                                0.0,
-                                viaj.getParseGeoPoint(ParseConstants.Ruta.ORIGIN.val()),
-                                simpleDateFormat.format(viaj.getUpdatedAt()));
-                        viajes.add(v);
+                        path.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject object, ParseException e) {
+                                routeInLat = PolyUtil.decode(path.getString(ParseConstants.Path.DATA.val()));
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                Viaje v = new Viaje(routeInLat,
+                                        viaj.getDouble(ParseConstants.Ruta.KM.val()),
+                                        viaj.getDouble(ParseConstants.Ruta.TIME.val()),
+                                        viaj.getDouble(ParseConstants.Ruta.CAL.val()),
+                                        viaj.getDouble(ParseConstants.Ruta.KM.val()) / viaj.getDouble(ParseConstants.Ruta.TIME.val()),
+                                        viaj.getParseGeoPoint(ParseConstants.Ruta.ORIGIN.val()),
+                                        simpleDateFormat.format(viaj.getUpdatedAt()));
+                                viajes.add(v);
+                                viajesAdapter.notifyDataSetChanged();
+                            }
+                        });
                     } catch (Exception m) {
                         m.printStackTrace();
                     }
                 }
-                viajesAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
             }
         });
