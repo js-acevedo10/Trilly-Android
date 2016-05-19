@@ -12,6 +12,7 @@ public class Viaje {
     public List<LatLng> path;
     public double km, tiempo, cal, velPromedio;
     public ParseGeoPoint origen;
+    public String id;
 
     public String fecha;
 
@@ -79,5 +80,13 @@ public class Viaje {
 
     public void setOrigen(ParseGeoPoint origen) {
         this.origen = origen;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

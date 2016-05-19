@@ -1,12 +1,16 @@
 package com.tresastronautas.trilly;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -57,6 +61,12 @@ public class ViajeListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(viajesAdapter);
+        recyclerView.addOnItemTouchListener(new ViajeItemClickListener(getApplicationContext(), new ViajeItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startViajeDetailsActivity(viajes.get(position));
+            }
+        }));
         prepareLayout();
     }
 
@@ -86,9 +96,10 @@ public class ViajeListActivity extends AppCompatActivity {
                                         viaj.getDouble(ParseConstants.Ruta.KM.val()),
                                         viaj.getDouble(ParseConstants.Ruta.TIME.val()),
                                         viaj.getDouble(ParseConstants.Ruta.CAL.val()),
-                                        viaj.getDouble(ParseConstants.Ruta.KM.val()) / viaj.getDouble(ParseConstants.Ruta.TIME.val()),
+                                        viaj.getDouble(ParseConstants.Ruta.VEL.val()),
                                         viaj.getParseGeoPoint(ParseConstants.Ruta.ORIGIN.val()),
                                         simpleDateFormat.format(viaj.getUpdatedAt()));
+                                v.setId(viaj.getObjectId().toString());
                                 viajes.add(v);
                                 viajesAdapter.notifyDataSetChanged();
                             }
@@ -111,8 +122,51 @@ public class ViajeListActivity extends AppCompatActivity {
         });
     }
 
+    public void startViajeDetailsActivity(Viaje viaje) {
+        StaticThings.setSelectedViaje(viaje);
+        Intent intent = new Intent(getApplicationContext(), ViajeDetailsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
         finish();
+    }
+}
+
+class ViajeItemClickListener implements RecyclerView.OnItemTouchListener {
+    GestureDetector mGestureDetector;
+    private OnItemClickListener mListener;
+
+    public ViajeItemClickListener(Context context, OnItemClickListener listener) {
+        mListener = listener;
+        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+        View childView = view.findChildViewUnder(e.getX(), e.getY());
+        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
+            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

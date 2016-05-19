@@ -32,6 +32,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Fecha"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -40,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/viajelist_fecha_static"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/white" />
         </android.support.percent.PercentRelativeLayout>
 
         <android.support.percent.PercentRelativeLayout
@@ -58,6 +60,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Duración"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -66,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viajelist_duracion_static"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/white" />
         </android.support.percent.PercentRelativeLayout>
 
         <android.support.percent.PercentRelativeLayout
@@ -84,6 +88,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Distancia"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -92,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viajelist_distancia_static"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/white" />
         </android.support.percent.PercentRelativeLayout>
 
         <android.support.percent.PercentRelativeLayout

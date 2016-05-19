@@ -70,7 +70,7 @@
                 android:text="@string/menu_ver_perfil"
                 android:textAllCaps="false"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@android:color/tertiary_text_light" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/:menu_boton_grupo"

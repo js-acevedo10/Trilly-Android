@@ -15,7 +15,7 @@
     <string name="login_error_red">Debes estar conectado a Internet.</string>
 
     <!-- VISTA MAIN-->
-    <string name="main_saludo">Hola %s !</string>
+    <string name="main_saludo">¡Hola %s!</string>
     <string name="main_gas_dinamico">%.1f Galones de</string>
     <string name="main_gas_estatico">gasolina ahorrados</string>
     <string name="main_arboles_dinamico">%.0f Árboles</string>
@@ -89,11 +89,12 @@
     <string name="viajelist_title">Mis viajes</string>
 
     <!--VISTA VIAJEDETAILS-->
+    <string name="viajedetails_title_dynamic">Viaje del %s</string>
     <string name="viajedetails_calorias_dynamic">%.0f Calorías</string>
     <string name="viajedetails_calorias_static">quemadas</string>
-    <string name="viajedetails_km_dynamic">%.0f Km</string>
+    <string name="viajedetails_km_dynamic">%.2f Km</string>
     <string name="viajedetails_km_static">recorridos</string>
-    <string name="viajedetails_duracion_dynamic">%1$.0fh %2$.0fmin</string>
+    <string name="viajedetails_duracion_dynamic">%1$dh %2$dmin %3$ds</string>
     <string name="viajedetails_duracion_static">Duración del Viaje</string>
     <string name="viajedetails_velocidad_dynamic">%.0fkm/h</string>
     <string name="viajedetails_velocidad_static">Velocidad Promedio</string>
@@ -107,7 +108,7 @@
 
     <string name="answer_positivo">Si</string>
     <string name="answer_negativo">No</string>
-    <string name="loading">Cargando...</string>
+    <string name="loading">Cargando…</string>
     <string name="in_vehicle" translatable="false">In a vehicle</string>
     <string name="on_bicycle" translatable="false">On a bicycle</string>
     <string name="on_foot" translatable="false">On foot</string>
@@ -120,8 +121,8 @@
 
     <!--PROGRESO-->
     <string name="progressCountingKilometers">Contando Kilómetros</string>
-    <string name="progressChangingWorld">Salvando el Planeta...</string>
-    <string name="progressReloadingUserGroups">Buscando a tus amigos.</string>
+    <string name="progressChangingWorld">Salvando el Planeta…</string>
+    <string name="progressReloadingUserGroups">Buscando a tus amigos…</string>
     <string name="progressLeavingUserGroup">Consolando a tus excompañeros</string>
     <string name="progressJoiningUserGroup">Planeando fiesta de Bienvenida</string>
     <string name="progressSignOut">Cerrando Sesión</string>

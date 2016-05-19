@@ -60,7 +60,7 @@ public class MemberListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(membersAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new MemberItemClickListener(getApplicationContext(), new MemberItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Member selected = members.get(position);
@@ -134,13 +134,18 @@ public class MemberListActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
 
-class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
+class MemberItemClickListener implements RecyclerView.OnItemTouchListener {
     GestureDetector mGestureDetector;
     private OnItemClickListener mListener;
 
-    public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
+    public MemberItemClickListener(Context context, OnItemClickListener listener) {
         mListener = listener;
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override

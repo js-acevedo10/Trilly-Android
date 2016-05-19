@@ -1,7 +1,9 @@
 package com.tresastronautas.trilly.Helpers;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.tresastronautas.trilly.ListAdapters.Viaje;
 
 import java.util.List;
 
@@ -10,10 +12,12 @@ import java.util.List;
  */
 public class StaticThings {
 
-    public static ParseObject selectedGroup, selectedUser, selectedViaje;
+    public static ParseObject selectedGroup, selectedUser;
+    public static Viaje selectedViaje;
     public static ParseUser currentUser;
     public static List<ParseObject> userGroups;
     public static ParseObject statistics;
+    public static List<LatLng> selectedRoute;
 
     public StaticThings() {
 
@@ -59,11 +63,19 @@ public class StaticThings {
         StaticThings.selectedUser = selectedUser;
     }
 
-    public static ParseObject getSelectedViaje() {
+    public static Viaje getSelectedViaje() {
         return selectedViaje;
     }
 
-    public static void setSelectedViaje(ParseObject selectedViaje) {
+    public static void setSelectedViaje(Viaje selectedViaje) {
         StaticThings.selectedViaje = selectedViaje;
+    }
+
+    public static List<LatLng> getSelectedRoute() {
+        return selectedRoute;
+    }
+
+    public static void setSelectedRoute(List<LatLng> selectedRoute) {
+        StaticThings.selectedRoute = selectedRoute;
     }
 }

@@ -25,21 +25,14 @@
         android:textStyle="bold"
         app:layout_marginTopPercent="2%" />
 
-    <android.support.percent.PercentRelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/viajes_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/viajelist_fab"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        app:layout_marginTopPercent="13.73%">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/viajes_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.percent.PercentRelativeLayout>

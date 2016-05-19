@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/viajelist_layout_estadisticas_left"
             app:layout_heightPercent="51%"
-            app:layout_widthPercent="59">
+            app:layout_widthPercent="100%">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
             android:layout_below="@id/viajelist_layout_estadisticas_righttop"
             android:layout_toRightOf="@+id/viajelist_layout_estadisticas_left"
             app:layout_heightPercent="51%"
-            app:layout_widthPercent="59">
+            app:layout_widthPercent="100%">
 
             <RelativeLayout
                 android:layout_width="wrap_content"

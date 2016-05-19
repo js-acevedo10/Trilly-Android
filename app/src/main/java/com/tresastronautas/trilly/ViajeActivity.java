@@ -16,6 +16,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -166,8 +167,8 @@ public class ViajeActivity extends AppCompatActivity implements GoogleApiClient.
                             ViajeActivity.MY_PERMISSION_ACCESS_COARSE_LOCATION);
                 }
                 route = mMap.addPolyline(new PolylineOptions()
-                        .width(20f)
-                        .color(R.color.colorPrimaryDark)
+                        .width(19f)
+                        .color(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
                         .geodesic(true));
             }
         });
