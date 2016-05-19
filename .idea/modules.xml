@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Trilly.iml" filepath="$PROJECT_DIR$/Trilly.iml" />
       <module fileurl="file://$PROJECT_DIR$/Trilly-Android.iml" filepath="$PROJECT_DIR$/Trilly-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Trilly-Android.iml" filepath="$PROJECT_DIR$/Trilly-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

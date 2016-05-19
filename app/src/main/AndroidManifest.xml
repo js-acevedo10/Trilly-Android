@@ -83,6 +83,7 @@
             android:exported="false" />
         <service android:name=".Helpers.ServiceLocationDetector" />
 
+        <activity android:name=".AddGrupoListActivity"></activity>
     </application>
 
 </manifest>

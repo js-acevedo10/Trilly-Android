@@ -149,11 +149,7 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     public void groupBack(View view) {
-        if(group_boton_unirsegrupo.getVisibility() == View.VISIBLE) {
-            setResult(10);
-        } else {
-            setResult(9);
-        }
+        setResult(10);
         finish();
     }
 

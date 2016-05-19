@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/addgroup_boton_grupo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:layout_heightPercent="28%" />
+
+    <TextView
+        android:id="@+id/addgroup_text_nombre_grupo"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/grouplist_boton_grupo_1"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        app:layout_marginTopPercent="6%" />
+
+    <TextView
+        android:id="@+id/addgroup_text_stats_grupo"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addgroup_text_nombre_grupo"
+        android:layout_centerHorizontal="true"
+        app:layout_marginTopPercent="1%" />
+
+</android.support.percent.PercentRelativeLayout>

@@ -109,6 +109,13 @@ public class GroupListActivity extends AppCompatActivity {
         grouplist_text_stats_gru = (TextView) findViewById(R.id.grouplist_text_stats_gru);
         grouplist_boton_add = (ImageButton) findViewById(R.id.grouplist_boton_add);
 
+        grouplist_boton_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAddNewGroupActivity();
+            }
+        });
+
         setGroups();
     }
 
@@ -198,7 +205,8 @@ public class GroupListActivity extends AppCompatActivity {
     }
 
     public void startAddNewGroupActivity() {
-
+        Intent intent = new Intent(getApplicationContext(), AddGrupoListActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -134,5 +134,6 @@
 
     <!--PERMISOS-->
     <string name="permission_location">Trilly desea acceder a tu ubicación precisa.</string>
+    <string name="addgroups_title">Búsqueda de Grupos</string>
 
 </resources>
