@@ -99,7 +99,7 @@ public class ViajeListActivity extends AppCompatActivity {
                                         viaj.getDouble(ParseConstants.Ruta.VEL.val()),
                                         viaj.getParseGeoPoint(ParseConstants.Ruta.ORIGIN.val()),
                                         simpleDateFormat.format(viaj.getUpdatedAt()));
-                                v.setId(viaj.getObjectId().toString());
+                                v.setId(viaj.getObjectId());
                                 viajes.add(v);
                                 viajesAdapter.notifyDataSetChanged();
                             }
@@ -114,12 +114,6 @@ public class ViajeListActivity extends AppCompatActivity {
         viajelist_fab = (FloatingActionButton) findViewById(R.id.viajelist_fab);
         viajelist_fab.setImageDrawable(new IconDrawable(this, Iconify.IconValue.zmdi_chevron_left)
                 .colorRes(android.R.color.white));
-        viajelist_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     public void startViajeDetailsActivity(Viaje viaje) {
@@ -130,6 +124,10 @@ public class ViajeListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
+    }
+
+    public void groupListBack(View view) {
         finish();
     }
 }
